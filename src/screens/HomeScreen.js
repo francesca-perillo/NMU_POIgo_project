@@ -16,7 +16,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.row_container}>
                     <View style={styles.header_title}/>
                     <View style={styles.header_icon}>
-                      <Entypo name='bell' size={40} color="white"  onPress={() => alert(`Lista delle notifiche`)}/>
+                      <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
                     </View>
                 </View>
         </View>
@@ -56,7 +56,7 @@ const HomeNavigator = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.blue_prototypes,
+    backgroundColor: colors.dirty_white_palette,
     justifyContent: 'center',
   },
   row_container: {
@@ -87,28 +87,34 @@ const styles = StyleSheet.create({
   },
   title: {
       fontSize: 40,
-      color: "#fff",
+      color: colors.dark_blue_palette,
       fontWeight: "bold",
       textAlign: 'center',
       marginVertical: 8,
   },
   sub_title:{
-      color: "#fff",
+      color: colors.dark_blue_palette,
       textAlign: 'center',
       marginVertical: 8,
   },
   buttonContainer: {
-      elevation: 8,
       alignItems:"center",
-      backgroundColor: "#fff",
-      borderRadius: 30,
+      backgroundColor: colors.dark_blue_palette,
+      borderRadius: 50,
       marginTop:30,
       paddingVertical: 30,
       marginLeft:"5%",
       marginRight:"5%",
+      shadowColor: "#000",
+        shadowOffset: {
+        width: 0,
+        height: 2
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
   },
   buttonText: {
-      color: "black",
+      color: "white",
       fontWeight: 'bold',
       letterSpacing: 0.25,
       textTransform: "uppercase"
