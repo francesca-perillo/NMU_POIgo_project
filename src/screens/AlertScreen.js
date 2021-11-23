@@ -45,7 +45,7 @@ const AlertList = (navigation) => {
             <Text style={styles.title}>SEGNALAZIONI</Text>
           </View>
           <TouchableOpacity style={styles.header_icon}>
-            <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
+            <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -59,7 +59,7 @@ const AlertList = (navigation) => {
       </View>
         
 
-    <View style={styles.centeredView}>
+      <View style={styles.centeredView}>
         <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {setModalVisible(!modalVisible);}}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
@@ -91,10 +91,10 @@ const AlertList = (navigation) => {
                         </Pressable>
                     </View>
                     
-            </View>
-            </View>
-        </Modal>
-    </View>
+                  </View>
+              </View>
+          </Modal>
+      </View>
 
       
       <SafeAreaView>

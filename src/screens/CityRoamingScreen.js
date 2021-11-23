@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, SafeAreaView, Pressable} from "react-native";
+import { StyleSheet, Text, View, Alert, SafeAreaView, Pressable} from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DetailScreen from './DetailScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -16,7 +16,7 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.row_container}>
                         <View style={styles.header_title}/>
                         <View style={styles.header_icon}>
-                            <Entypo name='bell' size='40' color='white'  onPress={() => alert(`Lista delle notifiche`)}/>
+                            <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
                         </View>
                     </View>
             </View>
@@ -53,82 +53,88 @@ const HomeNavigator = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.blue_prototypes,
-    justifyContent: 'center',
-  },
-  row_container: {
+    container: {
       flex: 1,
-      padding: 20,
-      flexDirection: "row"
-  },
-  header:{
-      flex: 1,
-  },
-  header_title:{
-      flex: 6,
-      flexDirection: "row",
-  },
-  header_icon: {
-      flex: 1,
-      justifyContent:"center",
-      alignItems: "center",
-  },
-  body: {
-      flex: 6,
-      marginTop: "35%"
-  },
-  nav_bar:{
-      flex: 1,
-      justifyContent:"center",
-      alignItems: "center",
-  },
-  title: {
-      fontSize: 40,
-      color: "#fff",
-      fontWeight: "bold",
-      textAlign: 'center',
-      marginVertical: 8,
-  },
-  sub_title:{
-      color: "#fff",
-      textAlign: 'center',
-      marginVertical: 8,
-  },
-  buttonContainer: {
-      elevation: 8,
-      alignItems:"center",
-      backgroundColor: "#fff",
-      borderRadius: 30,
-      marginTop:30,
-      paddingVertical: 30,
-      marginLeft:"5%",
-      marginRight:"5%",
-  },
-  buttonText: {
-      color: "black",
-      fontWeight: 'bold',
-      letterSpacing: 0.25,
-      textTransform: "uppercase"
-  },
-  hiddenText:{
-      color: "#fff",
-  },
-  footer: {
-      height: 80,
-      width: "100%",
-      backgroundColor: colors.green_palette,
-      flexDirection: "row",
-      justifyContent: "space-around",
-      alignItems: "center",
-      paddingHorizontal: 10
-  },
-  icon: {
-      width: 40,
-      height: 40,
-      backgroundColor: "gray"
-  },
-});
+      backgroundColor: colors.dirty_white_palette,
+      justifyContent: 'center',
+    },
+    row_container: {
+        flex: 1,
+        padding: 20,
+        flexDirection: "row"
+    },
+    header:{
+        flex: 1,
+    },
+    header_title:{
+        flex: 6,
+        flexDirection: "row",
+    },
+    header_icon: {
+        flex: 1,
+        justifyContent:"center",
+        alignItems: "center",
+    },
+    body: {
+        flex: 6,
+        marginTop: "35%"
+    },
+    nav_bar:{
+        flex: 1,
+        justifyContent:"center",
+        alignItems: "center",
+    },
+    title: {
+        fontSize: 40,
+        color: colors.dark_blue_palette,
+        fontWeight: "bold",
+        textAlign: 'center',
+        marginVertical: 8,
+    },
+    sub_title:{
+        color: colors.dark_blue_palette,
+        textAlign: 'center',
+        marginVertical: 8,
+    },
+    buttonContainer: {
+        alignItems:"center",
+        backgroundColor: colors.dark_blue_palette,
+        borderRadius: 50,
+        marginTop:30,
+        paddingVertical: 30,
+        marginLeft:"5%",
+        marginRight:"5%",
+        shadowColor: "#000",
+          shadowOffset: {
+          width: 0,
+          height: 2
+          },
+          shadowOpacity: 0.4,
+          shadowRadius: 4,
+    },
+    buttonText: {
+        color: "white",
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        textTransform: "uppercase"
+    },
+    hiddenText:{
+        color: "#fff",
+    },
+    footer: {
+        height: 80,
+        width: "100%",
+        backgroundColor: colors.green_palette,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        paddingHorizontal: 10
+    },
+    icon: {
+        width: 40,
+        height: 40,
+        backgroundColor: "gray"
+    },
+  });
 
 export default HomeNavigator;
