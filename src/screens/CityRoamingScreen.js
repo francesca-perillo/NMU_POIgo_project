@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Alert, SafeAreaView, Pressable} from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DetailScreen from './DetailScreen';
+import CategoryScreen from './CategoryScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
 
@@ -27,7 +27,7 @@ const HomeScreen = ({ navigation }) => {
                 <Pressable style={styles.buttonContainer} onPress={() => Alert.alert('Vai ai percorsi tematici')}>
                     <Text style ={styles.buttonText}>Percorsi tematici</Text>    
                 </Pressable>
-                <Pressable style={styles.buttonContainer} onPress={() => Alert.alert('Vai ad area di interesse')}>
+                <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('Category')}>
                     <Text style ={styles.buttonText}>Area di interesse</Text>
                 </Pressable>
             </View>
@@ -47,7 +47,7 @@ const HomeNavigator = () => {
       headerShown: false
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Details" component={DetailScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen} />
     </Stack.Navigator>
   );
 }
