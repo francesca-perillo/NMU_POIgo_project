@@ -19,7 +19,7 @@ const TabBarNavigation = ({ tabs, navigationProps }) => {
                     </TouchableOpacity>
                 );
             })}
-        </View>
+        </View> 
     );
 };
 

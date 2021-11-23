@@ -4,10 +4,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './src/screens/HomeScreen';
 import TabBarNavigation from './src/components/TabBarNavigation';
 import AlertScreen from './src/screens/AlertScreen';
+import CalendarScreen from './src/screens/CalendarScreen';
 
 const Tab = createBottomTabNavigator();
 
 const tabs = [
+  {
+    name: 'Home',
+    icon: 'home-outline',
+    route: 'Home'
+  },
   {
     name: 'Calendario',
     icon: 'ios-calendar-outline',
@@ -25,6 +31,8 @@ const tabs = [
   },
 ];
 
+
+
 function App() {
   return (
     <NavigationContainer>
@@ -33,7 +41,8 @@ function App() {
         screenOptions={{headerShown: false}}
         
       >
-        <Tab.Screen name="Calendar" component={HomeScreen} />
+        <Tab.Screen name="BackHome" component={HomeScreen}/>
+        <Tab.Screen name="Calendar" component={CalendarScreen} />
         <Tab.Screen name="Alert" component={AlertScreen} />
         <Tab.Screen name="Help" component={HomeScreen} />
       </Tab.Navigator>
