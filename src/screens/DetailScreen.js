@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import ContactInfo from "../components/CotactInfo";
+import colors from '../config/colors';
 import Review from "../components/Review";
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -43,7 +44,7 @@ const DetailScreen = () => {
             <TouchableOpacity
                 style={styles.notification}
             >
-                <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
+                <Entypo name='bell' size={30} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.goMap}
@@ -92,10 +93,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 40,
         right: 40,
-        borderRadius: 50,
-        width: 40,
-        height: 40,
         padding: 10,
+        borderRadius: 50,
+        width: 50,
+        height: 50,
         backgroundColor: "#D7E5EE",
     },
     goMap: {

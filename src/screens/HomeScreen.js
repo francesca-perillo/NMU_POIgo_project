@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, SafeAreaView, Pressable} from "react-na
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
+import MapScreen from "./MapScreen";
+import DetailScreen from "./DetailScreen";
 import CityRoamingScreen from './CityRoamingScreen';
 
 const Stack = createNativeStackNavigator();
@@ -48,7 +50,8 @@ const HomeNavigator = () => {
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CityRoaming" component={CityRoamingScreen} />
-      
+      <Stack.Screen name="Map" component={MapScreen} /> 
+      <Stack.Screen name="DetailPOI" component={DetailScreen} /> 
     </Stack.Navigator>
   );
 }

@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity } from "react-native";
 import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 const category = [
     {
@@ -137,10 +140,10 @@ const CategoryScreen = ({ navigation }) => {
                 />
             </View>
 
-            <Pressable style={styles.buttonGoMap} onPress={() => navigation.navigate('Home')}>
+            <Pressable style={styles.buttonGoMap} onPress={() => navigation.navigate('Map')}>
                 <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
             </Pressable>
-            <Pressable style={styles.buttonGoList} onPress={() => navigation.navigate('Home')}>
+            <Pressable style={styles.buttonGoList} onPress={() => alert("Vai alla lista POI")}>
                 <Text style={styles.buttonGoListText} >Vai alla lista</Text>
             </Pressable>
         </View>

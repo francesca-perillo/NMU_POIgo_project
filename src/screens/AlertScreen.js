@@ -54,7 +54,7 @@ const AlertList = (navigation) => {
       <FlatList
           data={data_items}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => `${item.id}`}
         />
       </View>
         
