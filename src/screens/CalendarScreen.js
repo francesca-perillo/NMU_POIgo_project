@@ -5,7 +5,16 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { Feather } from '@expo/vector-icons';
 import colors from '../config/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { color } from 'react-native-reanimated';
+import {LocaleConfig} from 'react-native-calendars';
+
+LocaleConfig.locales['it'] = {
+  monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+  monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
+  dayNames: ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'],
+  dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
+  today: 'Oggi/'
+};
+LocaleConfig.defaultLocale = 'it';
 
 const styles = StyleSheet.create({
   marker: {
@@ -24,10 +33,10 @@ const styles = StyleSheet.create({
   },
   description_item: {
     flex: 3,
-    backgroundColor: 'rgba(255,0,0,0.2)',
+    backgroundColor: 'rgba(255, 255, 0, 0.5)',
     borderBottomLeftRadius: 50,
     borderTopLeftRadius: 5,
-    paddingLeft: "5%",
+    paddingLeft: "7%",
     flexDirection: "column"
   },
   title_item: {
@@ -47,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: colors.dark_blue_palette,
     fontWeight: "bold",
-    textAlign: 'center',
+    textAlign: 'left',
     marginVertical: 8,
     flex: 5,
     flexDirection: "row",
@@ -74,14 +83,14 @@ const styles = StyleSheet.create({
   },
   eventContainer: {
     flex: 0,
-    marginBottom: 150,
+    marginBottom: "40%",
     flexDirection: "row",
     },
   map_item: {
     flex: 1,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 5,
-    backgroundColor: 'rgba(255,0,0,0.2)',
+    backgroundColor: 'rgba(255, 255, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -91,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 100/2,
     borderWidth: 2,
     borderColor: colors.white,
-    backgroundColor: 'rgba(255,0,0,0.7)',
+    backgroundColor: colors.dark_blue_palette,
     justifyContent: 'center',
     alignItems: 'center',
   }
@@ -149,8 +158,8 @@ const CalendarScreen = ({ navigation }) => {
           '2021-11-09': {
             customStyles: {
               container: {
-              backgroundColor: 'rgba(255, 0, 0, 0.4)',
-                        },
+                backgroundColor: 'rgba(255,165,0,0.7)',
+              },
             text: {
               color: 'black',
               fontWeight: 'bold'
@@ -160,8 +169,8 @@ const CalendarScreen = ({ navigation }) => {
           '2021-11-15': {
             customStyles: {
               container: {
-              backgroundColor: 'rgba(255, 0, 0, 0.4)',
-                        },
+                backgroundColor: 'rgba(255,165,0,0.7)',
+              },
             text: {
               color: 'black',
               fontWeight: 'bold'
@@ -171,8 +180,8 @@ const CalendarScreen = ({ navigation }) => {
             '2021-11-26': {
               customStyles: {
                 container: {
-                backgroundColor: 'rgba(255, 0, 0, 0.4)',
-                          },
+                  backgroundColor: 'rgba(255,165,0,0.7)',
+                },
               text: {
                 color: 'black',
                 fontWeight: 'bold'
@@ -182,8 +191,8 @@ const CalendarScreen = ({ navigation }) => {
             '2021-11-13': {
               customStyles: {
                 container: {
-                backgroundColor:  'rgba(0, 255, 0, 0.4)',
-                          },
+                  backgroundColor: 'rgba(0, 255, 0, 0.4)',
+                },
               text: {
                 color: 'black',
                 fontWeight: 'bold'
@@ -222,12 +231,12 @@ const CalendarScreen = ({ navigation }) => {
       <View style={styles.eventContainer}>
         <View style={styles.item}>
           <View style={styles.description_item}>
-              <Text style={styles.title_item}>Inaugurazione Luci d'artista - 15/11</Text>
+              <Text style={styles.title_item}>Inaugurazione Luci d'artista - 17/11</Text>
               <Text style={styles.message_item}>L'evento natalizio più atteso dell'anno ritorna ad illuminare la città di Salerno. </Text>
           </View>
           <View style={styles.map_item}>
             <TouchableOpacity style={styles.circle}>
-              <Feather name="map-pin" size={50} color="black" />
+              <Feather name="map-pin" size={35} color="white" />
             </TouchableOpacity>
           </View>
         </View>
