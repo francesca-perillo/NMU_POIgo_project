@@ -15,7 +15,7 @@ const tabs = [
     route: 'Home'
   },
   {
-    name: 'Calendario',
+    name: 'Eventi',
     icon: 'ios-calendar-outline',
     route: 'Calendar',
   },

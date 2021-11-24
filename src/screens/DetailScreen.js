@@ -15,7 +15,7 @@ const reviews = [
     {
         id: 2,
         userName: "Maria",
-        description: "Una tra le più belle grotte di Pietrapaola!"
+        description: "Ci andavo coi miei amici del liceo, questo ristorante è la storia di Calopezzati!"
     },
 ];
 
@@ -23,7 +23,7 @@ const contactInfo = [
     {
         id: 1,
         name: "Indirizzo: ",
-        detail: "Via Roma, 77, 87060 Pietrapaola CS"
+        detail: "Via Roma, 77, 87060 Calopezzati CS"
     },
     {
         id: 2,
@@ -40,7 +40,7 @@ const contactInfo = [
 const DetailScreen = () => {
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={require('../../assets/grottadelprincipe.jpg')} />
+            <Image style={styles.image} source={require('../../assets/latavernetta.jpg')} />
             <TouchableOpacity
                 style={styles.notification}
             >
@@ -52,11 +52,9 @@ const DetailScreen = () => {
                 <Feather name="map-pin" size={30} color="white" />
             </TouchableOpacity>
             <View style={styles.contentContainer}>
-                <Text style={styles.title}>Grotta del Principe</Text>
-                <Text style={styles.description}>Un esempio estremamente raffinato di architettura rupestre:
-                    si tratta di un invaso tricellulare cui si accede attraverso una serie di gradini ricavati in roccia,
-                    al cui interno si rinviene un arco a tutto sesto e una serie di colonnine con capitelli a motivi
-                    floreali riprodotti nell’arenaria. </Text>
+                <Text style={styles.title}>La tavernetta</Text>
+                <Text style={styles.description}>Esclusiva taverna rustica con prosciutti a vista, nota per la pasta servita in padelle di acciaio.
+                Conserviamo tradizioni, piatti, ricette e sapori di una volta.  </Text>
             </View>
 
             <View style={styles.info}>
