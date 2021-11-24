@@ -232,7 +232,7 @@ const CalendarScreen = ({ navigation }) => {
         <View style={styles.item}>
           <View style={styles.description_item}>
               <Text style={styles.title_item}>Inaugurazione Luci d'artista - 17/11</Text>
-              <Text style={styles.message_item}>L'evento natalizio più atteso dell'anno ritorna ad illuminare la città di Salerno. </Text>
+              <Text style={styles.message_item}>L'evento natalizio più atteso dell'anno ritorna ad illuminare Calopezzati. </Text>
           </View>
           <View style={styles.map_item}>
             <TouchableOpacity style={styles.circle}>
