@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Alert, SafeAreaView, Pressable} from "react-native";
+import { StyleSheet, Text, View, Alert, SafeAreaView, Pressable, Dimensions, Image} from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CategoryScreen from './CategoryScreen';
+import DetailScreen from './DetailScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
 
 const Stack = createNativeStackNavigator();
+const windowWidth = Dimensions.get('window').width;
 
 const HomeScreen = ({ navigation }) => {
     return (
@@ -16,7 +17,7 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.row_container}>
                         <View style={styles.header_title}/>
                         <View style={styles.header_icon}>
-                            <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
+                            <Entypo name='bell' size={35} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
                         </View>
                     </View>
             </View>
@@ -24,12 +25,24 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.body}>
                 <Text style ={styles.title}>City Roaming</Text>
                 <Text style ={styles.sub_title}>Scegli il tipo di navigazione City Roaming che preferisci</Text>
-                <Pressable style={styles.buttonContainer} onPress={() => Alert.alert('Vai ai percorsi tematici')}>
-                    <Text style ={styles.buttonText}>Percorsi tematici</Text>    
+                <Pressable onPress={() => Alert.alert('Vai ai percorsi tematici')}>
+                    <Image style={styles.buttonImage}
+                        source={{uri: "https://cdn.motor1.com/images/mgl/Op20o/s3/porsche-classic-communication-management.jpg"}}>
+                    </Image>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>Percorsi tematici</Text>
+                    </View>
                 </Pressable>
-                <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('Category')}>
-                    <Text style ={styles.buttonText}>Area di interesse</Text>
+
+                <Pressable onPress={() => Alert.alert('Vai a area di interesse')}>
+                    <Image style={styles.buttonImage}
+                        source={{uri: "https://cdn.motor1.com/images/mgl/Op20o/s3/porsche-classic-communication-management.jpg"}}>
+                    </Image>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>Area di interesse</Text>
+                    </View>
                 </Pressable>
+                
             </View>
 
            
@@ -47,7 +60,7 @@ const HomeNavigator = () => {
       headerShown: false
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Category" component={CategoryScreen} />
+      <Stack.Screen name="Details" component={DetailScreen} />
     </Stack.Navigator>
   );
 }
@@ -57,6 +70,13 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: colors.dirty_white_palette,
       justifyContent: 'center',
+    },
+    buttonImage: {
+      width: windowWidth-60,
+      height: 100,
+      marginBottom: 40,
+      borderRadius: 50,
+      
     },
     row_container: {
         flex: 1,
@@ -77,7 +97,8 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 6,
-        marginTop: "35%"
+        marginTop: "35%",
+        alignItems:"center"
     },
     nav_bar:{
         flex: 1,
@@ -112,12 +133,26 @@ const styles = StyleSheet.create({
           shadowOpacity: 0.4,
           shadowRadius: 4,
     },
+    button: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     buttonText: {
+      //color: colors.dark_blue_palette,
         color: "white",
+        fontSize:20,
         fontWeight: 'bold',
         letterSpacing: 0.25,
-        textTransform: "uppercase"
-    },
+        textTransform: "uppercase",
+        textShadowColor: colors.dark_blue_palette,
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 1
+  },
     hiddenText:{
         color: "#fff",
     },

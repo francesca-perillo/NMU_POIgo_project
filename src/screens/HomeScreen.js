@@ -1,13 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, SafeAreaView, Pressable} from "react-native";
+import { StyleSheet, Text, View, Image, SafeAreaView, Pressable, Dimensions } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
-import MapScreen from "./MapScreen";
-import DetailScreen from "./DetailScreen";
 import CityRoamingScreen from './CityRoamingScreen';
 
 const Stack = createNativeStackNavigator();
+const windowWidth = Dimensions.get('window').width;
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -18,7 +17,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.row_container}>
                     <View style={styles.header_title}/>
                     <View style={styles.header_icon}>
-                      <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
+                      <Entypo name='bell' size={35} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
                     </View>
                 </View>
         </View>
@@ -26,11 +25,22 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.body}>
             <Text style ={styles.title}>Benvenuto</Text>
             <Text style ={styles.sub_title}>Scegli la modalità di navigazione</Text>
-            <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('Home')}>
-                <Text style ={styles.buttonText}>Classica</Text>    
+            <Pressable onPress={()=>{alert("button clicked")}}>
+                <Image style={styles.buttonImage}
+                    source={{uri: "https://images.pexels.com/photos/2705756/pexels-photo-2705756.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"}}>
+                </Image>
+                <View style={styles.button}>
+                    <Text style={styles.buttonText}>Navigazione Classica</Text>
+                </View>
             </Pressable>
-            <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('CityRoaming')}>
-                <Text style ={styles.buttonText}>City Roaming</Text>
+
+            <Pressable onPress={() => navigation.navigate('CityRoaming')}>
+                <Image style={styles.buttonImage}
+                    source={{uri: "https://media.istockphoto.com/photos/find-your-way-location-marking-with-a-pin-on-a-map-with-routes-picture-id1287428874?b=1&k=20&m=1287428874&s=170667a&w=0&h=4DnjfrI0rOT-sR7PZfPrxQpO4MZXxqJfJpDH7_UuWmM="}}>
+                </Image>
+                <View style={styles.button}>
+                    <Text style={styles.buttonText}>City Roaming</Text>
+                </View>
             </Pressable>
         </View>
 
@@ -50,8 +60,7 @@ const HomeNavigator = () => {
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CityRoaming" component={CityRoamingScreen} />
-      <Stack.Screen name="Map" component={MapScreen} /> 
-      <Stack.Screen name="DetailPOI" component={DetailScreen} /> 
+      
     </Stack.Navigator>
   );
 }
@@ -61,6 +70,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.dirty_white_palette,
     justifyContent: 'center',
+  },
+  buttonImage: {
+    width: windowWidth-60,
+    height: 100,
+    marginBottom: 40,
+    borderRadius: 50,
+    //opacity: 0.5,
   },
   row_container: {
       flex: 1,
@@ -81,7 +97,8 @@ const styles = StyleSheet.create({
   },
   body: {
       flex: 6,
-      marginTop: "35%"
+      marginTop: "35%",
+      alignItems:"center"
   },
   nav_bar:{
       flex: 1,
@@ -116,12 +133,27 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 4,
   },
-  buttonText: {
-      color: "white",
-      fontWeight: 'bold',
-      letterSpacing: 0.25,
-      textTransform: "uppercase"
+  button: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 30,
+      justifyContent: 'center',
+      alignItems: 'center',
   },
+  buttonText: {
+    //color: colors.dark_blue_palette,
+    color: "white",
+    fontSize:20,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    textTransform: "uppercase",
+    textShadowColor: colors.dark_blue_palette,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 1
+    
+},
   hiddenText:{
       color: "#fff",
   },
