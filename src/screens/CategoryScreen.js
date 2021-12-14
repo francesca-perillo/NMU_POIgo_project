@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground } from "react-native";
 import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -29,18 +29,22 @@ const subcategory = [
     {
         id: "1",
         title: "Ristoranti",
+        image: require('../../assets/img/category/restaurant.jpg'),
     },
     {
         id: "2",
         title: "Pizzerie",
+        image: require('../../assets/img/category/pizzeria.jpg'),
     },
     {
         id: "3",
         title: "Pasticcerie",
+        image: require('../../assets/img/category/backery.jpg'),
     },
     {
         id: "4",
         title: "Enoteche",
+        image: require('../../assets/img/category/wine_bar.jpg'),
     },
 ];
 
@@ -79,25 +83,25 @@ const CategoryScreen = ({ navigation }) => {
         }
     }
 
-    const ItemSubcategory = ({ id, title }) => {
+    const ItemSubcategory = ({ id, title, image }) => {
         const isSelected = selectedSubcategories.includes(id);
 
         return (
             <TouchableOpacity
-                style={[
-                    styles.subcategoryContainer,
-                    ...(isSelected ? [styles.subcategoryContainerPress] : [])
-                ]}
+                style={styles.subcategoryContainer}
                 onPress={() => onSubcategoryPress(id)}
             >
-                <Text
-                    style={[
-                        styles.subcategoryText,
-                        ...(isSelected ? [styles.subcategoryTextPress] : [])
-                    ]}
-                >
-                    {title}
-                </Text>
+                <ImageBackground source={image} style={[
+                    styles.image,
+                    ...(isSelected ? [styles.imagePress] : []),
+                ]}>
+                    <View style={styles.darkOverlay} />
+                </ImageBackground>
+                <View style={styles.subcategoryTextContainer}>
+                    <Text style={styles.subcategoryText}>
+                        {title}
+                    </Text>
+                </View>
             </TouchableOpacity>
         )
     };
@@ -107,7 +111,7 @@ const CategoryScreen = ({ navigation }) => {
     );
 
     const renderSubcategory = ({ item }) => (
-        <ItemSubcategory id={item.id} title={item.title} />
+        <ItemSubcategory id={item.id} title={item.title} image={item.image} />
     );
 
     return (
@@ -171,8 +175,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         height: 50,
-        marginLeft: 15,
-        marginRight: 15,
+        marginLeft: 10,
+        marginRight: 10,
         padding: 15,
         flexDirection: 'row',
     },
@@ -193,9 +197,9 @@ const styles = StyleSheet.create({
     buttonContainer: {
         padding: 10,
         borderRadius: 10,
-        width: 90,
+        width: 100,
         height: 40,
-        margin: 5,
+        marginRight: 5,
         backgroundColor: 'white',
     },
     buttonContainerPress: {
@@ -210,28 +214,48 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     listOfSubcategory: {
-        marginHorizontal: 20,
-        marginTop: 20,
+        marginTop: 10,
     },
     subcategoryContainer: {
         borderRadius: 10,
-        width: 100,
-        height: 100,
+        width: 110,
+        height: 110,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 10,
-        backgroundColor: 'white',
     },
-    subcategoryContainerPress: {
-        backgroundColor: colors.pale_blue_palette,
+    subcategoryTextContainer: {
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        opacity: 1,
+        shadowColor: 'black',
     },
     subcategoryText: {
-        fontSize: 15,
+        fontSize: 20,
+        fontWeight: 'bold',
         textAlign: 'center',
-        color: colors.dark_blue_palette,
-    },
-    subcategoryTextPress: {
         color: 'white',
+        opacity: 1,
+    },
+    image: {
+        borderRadius: 10,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        justifyContent: 'center',
+        opacity: 0.5,
+    },
+    imagePress: {
+        opacity: 1,
+    },
+    darkOverlay: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        backgroundColor: 'black',
+        borderRadius: 10,
+        opacity: 0.5,
     },
     buttonGoMap: {
         alignItems: "center",
