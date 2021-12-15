@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: colors.dark_blue_palette,
         borderRadius: 50,
-        marginTop: 170,
+        marginTop: 100,
         marginHorizontal: 50,
         paddingVertical: 20,
     },
