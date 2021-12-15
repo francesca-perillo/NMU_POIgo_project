@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
       },
       {
         id: 6,
-        name: 'Escape Room f.lli Pierro',
+        name: 'Escape Room',
         distance: '2.56 m',
     },
   ];
