@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   const data_items = [
       {
           id: 1,
-          name: 'La locanda di Pietro',
+          name: 'La tavernetta',
           distance: '52 m',
       },
       {
