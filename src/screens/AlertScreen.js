@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    padding: 20,
     flexDirection: "row",
     alignItems:"center",
   },
@@ -164,7 +163,6 @@ const styles = StyleSheet.create({
     height:80,
     borderWidth: 1,
     borderColor: colors.dirty_white_palette,
-    borderBottomColor: colors.grey,
   },
   title_item: {
     fontSize: 20,

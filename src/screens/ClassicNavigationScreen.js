@@ -19,12 +19,7 @@ const ClassicNavigationScreen = ({navigation}) => {
 
     return (
         <View >
-           
-            <MapView
-                style={{ alignSelf: 'stretch', height: '100%' }}
-                region={mapRegion}
-            >
-                <View style={styles.listOfSegments}>
+           <View style={styles.listOfSegments}>
                     <View style={[styles.searchbar, styles.row_container]}>
                         <Text style={styles.searchbar_text}>Calcolo della posizione attuale in corso...</Text>
                         <Ionicons style={styles.searchbar_icon} name="map" size={24} color="grey" />
@@ -36,6 +31,11 @@ const ClassicNavigationScreen = ({navigation}) => {
                     </View>
                 </View>
 
+            <MapView
+                style={{ alignSelf: 'stretch', height: '100%' }}
+                region={mapRegion}
+            >
+                
                 <Marker coordinate={{
                     latitude: 39.510824955677506,
                     longitude: 16.838215562173232

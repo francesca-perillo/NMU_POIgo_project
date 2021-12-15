@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Calendar} from 'react-native-calendars';
-import {View, Text, ImageBackground, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, ImageBackground, Image, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Feather } from '@expo/vector-icons';
 import colors from '../config/colors';
@@ -15,6 +15,8 @@ LocaleConfig.locales['it'] = {
   today: 'Oggi/'
 };
 LocaleConfig.defaultLocale = 'it';
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   marker: {
@@ -33,22 +35,27 @@ const styles = StyleSheet.create({
   },
   description_item: {
     flex: 3,
-    backgroundColor: 'rgba(255, 255, 0, 0.5)',
     borderBottomLeftRadius: 50,
     borderTopLeftRadius: 5,
     paddingLeft: "7%",
-    flexDirection: "column"
+    flexDirection: "row",
+    borderTopRightRadius: 50,
+    borderBottomEndRadius: 5,
+  },
+  wrapper:{
+    flex: 1,
+    flexDirection: 'column'
   },
   title_item: {
     fontSize: 20,
-    color: colors.dark_blue_palette,
+    color: 'yellow',
     fontWeight: "bold",
     marginVertical: 8,
-    fontSize: 16,
+    fontSize: 18,
   },
   message_item: {
-    fontSize: 18,
-    color: "black",
+    fontSize: 16,
+    color: "white",
     marginRight: "4%",
     marginBottom:"4%"
   },
@@ -80,6 +87,9 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 3,
+    backgroundColor: colors.dirty_white_palette,
+    borderBottomLeftRadius: 30, 
+    borderBottomRightRadius: 30
   },
   eventContainer: {
     flex: 0,
@@ -87,10 +97,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     },
   map_item: {
-    flex: 1,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 5,
-    backgroundColor: 'rgba(255, 255, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -103,18 +111,33 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark_blue_palette,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  footer: {
+    flexDirection: 'column',
+    flex: 2.5,
+    backgroundColor: colors.dark_blue_palette,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30
+  },
+  buttonImage: {
+    width: windowWidth-60,
+    height: 100,
+    marginBottom: 40,
+    borderRadius: 50,
+    //opacity: 0.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   }
 });
 
 const src_img = require("../../assets/marker_calendar_red.png");
 
-const marker_calendar = (
-    <View>
-        <ImageBackground source={src_img} style={styles.marker}>
-        <Text>Ciao</Text>
-        </ImageBackground>
-    </View>
-)
+
 const CalendarScreen = ({ navigation }) => {
 
   return (
@@ -133,7 +156,7 @@ const CalendarScreen = ({ navigation }) => {
         <Calendar
         markingType={'custom'}
         markedDates={{
-          '2021-11-05': {
+          '2021-12-05': {
             customStyles: {
               container: {
               backgroundColor: 'rgba(255, 255, 0, 0.5)'
@@ -144,7 +167,7 @@ const CalendarScreen = ({ navigation }) => {
                  }
                         }
                       },
-          '2021-11-17': {
+          '2021-12-17': {
             customStyles: {
               container: {
               backgroundColor: 'rgba(255, 255, 0, 0.5)'
@@ -155,7 +178,7 @@ const CalendarScreen = ({ navigation }) => {
                   }
                         }
                       },
-          '2021-11-09': {
+          '2021-12-09': {
             customStyles: {
               container: {
                 backgroundColor: 'rgba(255,165,0,0.7)',
@@ -166,7 +189,7 @@ const CalendarScreen = ({ navigation }) => {
                   }
                         }
                       },
-          '2021-11-15': {
+          '2021-12-15': {
             customStyles: {
               container: {
                 backgroundColor: 'rgba(255,165,0,0.7)',
@@ -177,7 +200,7 @@ const CalendarScreen = ({ navigation }) => {
                   }
                         }
                       },
-            '2021-11-26': {
+            '2021-12-26': {
               customStyles: {
                 container: {
                   backgroundColor: 'rgba(255,165,0,0.7)',
@@ -188,7 +211,7 @@ const CalendarScreen = ({ navigation }) => {
                     }
                           }
                         },
-            '2021-11-13': {
+            '2021-12-13': {
               customStyles: {
                 container: {
                   backgroundColor: 'rgba(0, 255, 0, 0.4)',
@@ -199,7 +222,7 @@ const CalendarScreen = ({ navigation }) => {
                     }
                           }
                         },
-            '2021-11-19': {
+            '2021-12-19': {
               customStyles: {
                 container: {
                 backgroundColor: 'rgba(0, 255, 0, 0.4)',
@@ -213,9 +236,9 @@ const CalendarScreen = ({ navigation }) => {
                     }}
 
         style={{
-          borderColor: colors.dark_blue_palette,
-          borderTopWidth: 2,
-          borderBottomWidth: 2,
+         // borderColor: colors.dark_blue_palette,
+          //borderTopWidth: 2,
+          //borderBottomWidth: 2,
         }}
         theme={{
           backgroundColor: colors.dirty_white_palette,
@@ -228,16 +251,20 @@ const CalendarScreen = ({ navigation }) => {
         }}>
         </Calendar>
       </View>
-      <View style={styles.eventContainer}>
-        <View style={styles.item}>
-          <View style={styles.description_item}>
-              <Text style={styles.title_item}>Inaugurazione Luci d'artista - 17/11</Text>
-              <Text style={styles.message_item}>L'evento natalizio più atteso dell'anno ritorna ad illuminare Calopezzati. </Text>
-          </View>
-          <View style={styles.map_item}>
-            <TouchableOpacity style={styles.circle}>
-              <Feather name="map-pin" size={35} color="white" />
-            </TouchableOpacity>
+      <View style={styles.footer}>
+        <View style={styles.eventContainer}>
+          <View style={styles.item}>
+            <View style={styles.description_item}>
+              <View style = {styles.wrapper}>
+                <Text style={styles.title_item}>Inaugurazione Luci d'artista - 17/12</Text>
+                <Text style={styles.message_item}>L'evento natalizio più atteso dell'anno ritorna ad illuminare Calopezzati. </Text>
+                </View>
+                <View style={styles.map_item}>
+                <TouchableOpacity style={styles.circle}>
+                <Feather name="map-pin" size={35} color="white" />
+              </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
       </View>
