@@ -147,7 +147,7 @@ const CategoryScreen = ({ navigation }) => {
             <Pressable style={styles.buttonGoMap} onPress={() => navigation.navigate('Map')}>
                 <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
             </Pressable>
-            <Pressable style={styles.buttonGoList} onPress={() => alert("Vai alla lista POI")}>
+            <Pressable style={styles.buttonGoList} onPress={() => navigation.navigate('ListPoiScreen')}>
                 <Text style={styles.buttonGoListText} >Vai alla lista</Text>
             </Pressable>
         </View>

@@ -5,6 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
 import CityRoamingScreen from './CityRoamingScreen';
 import MapScreen from "./MapScreen";
+import ListPoiScreen from './ListPoiScreen';
 import DetailScreen from "./DetailScreen";
 import CategoryScreen from "./CategoryScreen";
 import ClassicNavigationScreen from "./ClassicNavigationScreen";
@@ -62,6 +63,7 @@ const HomeNavigator = () => {
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CityRoaming" component={CityRoamingScreen} />
+      <Stack.Screen name="ListPoiScreen" component={ListPoiScreen}/>
       <Stack.Screen name="Map" component={MapScreen} /> 
       <Stack.Screen name="DetailPOI" component={DetailScreen} />
       <Stack.Screen name="Category" component={CategoryScreen}/>
