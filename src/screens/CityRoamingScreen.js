@@ -27,16 +27,16 @@ const HomeScreen = ({ navigation }) => {
                 <Text style ={styles.sub_title}>Scegli il tipo di navigazione City Roaming che preferisci</Text>
                 <Pressable onPress={() => Alert.alert('Vai ai percorsi tematici')}>
                     <Image style={styles.buttonImage}
-                        source={{uri: "https://cdn.motor1.com/images/mgl/Op20o/s3/porsche-classic-communication-management.jpg"}}>
+                        source={require("../../assets/ButtonImg/tematic_route.jpg")}>
                     </Image>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>Percorsi tematici</Text>
                     </View>
                 </Pressable>
 
-                <Pressable onPress={() => Alert.alert('Vai a area di interesse')}>
+                <Pressable onPress={() => navigation.navigate('Category')}>
                     <Image style={styles.buttonImage}
-                        source={{uri: "https://cdn.motor1.com/images/mgl/Op20o/s3/porsche-classic-communication-management.jpg"}}>
+                        source={require("../../assets/ButtonImg/area_interest.jpg")}>
                     </Image>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>Area di interesse</Text>

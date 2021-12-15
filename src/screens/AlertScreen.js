@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput} from "react-native";
 import { color } from "react-native-reanimated";
-import Entypo from 'react-native-vector-icons/Entypo';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 
 const Item = ({ title, message, img}) => (
  <SafeAreaView style={styles.container}>
   <Text style={styles.hidden} >{message}</Text>
       <View style={styles.item}>
+        <Image
+          style={styles.image_item}
+          source={{
+            uri: img,
+          }}
+        />
         <View style={styles.description_item}>
             <Text style={styles.title_item}>{title}</Text>
             <Text style={styles.message_item}>{message}</Text>
         </View>
-          <Image
-            style={styles.image_item}
-            source={{
-              uri: img,
-            }}
-          />
-        </View>
+          
+      </View>
   </SafeAreaView>
 );
 
@@ -48,8 +49,14 @@ const AlertList = (navigation) => {
             <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
           </TouchableOpacity>
         </View>
+
       </View>
     
+      <View style={styles.searchbar}>
+        <Text style={styles.searchbar_text}>Cerca una segnalazione ...</Text>
+        <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
+      </View>
+
       <View style={styles.body}>
       <FlatList
           data={data_items}
@@ -75,11 +82,8 @@ const AlertList = (navigation) => {
 
                     <Pressable style={[styles.button, styles.row_container]} onPress={() => alert(`Vai a galleria/fotocamera`)}>
                         <Entypo name='image' size={30} color={colors.dark_blue_palette} />
-                        <Text style={styles.text_take_photo}>Scatta o scegli una foto</Text>
+                        <Text style={styles.text_take_photo} onPress={() => alert(`Vai a galleria/fotocamera`)}>Scatta o scegli una foto</Text>
                     </Pressable>
-                  
-
-                    
 
                     <View style={styles.row_container}>
                         <Pressable style={styles.button_discard} onPress={() => setModalVisible(!modalVisible)}>
@@ -97,17 +101,14 @@ const AlertList = (navigation) => {
       </View>
 
       
-      <SafeAreaView>
-        <View style={styles.header_title}/>
+      <View>
         <TouchableOpacity style={styles.floatinBtn} >
-          <Entypo name='plus' size={60} onPress={() => setModalVisible(true)}/>
+          <Entypo name='plus'color="white" size={60} onPress={() => setModalVisible(true)}/>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
       
 
-      <View style={styles.nav_bar} >
-        <Text></Text>
-      </View>
+     
     </SafeAreaView>
   );
 };
@@ -116,6 +117,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.dirty_white_palette,
+    borderWidth: 1,
+    borderColor: colors.dirty_white_palette,
+    borderBottomColor: colors.grey,
+    marginRight:10,
+    marginLeft:10,
+  },
+  searchbar: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    height: 50,
+    marginLeft: 15,
+    marginRight: 15,
+    padding: 15,
+    flexDirection: 'row',
+  },
+  searchbar_text: {
+      fontSize: 15,
+      color: colors.grey,
+      left: 10,
+  },
+  searchbar_icon: {
+      position: 'absolute',
+      top: 10,
+      right: 30,
   },
   hidden: {
     color: colors.dirty_white_palette,
@@ -125,19 +150,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     flexDirection: "row",
+    alignItems:"center",
   },
   description_item: {
     flex: 3,
-    backgroundColor: colors.grey_palette,
-    borderBottomLeftRadius: 50,
-    borderTopLeftRadius: 5,
     paddingLeft: "5%",
-    flexDirection: "column"
+    flexDirection: "column",
+
   },
   image_item: {
     flex: 1,
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 5,
+    borderRadius: 5,
+    height:80,
+    borderWidth: 1,
+    borderColor: colors.dirty_white_palette,
+    borderBottomColor: colors.grey,
   },
   title_item: {
     fontSize: 20,
@@ -152,11 +179,10 @@ const styles = StyleSheet.create({
     marginBottom:"4%"
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     color: colors.dark_blue_palette,
     fontWeight: "bold",
     textAlign: 'center',
-    marginVertical: 8,
     flex: 5,
     flexDirection: "row",
   },
@@ -182,11 +208,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   floatinBtn: {
-    color: colors.dark_blue_palette,
     position: "absolute",
-    backgroundColor: colors.grey_palette,
+    backgroundColor: colors.dark_blue_palette,
     borderRadius:100,
-    bottom: "6%",
+    bottom: 95,
     right: "8%",
   },
   nav_bar:{
@@ -304,7 +329,7 @@ const data_items = [
     },
     {
         id: 4,
-        title: 'Disagi da pazzatura',
+        title: 'Disagi da spazzatura',
         message: 'La prolungata mancanza della raccolta della spazzatura inizia a causare ingorghi e conseguente traffico in via Dei Montii 17.',
         img: 'https://www.radiocolonna.it/public/images/2021/06/tuscolano-rifiuti-500x281.jpeg',
     },

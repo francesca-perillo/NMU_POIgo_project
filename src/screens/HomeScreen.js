@@ -4,13 +4,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
 import CityRoamingScreen from './CityRoamingScreen';
+import MapScreen from "./MapScreen";
+import DetailScreen from "./DetailScreen";
+import CategoryScreen from "./CategoryScreen";
+import ClassicNavigationScreen from "./ClassicNavigationScreen";
 
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 
+
 const HomeScreen = ({ navigation }) => {
-  return (
-       
+  return (   
     <SafeAreaView style={styles.container}>
 
         <View style={styles.header}>
@@ -25,9 +29,9 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.body}>
             <Text style ={styles.title}>Benvenuto</Text>
             <Text style ={styles.sub_title}>Scegli la modalità di navigazione</Text>
-            <Pressable onPress={()=>{alert("button clicked")}}>
+            <Pressable onPress={() => navigation.navigate('ClassicNavigation')}>
                 <Image style={styles.buttonImage}
-                    source={{uri: "https://images.pexels.com/photos/2705756/pexels-photo-2705756.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"}}>
+                    source={require("../../assets/ButtonImg/cla_nav.jpg")}>
                 </Image>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>Navigazione Classica</Text>
@@ -36,15 +40,13 @@ const HomeScreen = ({ navigation }) => {
 
             <Pressable onPress={() => navigation.navigate('CityRoaming')}>
                 <Image style={styles.buttonImage}
-                    source={{uri: "https://media.istockphoto.com/photos/find-your-way-location-marking-with-a-pin-on-a-map-with-routes-picture-id1287428874?b=1&k=20&m=1287428874&s=170667a&w=0&h=4DnjfrI0rOT-sR7PZfPrxQpO4MZXxqJfJpDH7_UuWmM="}}>
+                    source={require("../../assets/ButtonImg/sem_nav.jpg")}>
                 </Image>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>City Roaming</Text>
                 </View>
             </Pressable>
         </View>
-
-       
 
         <View style={styles.nav_bar} >
             <Text></Text>
@@ -60,7 +62,10 @@ const HomeNavigator = () => {
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CityRoaming" component={CityRoamingScreen} />
-      
+      <Stack.Screen name="Map" component={MapScreen} /> 
+      <Stack.Screen name="DetailPOI" component={DetailScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen}/>
+      <Stack.Screen name="ClassicNavigation" component={ClassicNavigationScreen}/>
     </Stack.Navigator>
   );
 }
@@ -77,6 +82,13 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     borderRadius: 50,
     //opacity: 0.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   row_container: {
       flex: 1,
@@ -140,7 +152,7 @@ const styles = StyleSheet.create({
       right: 0,
       bottom: 30,
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'center'
   },
   buttonText: {
     //color: colors.dark_blue_palette,
@@ -152,8 +164,7 @@ const styles = StyleSheet.create({
     textShadowColor: colors.dark_blue_palette,
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 1
-    
-},
+    },
   hiddenText:{
       color: "#fff",
   },
