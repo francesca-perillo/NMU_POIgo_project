@@ -25,7 +25,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.body}>
                 <Text style ={styles.title}>City Roaming</Text>
                 <Text style ={styles.sub_title}>Scegli il tipo di navigazione City Roaming che preferisci</Text>
-                <Pressable onPress={() => Alert.alert('Vai ai percorsi tematici')}>
+                <Pressable onPress={() => navigation.navigate('Routes')}>
                     <Image style={styles.buttonImage}
                         source={require("../../assets/ButtonImg/tematic_route.jpg")}>
                     </Image>

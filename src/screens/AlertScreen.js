@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: colors.dark_blue_palette,
     borderRadius:100,
-    bottom: 95,
+    bottom: 120,
     right: "8%",
   },
   nav_bar:{

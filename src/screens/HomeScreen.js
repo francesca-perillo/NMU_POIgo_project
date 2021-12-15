@@ -9,6 +9,7 @@ import DetailScreen from "./DetailScreen";
 import CategoryScreen from "./CategoryScreen";
 import ClassicNavigationScreen from "./ClassicNavigationScreen";
 import ListPoiScreen from "./ListPoiScreen";
+import CategoryRoutesScreen from "./CategoryRoutesScreen";
 
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
@@ -68,6 +69,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="Category" component={CategoryScreen}/>
       <Stack.Screen name="ClassicNavigation" component={ClassicNavigationScreen}/>
       <Stack.Screen name="ListPoi" component={ListPoiScreen}/>
+      <Stack.Screen name="Routes" component={CategoryRoutesScreen}/>
     </Stack.Navigator>
   );
 }
