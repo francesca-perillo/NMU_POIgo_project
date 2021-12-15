@@ -21,7 +21,7 @@ const ClassicNavigationScreen = ({navigation}) => {
         <View >
            <View style={styles.listOfSegments}>
                     <View style={[styles.searchbar, styles.row_container]}>
-                        <Text style={styles.searchbar_text}>Calcolo della posizione attuale in corso...</Text>
+                        <Text style={styles.searchbar_text}>Calcolo della posizione ...</Text>
                         <Ionicons style={styles.searchbar_icon} name="map" size={24} color="grey" />
                     </View>
                     

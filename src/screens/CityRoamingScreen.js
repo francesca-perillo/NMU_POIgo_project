@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     },
     header_icon: {
         flex: 1,
+        top:20,
         justifyContent:"center",
         alignItems: "center",
     },

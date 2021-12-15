@@ -5,10 +5,10 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
 import CityRoamingScreen from './CityRoamingScreen';
 import MapScreen from "./MapScreen";
-import ListPoiScreen from './ListPoiScreen';
 import DetailScreen from "./DetailScreen";
 import CategoryScreen from "./CategoryScreen";
 import ClassicNavigationScreen from "./ClassicNavigationScreen";
+import ListPoiScreen from "./ListPoiScreen";
 
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
@@ -63,11 +63,11 @@ const HomeNavigator = () => {
     }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CityRoaming" component={CityRoamingScreen} />
-      <Stack.Screen name="ListPoiScreen" component={ListPoiScreen}/>
       <Stack.Screen name="Map" component={MapScreen} /> 
       <Stack.Screen name="DetailPOI" component={DetailScreen} />
       <Stack.Screen name="Category" component={CategoryScreen}/>
       <Stack.Screen name="ClassicNavigation" component={ClassicNavigationScreen}/>
+      <Stack.Screen name="ListPoi" component={ListPoiScreen}/>
     </Stack.Navigator>
   );
 }
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   },
   header_icon: {
       flex: 1,
+      top:20,
       justifyContent:"center",
       alignItems: "center",
   },
@@ -140,10 +141,12 @@ const styles = StyleSheet.create({
       marginLeft:"5%",
       marginRight:"5%",
       shadowColor: "#000",
-        shadowOffset: {
+
+      shadowOffset: {
         width: 0,
         height: 2
-        },
+      },
+      
         shadowOpacity: 0.4,
         shadowRadius: 4,
   },
