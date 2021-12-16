@@ -147,7 +147,7 @@ const CategoryScreen = ({ navigation }) => {
             <Pressable style={styles.buttonGoMap} onPress={() => navigation.navigate('Map')}>
                 <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
             </Pressable>
-            <Pressable style={styles.buttonGoList} onPress={() => alert("Vai alla lista POI")}>
+            <Pressable style={styles.buttonGoList} onPress={() => navigation.navigate('ListPoi')}>
                 <Text style={styles.buttonGoListText} >Vai alla lista</Text>
             </Pressable>
         </View>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     title: {
-        top: 50,
+        top: 40,
         fontSize: 40,
         fontWeight: 'bold',
         color: colors.dark_blue_palette,
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     },
     searchbar: {
         backgroundColor: 'white',
+        top: 10,
         borderRadius: 10,
         height: 50,
         marginLeft: 10,
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
     },
     searchbar_text: {
         fontSize: 15,
+        top: 1,
         color: colors.grey,
         left: 10,
     },
@@ -191,8 +193,11 @@ const styles = StyleSheet.create({
         right: 30,
     },
     listOfcategory: {
+        width: '100%',
+        height: 50,
         marginHorizontal: 10,
-        marginTop: 20,
+        marginTop: 30,
+        
     },
     buttonContainer: {
         padding: 10,
@@ -215,6 +220,7 @@ const styles = StyleSheet.create({
     },
     listOfSubcategory: {
         marginTop: 10,
+
     },
     subcategoryContainer: {
         borderRadius: 10,
@@ -261,7 +267,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: colors.dark_blue_palette,
         borderRadius: 50,
-        marginTop: 150,
+        marginTop: 100,
         marginHorizontal: 50,
         paddingVertical: 20,
     },

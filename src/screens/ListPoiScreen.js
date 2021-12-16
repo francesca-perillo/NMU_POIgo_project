@@ -4,6 +4,34 @@ import { color } from "react-native-reanimated";
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 
+//dati per la popolazione statica degli alert
+const data_items = [
+    {
+        id: 1,
+        title: 'Tavernetta da ciccio',
+        message: 'Caratteristica cucina tipica locale, ci troviamo in via roba 56.',
+        img: 'https://www.design-italia.it/wp-content/uploads/2018/01/arredare-tavernetta.png',
+    },
+    {
+        id: 2,
+        title: 'Faro Capo Trionto ',
+        message: 'Angolo suggestivo dello ionio, mare stupendo e pace',
+        img: 'https://www.investinitalyrealestate.com/wp-content/uploads/2019/07/FaroCapoTrionto_Corigliano_CS_EST_02-2-700x466.jpg',
+    },
+    {
+        id: 3,
+        title: 'Muraglie di Annibale',
+        message: 'Le cosiddette “Muraglie di Annibale”...',
+        img: 'https://ecodellojonio.b-cdn.net/media/posts/2014/06/muraglie-17.jpg?aspect_ratio=16:9&width=1152',
+    },
+    {
+        id: 4,
+        title: 'Fiume Trionto',
+        message: 'Il territorio di Pietrapaola, è caratterizzato dalla particolare presenza di grotte e ...',
+        img: 'http://www.mobitaly.it/MultimediaFiles/Img/FiumeTrionto_1.JPG',
+    },
+];
+
 const Item = ({ title, message, img}) => (
  <SafeAreaView style={styles.container}>
   <Text style={styles.hidden} >{message}</Text>
@@ -25,7 +53,7 @@ const Item = ({ title, message, img}) => (
 
 
 
-const AlertList = (navigation) => {
+const ListPoiScreen = (navigation) => {
 
     const renderItem = ({ item }) => (
     <Item
@@ -43,7 +71,7 @@ const AlertList = (navigation) => {
       <View style={styles.header}>
         <View style={styles.row_container}>
           <View style={styles.header_title}>
-            <Text style={styles.title}>SEGNALAZIONI</Text>
+            <Text style={styles.title}>Lista POI</Text>
           </View>
           <TouchableOpacity style={styles.header_icon}>
             <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
@@ -53,7 +81,7 @@ const AlertList = (navigation) => {
       </View>
     
       <View style={styles.searchbar}>
-        <Text style={styles.searchbar_text}>Cerca una segnalazione ...</Text>
+        <Text style={styles.searchbar_text}>Cerca un punto d'interesse ...</Text>
         <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
       </View>
 
@@ -64,51 +92,11 @@ const AlertList = (navigation) => {
           keyExtractor={item => `${item.id}`}
         />
       </View>
+
+      
+   
         
-
-      <View style={styles.centeredView}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {setModalVisible(!modalVisible);}}>
-            <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Entypo name='new' size={60} color={colors.dark_blue_palette} />
-                    <Text style={styles.title_item}>NUOVA SEGNALAZIONE</Text>
-                    
-
-                    <Text style={styles.modalText}>Titolo:</Text>
-                    <TextInput style={styles.input} placeholder="es. Allerta meteo, disagi da spazzatura ... " placeholderTextColor={colors.grey}/>
-
-                    <Text style={styles.modalText}>Descrizione:</Text>
-                    <TextInput style={styles.input} placeholder="es. Attenzione! In via Roma 17 un forte  ... " placeholderTextColor={colors.grey}/>
-
-                    <Pressable style={[styles.button, styles.row_container]} onPress={() => alert(`Vai a galleria/fotocamera`)}>
-                        <Entypo name='image' size={30} color={colors.dark_blue_palette} />
-                        <Text style={styles.text_take_photo} onPress={() => alert(`Vai a galleria/fotocamera`)}>Scatta o scegli una foto</Text>
-                    </Pressable>
-
-                    <View style={styles.row_container}>
-                        <Pressable style={styles.button_discard} onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>Chiudi</Text>
-                        </Pressable>
-
-                        <Pressable style={styles.button_confirm} onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>Invia segnalazione</Text>
-                        </Pressable>
-                    </View>
-                    
-                  </View>
-              </View>
-          </Modal>
-      </View>
-
-      
-      <View>
-        <TouchableOpacity style={styles.floatinBtn} >
-          <Entypo name='plus'color="white" size={60} onPress={() => setModalVisible(true)}/>
-        </TouchableOpacity>
-      </View>
-      
-
-     
+    
     </SafeAreaView>
   );
 };
@@ -148,6 +136,8 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
+    height: 200,
+    width: 300,
     flexDirection: "row",
     alignItems:"center",
   },
@@ -182,6 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
     flex: 5,
+    top:20,
     flexDirection: "row",
   },
   row_container: {
@@ -198,6 +189,7 @@ const styles = StyleSheet.create({
   header_icon: {
     fontSize: 40,
     flex: 1,
+    top: 20,
     justifyContent:"center",
     alignItems: "center",
   },
@@ -209,7 +201,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: colors.dark_blue_palette,
     borderRadius:100,
-    bottom: 120,
+    bottom: 95,
     right: "8%",
   },
   nav_bar:{
@@ -302,34 +294,21 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize:18,
-  }
+  },
+  buttonGoMap: {
+    alignItems: "center",
+    backgroundColor: colors.dark_blue_palette,
+    borderRadius: 50,
+    marginTop: 150,
+    marginHorizontal: 50,
+    paddingVertical: 20,
+},
+buttonGoMapText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 15,
+},
 });
 
-//dati per la popolazione statica degli alert
-const data_items = [
-    {
-        id: 1,
-        title: 'Allerta meteo',
-        message: 'Attenzione! In Via Roma 17 un forte temporale ha alagato la strada ed è impossibile procedere con il proprio automezzo.',
-        img: 'https://static.blitzquotidiano.it/wp/wp-content/uploads/2020/09/maltempo-1-1.jpg',
-    },
-    {
-        id: 2,
-        title: 'Pericolo automezzo',
-        message: 'Un camion ha perso il proprio carico in Via Antonio Gaudi 34. Si prega di prestare molta attenzione ad eventuali residui.',
-        img: 'https://www.padova24ore.it/wp-content/uploads/2016/07/incidenteautostrada.jpg',
-    },
-    {
-        id: 3,
-        title: 'Caduta massi',
-        message: 'Pericolo caduta massi fra Via Milizia 12 e Via De Gregorio 25. Prudenza alla guida del proprio automezzo.',
-        img: 'https://www.geostru.eu/wp-content/uploads/2016/03/Caduta_Massi_Arenzano.jpg',
-    },
-    {
-        id: 4,
-        title: 'Disagi da spazzatura',
-        message: 'La prolungata mancanza della raccolta della spazzatura inizia a causare ingorghi e conseguente traffico in via Dei Montii 17.',
-        img: 'https://www.radiocolonna.it/public/images/2021/06/tuscolano-rifiuti-500x281.jpeg',
-    },
-];
-export default AlertList;
+
+export default ListPoiScreen;

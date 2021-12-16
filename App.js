@@ -5,6 +5,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import TabBarNavigation from './src/components/TabBarNavigation';
 import AlertScreen from './src/screens/AlertScreen';
 import CalendarScreen from './src/screens/CalendarScreen';
+import POIviciniScreen from './src/screens/POIviciniScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,9 +26,9 @@ const tabs = [
     route: 'Alert',
   },
   {
-    name: 'Contattaci',
-    icon: 'chatbubbles-outline',
-    route: 'Help',
+    name: 'Vicino a te',
+    icon: 'location-outline',
+    route: 'Near',
   },
 ];
 
@@ -44,7 +45,7 @@ function App() {
         <Tab.Screen name="BackHome" component={HomeScreen}/>
         <Tab.Screen name="Calendar" component={CalendarScreen} />
         <Tab.Screen name="Alert" component={AlertScreen} />
-        <Tab.Screen name="Help" component={HomeScreen} />
+        <Tab.Screen name="Near" component={POIviciniScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

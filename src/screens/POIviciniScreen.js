@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   const data_items = [
       {
           id: 1,
-          name: 'La locanda di Pietro',
+          name: 'La tavernetta',
           distance: '52 m',
       },
       {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
       },
       {
         id: 6,
-        name: 'Escape Room f.lli Pierro',
+        name: 'Escape Room',
         distance: '2.56 m',
     },
   ];
