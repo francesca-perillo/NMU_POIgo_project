@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, SafeAreaView, Pressable, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Image, SafeAreaView, Pressable, Dimensions, TouchableOpacity } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
@@ -17,14 +17,16 @@ const HomeScreen = ({ navigation }) => {
   return (   
     <SafeAreaView style={styles.container}>
 
-        <View style={styles.header}>
-                <View style={styles.row_container}>
-                    <View style={styles.header_title}/>
-                    <View style={styles.header_icon}>
-                      <Entypo name='bell' size={35} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
-                    </View>
-                </View>
+<View style={styles.header}>
+        <View style={styles.row_container}>
+          <View style={styles.header_title}>
+            <Text style={styles.title}></Text>
+          </View>
+          <TouchableOpacity style={styles.header_icon}>
+            <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => alert(`Lista delle notifiche`)}/>
+          </TouchableOpacity>
         </View>
+      </View>
 
         <View style={styles.body}>
             <Text style ={styles.title}>Benvenuto</Text>
@@ -92,11 +94,11 @@ const styles = StyleSheet.create({
   },
   row_container: {
       flex: 1,
-      padding: 20,
       flexDirection: "row"
   },
   header:{
       flex: 1,
+      marginTop:40
   },
   header_title:{
       flex: 6,
