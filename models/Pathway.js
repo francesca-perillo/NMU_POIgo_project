@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const Pathway = new mongoose.Schema({
-    /*id: {
-        type: String,
-        required: true,
-    },*/
     name: {
         type: String,
         required: true,
@@ -13,6 +9,11 @@ const Pathway = new mongoose.Schema({
         type: String,
         required: true,
     },
+    poi: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'POI',
+        required: true, 
+    }
 })
 
 module.exports = mongoose.model("Pathways", Pathway);

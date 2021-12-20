@@ -12,10 +12,6 @@ const Address = new mongoose.Schema({
 }, { _id: false })
 
 const Event = new mongoose.Schema({
-    /*id: {
-        type: String,
-        required: true,
-    },*/
     description: {
         type: String,
         required: true,
@@ -32,6 +28,12 @@ const Event = new mongoose.Schema({
         type: String,
         required: true,
     },
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true, 
+        index: true,
+    }
 })
 
 module.exports = mongoose.model("events", Event);

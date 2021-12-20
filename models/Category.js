@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
-
-const Category = new mongoose.Schema({
-    /*id: {
+const Section = new mongoose.Schema({
+    name: {
         type: String,
         required: true,
-    },*/
+    }
+})
+
+const Subcategory = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -13,8 +15,19 @@ const Category = new mongoose.Schema({
         type: String,
         required: true,
     },
-    type: {
+    section: {
+        type: [Section],
+        required: true,
+    },
+})
+
+const Category = new mongoose.Schema({
+    name: {
         type: String,
+        required: true,
+    }, 
+    subcategory: {
+        type: [Subcategory],
         required: true,
     },
 })

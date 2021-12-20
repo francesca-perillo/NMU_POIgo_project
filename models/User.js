@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const Activity = new mongoose.Schema({
-     /*id: {
-        type: String,
-        required: true,
-    },*/
     email: {
         type: String,
         required: true,
@@ -52,7 +48,7 @@ const Credit_Cart = new mongoose.Schema({
     }
 })
 
-const POIUser = new mongoose.Schema({
+const User = new mongoose.Schema({
     _id: false,
     email: {
         type: String,
@@ -71,14 +67,22 @@ const POIUser = new mongoose.Schema({
         type: Activity,
         required: true,
     },
-    is_Paid: {
+    is_paid: {
         type: Boolean,
         required: true,
     },
-    is_Active: {
+    is_active: {
         type: Boolean,
+        required: true,
+    },
+    is_qualified: {
+        type: Boolean,
+        required: true,
+    },
+    type: {
+        type: String,
         required: true,
     },
 })
 
-module.exports = mongoose.model("POIUsers", POIUser);
+module.exports = mongoose.model("User", User);

@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const Activity = new mongoose.Schema({
-     /*id: {
-        type: String,
-        required: true,
-    },*/
     email: {
         type: String,
         required: true,
@@ -28,10 +24,6 @@ const Activity = new mongoose.Schema({
 })
 
 const POI = new mongoose.Schema({
-    /*id: {
-        type: String,
-        required: true,
-    },*/
     name: {
         type: String,
         required: true,
@@ -59,6 +51,16 @@ const POI = new mongoose.Schema({
     coordinates:{
         type: [Number],
         required: true,
+    },
+    category: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'categories',
+        required: true, 
+    },
+    createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true, 
     }
 })
 
