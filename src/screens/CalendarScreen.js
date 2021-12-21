@@ -12,7 +12,8 @@ LocaleConfig.locales['it'] = {
   monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
   dayNames: ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'],
   dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
-  today: 'Oggi/'
+  today: 'Domani/',
+  
 };
 LocaleConfig.defaultLocale = 'it';
 
@@ -132,11 +133,67 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
+  },
+  logo: {
+    width: 30,
+    height: 30,
+    overflow: 'visible' 
+  },
+  day: {
+    textAlign: 'center',
   }
 });
 
-const src_img = require("../../assets/marker_calendar_red.png");
+var dict_src_img = {"blue":(require("../../assets/calendar/marker-calendar-blue.png")),
+                    "green":(require("../../assets/calendar/marker-calendar-green.png")),
+                    "water":(require("../../assets/calendar/marker-calendar-water.png")),
+                    "purple":(require("../../assets/calendar/marker-calendar-purple.png")),
+                    "darkpink":(require("../../assets/calendar/marker-calendar-darkpink.png")),
+                    "yellow":(require("../../assets/calendar/marker-calendar-yellow.png"))};
 
+
+//qui andremo a mettere i dati degli eventi presi dal db
+const marked_days ={'2021/12/16':'green', '2021/12/25':'blue',
+                    '2021/12/1':'blue', '2021/12/24':'water',
+                    '2021/12/8':'purple', '2021/12/22':'blue',
+                    '2021/12/9':'green', '2021/12/23':'darkpink',
+                    '2021/12/11':'darkpink', '2021/12/31':'yellow',
+                    '2021/12/15':'yellow', '2021/12/30':'purple'};
+
+function markedDays(day, month, year, state) {
+  var full_day = year+"/"+month+"/"+day
+  var color = ''
+  var src_img = ''
+  if(Object.keys(marked_days).includes(full_day)) {
+    color = marked_days[full_day]
+    src_img = dict_src_img[color] 
+    return (
+      <View>
+        <TouchableOpacity styles>
+          <ImageBackground source={(src_img)}  style={styles.logo}>
+            <Text style={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              color: state === "disabled" ? "gray" : "black",
+              padding: 5
+          }}>{day}</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  else return (
+    <View>
+      <Text style={{
+        textAlign: 'center',
+        fontWeight: state === "disabled" ? "normal": "bold",
+        color: state === "disabled" ? "gray" : "black",
+        padding: 5
+        }}>{day}</Text>
+</View>
+  )
+}
 
 const CalendarScreen = ({ navigation }) => {
 
@@ -155,85 +212,9 @@ const CalendarScreen = ({ navigation }) => {
       <View style = {styles.body}>
         <Calendar
         markingType={'custom'}
-        markedDates={{
-          '2021-12-05': {
-            customStyles: {
-              container: {
-              backgroundColor: 'rgba(255, 255, 0, 0.5)'
-                        },
-            text: {
-              color: 'black',
-              fontWeight: 'bold'
-                 }
-                        }
-                      },
-          '2021-12-17': {
-            customStyles: {
-              container: {
-              backgroundColor: 'rgba(255, 255, 0, 0.5)'
-                        },
-            text: {
-              color: 'black',
-              fontWeight: 'bold'
-                  }
-                        }
-                      },
-          '2021-12-09': {
-            customStyles: {
-              container: {
-                backgroundColor: 'rgba(255,165,0,0.7)',
-              },
-            text: {
-              color: 'black',
-              fontWeight: 'bold'
-                  }
-                        }
-                      },
-          '2021-12-15': {
-            customStyles: {
-              container: {
-                backgroundColor: 'rgba(255,165,0,0.7)',
-              },
-            text: {
-              color: 'black',
-              fontWeight: 'bold'
-                  }
-                        }
-                      },
-            '2021-12-26': {
-              customStyles: {
-                container: {
-                  backgroundColor: 'rgba(255,165,0,0.7)',
-                },
-              text: {
-                color: 'black',
-                fontWeight: 'bold'
-                    }
-                          }
-                        },
-            '2021-12-13': {
-              customStyles: {
-                container: {
-                  backgroundColor: 'rgba(0, 255, 0, 0.4)',
-                },
-              text: {
-                color: 'black',
-                fontWeight: 'bold'
-                    }
-                          }
-                        },
-            '2021-12-19': {
-              customStyles: {
-                container: {
-                backgroundColor: 'rgba(0, 255, 0, 0.4)',
-                          },
-              text: {
-                color: 'black',
-                fontWeight: 'bold'
-                    }
-                          }
-                        }
-                    }}
+        dayComponent={({ date, state }) => {
+          return (markedDays(date.day, date.month, date.year, state))
+        }}
 
         style={{
          // borderColor: colors.dark_blue_palette,
