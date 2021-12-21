@@ -42,14 +42,13 @@ const POI = new mongoose.Schema({
     },
     activity: {
         Type: Activity,
-        required: true,
     },
     is_Validate: {
         type: Boolean,
         required: true,
     },
     coordinates:{
-        type: [Number],
+        type: [String],
         required: true,
     },
     category: {
@@ -58,8 +57,8 @@ const POI = new mongoose.Schema({
         required: true, 
     },
     createdBy: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
+        type: String,
+        ref: 'User.email',
         required: true, 
     }
 })

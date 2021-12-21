@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
 const Address = new mongoose.Schema({
+    _id: false,
     street: {
+        type: String,
+        required: true,
+    },
+    city: {
         type: String,
         required: true,
     },
@@ -9,7 +14,7 @@ const Address = new mongoose.Schema({
         type: Number,
         required: true,
     },
-}, { _id: false })
+})
 
 const Event = new mongoose.Schema({
     description: {
@@ -29,10 +34,9 @@ const Event = new mongoose.Schema({
         required: true,
     },
     createdBy: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
+        type: String,
+        ref: 'User.email',
         required: true, 
-        index: true,
     }
 })
 

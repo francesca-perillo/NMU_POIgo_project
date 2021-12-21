@@ -1,32 +1,28 @@
 const mongoose = require("mongoose");
-const Section = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    }
-})
 
 const Subcategory = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true,
     }, 
     photo: {
         type: String,
         required: true,
     },
-    section: {
-        type: [Section],
-        required: true,
+    sections: {
+        type: [String],
+        default: [],
     },
 })
 
 const Category = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true,
     }, 
-    subcategory: {
+    subcategories: {
         type: [Subcategory],
         required: true,
     },

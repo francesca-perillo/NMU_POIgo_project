@@ -3,23 +3,23 @@ const mongoose = require("mongoose");
 const Activity = new mongoose.Schema({
     email: {
         type: String,
-        required: true,
+        required: false,
     },
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     surname: {
         type: String,
-        required: true,
+        required: false,
     },
     partita_iva:{
         type: Number,
-        required: true,
+        required: false,
     },
     tel_number:{
         type: Number,
-        required: true,
+        required: false,
     }
 })
 
@@ -28,28 +28,27 @@ const Credit_Cart = new mongoose.Schema({
     number_card: {
         type: Number,
         unique: true,
-        required: true,
+        required: false,
     }, 
     accountholder: {
         type: String,
-        required: true,
+        required: false,
     },
     ccv: {
         type: Number,
-        required: true,
+        required: false,
     },
     expiration: {
         type: String,
-        required: true,
+        required: false,
     }, 
     type: {
         type: String,
-        required: true,
+        required: false,
     }
 })
 
 const User = new mongoose.Schema({
-    _id: false,
     email: {
         type: String,
         unique: true,
@@ -61,23 +60,23 @@ const User = new mongoose.Schema({
     },
     credit_cart: {
         type: Credit_Cart,
-        required: true,
+        required: false,
     },
     activity: {
         type: Activity,
-        required: true,
+        required: false,
     },
     is_paid: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     is_active: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     is_qualified: {
         type: Boolean,
-        required: true,
+        required: false,
     },
     type: {
         type: String,
