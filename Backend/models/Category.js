@@ -24,7 +24,7 @@ const Category = new mongoose.Schema({
     }, 
     subcategories: {
         type: [Subcategory],
-        required: true,
+        default: [],
     },
 })
 
