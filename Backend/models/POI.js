@@ -23,6 +23,18 @@ const Activity = new mongoose.Schema({
     }
 })
 
+const pointSchema = new mongoose.Schema({
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+});
+
 const POI = new mongoose.Schema({
     name: {
         type: String,
@@ -41,24 +53,25 @@ const POI = new mongoose.Schema({
         required: true,
     },
     activity: {
-        Type: Activity,
+        type: Activity,
+        required: true,
     },
     is_Validate: {
         type: Boolean,
         required: true,
     },
-    coordinates:{
-        type: [String],
+    location: {
+        type: pointSchema,
         required: true,
     },
-    category: {
+    categories: {
         type: [mongoose.Types.ObjectId],
         ref: 'categories',
         required: true, 
     },
     createdBy: {
-        type: String,
-        ref: 'User.email',
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true, 
     }
 })

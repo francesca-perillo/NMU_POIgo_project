@@ -34,8 +34,8 @@ const Event = new mongoose.Schema({
         required: true,
     },
     createdBy: {
-        type: String,
-        ref: 'User.email',
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
         required: true, 
     }
 })

@@ -5,11 +5,15 @@ const Address = new mongoose.Schema({
         type: String,
         required: true,
     },
+    city: {
+        type: String,
+        required: true,
+    },
     cap: {
         type: Number,
         required: true,
     },
-}, { _id: false })
+});
 
 const Alert = new mongoose.Schema({
     title: {
@@ -22,7 +26,7 @@ const Alert = new mongoose.Schema({
     },
     photo: {
         type: String,
-        required: true,
+        required: false,
     },
     address: {
         type: Address,
@@ -32,7 +36,6 @@ const Alert = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true, 
-        index: true,
     }
 })
 

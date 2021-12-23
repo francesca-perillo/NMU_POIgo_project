@@ -3,31 +3,29 @@ const mongoose = require("mongoose");
 const Activity = new mongoose.Schema({
     email: {
         type: String,
-        required: false,
+        required: true,
     },
     name: {
         type: String,
-        required: false,
+        required: true,
     },
     surname: {
         type: String,
-        required: false,
+        required: true,
     },
     partita_iva:{
         type: Number,
-        required: false,
+        required: true,
     },
     tel_number:{
         type: Number,
-        required: false,
+        required: true,
     }
 })
 
 const Credit_Cart = new mongoose.Schema({
-    _id: false,
     number_card: {
         type: Number,
-        unique: true,
         required: false,
     }, 
     accountholder: {
