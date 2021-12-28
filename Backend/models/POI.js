@@ -64,7 +64,7 @@ const POI = new mongoose.Schema({
         type: pointSchema,
         required: true,
     },
-    categories: {
+    sections: {
         type: [mongoose.Types.ObjectId],
         ref: 'categories',
         required: true, 

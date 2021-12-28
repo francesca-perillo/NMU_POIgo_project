@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
 // Create a new poi
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const { name, photo, description, opening_hours, activity, is_Validate, location, categories, createdBy} = req.body;
+    const { name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy} = req.body;
 
     if (!name)
         return res.status(400).send("The 'name' field is required");
@@ -56,15 +56,15 @@ router.post('/', async (req, res) => {
         return res.status(400).send("The 'is_Validate' field is required");
     if(!location)
         return res.status(400).send("The 'location' field is required");
-    if(!categories)
-        return res.status(400).send("The 'categories' field is required");
-    if(!Array.isArray(categories))
-        return res.status(400).send("The 'categories' field must be an array");
+    if(!sections)
+        return res.status(400).send("The 'sections' field is required");
+    if(!Array.isArray(sections))
+        return res.status(400).send("The 'sections' field must be an array");
     if(!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
     // Create a new poi
-    const poi = await POI.create({ name, photo, description, opening_hours, activity, is_Validate, location, categories, createdBy });
+    const poi = await POI.create({ name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy });
     res.send(poi);
 });
 
@@ -73,7 +73,7 @@ router.put('/:id', async (req, res) => {
     // Retrieve params from the request
     const { id } = req.params;
     // Retrieve values from the request body
-    const { name, photo, description, opening_hours, activity, is_Validate, location, categories, createdBy } = req.body;
+    const { name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy } = req.body;
 
     // Check if the id is valid
     if (!isValidObjectId(id))
@@ -103,15 +103,15 @@ router.put('/:id', async (req, res) => {
         return res.status(400).send("The 'is_Validate' field is required");
     if(!location)
         return res.status(400).send("The 'location' field is required");
-    if(!categories)
-        return res.status(400).send("The 'categories' field is required");
-    if(!Array.isArray(categories))
-        return res.status(400).send("The 'categories' field must be an array");
+    if(!sections)
+        return res.status(400).send("The 'sections' field is required");
+    if(!Array.isArray(sections))
+        return res.status(400).send("The 'sections' field must be an array");
     if(!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
     // Try to update the poi with the given id
-    const poi = await POI.findByIdAndUpdate(id, { name, photo, description, opening_hours, activity, is_Validate, location, categories, createdBy }, { new: true });
+    const poi = await POI.findByIdAndUpdate(id, { name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy }, { new: true });
     if (!poi)
         return res.status(404).send('POI not found');
 
@@ -124,13 +124,13 @@ router.patch('/:id', async (req, res) => {
     // Retrieve params from the request
     const { id } = req.params;
     // Retrieve values from the request body
-    const { name, photo, description, opening_hours, activity, is_Validate, location, categories, createdBy } = req.body;
+    const { name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy } = req.body;
 
     // Check if the id is valid
     if (!isValidObjectId(id))
         return res.status(400).send('Invalid id');
 
-    if (categories && !Array.isArray(categories))
+    if (sections && !Array.isArray(sections))
         return res.status(400).send("The '' field must be an array");
 
     // Try to update the poi with the given id
