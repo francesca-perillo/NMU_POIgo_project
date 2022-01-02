@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, ImageBackground, Alert} from "react-native";
 import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import { withOrientation } from "react-navigation";
 
 const category = [
     {

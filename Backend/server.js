@@ -20,5 +20,6 @@ app.use('/pois', poiRoute);
 app.use('/user', userRoute);
 app.use('/alerts', alertRoute);
 app.use('/events', eventRoute);
+app.use('/assets', express.static('assets'));
 
 module.exports = app;

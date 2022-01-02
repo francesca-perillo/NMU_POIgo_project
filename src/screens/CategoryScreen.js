@@ -1,63 +1,56 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Image } from "react-native";
 import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as CategoriesController from '../controller/CategoriesController';
 
 const Stack = createNativeStackNavigator();
 
-const category = [
-    {
-        id: "1",
-        title: "Cibo",
-    },
-    {
-        id: "2",
-        title: "Turismo",
-    },
-    {
-        id: "3",
-        title: "Affari",
-    },
-    {
-        id: "4",
-        title: "Shopping",
-    },
-];
-
-const subcategory = [
-    {
-        id: "1",
-        title: "Ristoranti",
-        image: require('../../assets/img/category/restaurant.jpg'),
-    },
-    {
-        id: "2",
-        title: "Pizzerie",
-        image: require('../../assets/img/category/pizzeria.jpg'),
-    },
-    {
-        id: "3",
-        title: "Pasticcerie",
-        image: require('../../assets/img/category/backery.jpg'),
-    },
-    {
-        id: "4",
-        title: "Enoteche",
-        image: require('../../assets/img/category/wine_bar.jpg'),
-    },
-];
-
 const CategoryScreen = ({ navigation }) => {
-
-    const [selectedCategory, setSelectedCategory] = useState('1');
+    const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+
+    useEffect(() => {
+        const loadCategories = async () => {
+            const categoriesFromApi = await CategoriesController.getAllCategories();
+            //L'oggetto categoriesFromApi rappresenta gli oggetti che ho ricevuto dal server. A noi interessa mantenere
+            //la vecchia struttura, dunque usiamo map che ci permette di strutturare l'oggetto come vogliamo (come la vecchia struttura).
+            const categories = categoriesFromApi.map(category => {
+                return {
+                    id: category._id,
+                    title: category.name,
+                    subcategories: category.subcategories.map(subcategory => {
+                        return {
+                            id: subcategory._id,
+                            title: subcategory.name,
+                            image: `http://192.168.1.11:3000${subcategory.photo}`
+                        }
+                    })
+                }
+            });
+            setCategories(categories);
+            if(categories.length > 0) {
+                setSelectedCategory(categories[0].id);
+                setSubcategories(categories[0].subcategories);
+            }
+        }
+        loadCategories();
+    }, [])
+
+    const onCategoryPress = (categoryId) => {
+        setSelectedCategory(categoryId);
+        const category = categories.find(category => category.id === categoryId);
+        setSubcategories(category.subcategories);
+    }
 
     const Item = ({ id, title }) => {
         const isSelected = selectedCategory === id;
 
         return (
-            <TouchableOpacity onPress={() => setSelectedCategory(id)}>
+            <TouchableOpacity onPress={() => onCategoryPress(id)}>
                 <View
                     style={[
                         styles.buttonContainer,
@@ -82,7 +75,7 @@ const CategoryScreen = ({ navigation }) => {
             setSelectedSubcategories([...selectedSubcategories, id]);
         }
     }
-
+ 
     const ItemSubcategory = ({ id, title, image }) => {
         const isSelected = selectedSubcategories.includes(id);
 
@@ -91,7 +84,7 @@ const CategoryScreen = ({ navigation }) => {
                 style={styles.subcategoryContainer}
                 onPress={() => onSubcategoryPress(id)}
             >
-                <ImageBackground source={image} style={[
+                <ImageBackground source={{uri:image}} style={[
                     styles.image,
                     ...(isSelected ? [styles.imagePress] : []),
                 ]}>
@@ -129,7 +122,7 @@ const CategoryScreen = ({ navigation }) => {
             <View style={styles.listOfcategory}>
                 <FlatList
                     horizontal={true}
-                    data={category}
+                    data={categories}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
                 />
@@ -138,7 +131,7 @@ const CategoryScreen = ({ navigation }) => {
             <View style={styles.listOfSubcategory}>
                 <FlatList
                     numColumns={3}
-                    data={subcategory}
+                    data={subcategories}
                     renderItem={renderSubcategory}
                     keyExtractor={(item) => item.id}
                 />
@@ -197,7 +190,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginHorizontal: 10,
         marginTop: 30,
-        
+
     },
     buttonContainer: {
         padding: 10,
