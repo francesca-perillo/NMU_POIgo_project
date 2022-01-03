@@ -2,6 +2,12 @@ const express = require('express');
 const { isValidObjectId } = require('mongoose');
 const Category = require('../models/Category');
 
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 const router = express.Router();
 
 // Retrieve all the categories

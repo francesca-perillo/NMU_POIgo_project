@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import {Form} from 'react-bootstrap';
 import axios from 'axios';
-import CategoryQuery from './../../../Backend/routes/category';
 
 export default class InsertPOI extends Component {
 //all subclasses in javascript have to call super consructor
   constructor(props) {
     super(props);
+
+    const categories = axios.get('http://localhost:3000/categories').then(res=> {
+      return res.json();
+    })
+
+    console.log(categories)
 
     this.onChangePoiName = this.onChangePoiName.bind(this);
     this.onChangePoiPhoto = this.onChangePoiPhoto.bind(this);
@@ -41,8 +46,8 @@ export default class InsertPOI extends Component {
         //isValidate: '',
         //createdBy (-> identificativo dell'utente che ha inserito il POI)
         category: '',
-        subCategory: CategoryQuery,
-        section:'',
+        subCategory: '',
+        section: '',
     }
   }
 
