@@ -1,18 +1,18 @@
 const server = require('./server');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 // Load environment variables from .env file
-dotenv.config();
+// dotenv.config();
 
 // Get the port from the environment or default to 3000
 const PORT = process.env.PORT || 3000;
 
-// Check if the required environment variables are set
-if (!process.env.DB_CONNECTION_STRING)
-    throw new Error('DB_CONNECTION_STRING is not set');
+// // Check if the required environment variables are set
+// if (!process.env.DB_CONNECTION_STRING)
+//     throw new Error('DB_CONNECTION_STRING is not set');
 
-mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, error => {
+mongoose.connect("mongodb+srv://poiGo:emadproject21@cluster0.sb9vr.mongodb.net/poiGo", { useNewUrlParser: true, useUnifiedTopology: true }, error => {
     // If the connection fails, throw an error
     if (error)
         throw error;

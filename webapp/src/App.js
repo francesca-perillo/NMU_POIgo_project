@@ -1,7 +1,7 @@
 import logo from './poigo.png';
 import './App.css';
 import {Form, Button} from 'react-bootstrap'
-import LoginForm from '../src/components/loginForm'
+import LoginForm from './components/loginForm'
 
 
 function App() {
