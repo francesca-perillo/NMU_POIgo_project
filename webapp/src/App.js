@@ -1,6 +1,7 @@
 import logo from './poigo.png';
 import './App.css';
 import {Form, Button} from 'react-bootstrap'
+import InsertPoiForm from './components/insertPoiForm'
 import LoginForm from './components/loginForm'
 
 
@@ -30,7 +31,7 @@ function App() {
     //   </Form>
     //   </div>
     // </div>
-    <LoginForm></LoginForm>
+    <InsertPoiForm></InsertPoiForm>
   );
 }
 
