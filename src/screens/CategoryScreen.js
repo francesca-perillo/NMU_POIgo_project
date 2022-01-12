@@ -4,6 +4,7 @@ import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as CategoriesController from '../controller/CategoriesController';
+import { add } from "react-native-reanimated";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,22 @@ const CategoryScreen = ({ navigation }) => {
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+
+    const navigateToMapWithSection = () => {
+        const sections = [];
+
+        selectedSubcategories.forEach(id => {
+            categories.forEach(currentCategory =>
+                currentCategory.subcategories.filter(subcategory => subcategory.id === id).forEach(subcategory =>
+                    subcategory.sections.forEach(section =>
+                        sections.push(section)
+                    )
+                )
+            );
+        });
+
+        navigation.navigate('Map', { sections: sections })
+    };
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -26,17 +43,24 @@ const CategoryScreen = ({ navigation }) => {
                         return {
                             id: subcategory._id,
                             title: subcategory.name,
-                            image: `http://192.168.1.11:3000${subcategory.photo}`
+                            image: `http://192.168.1.11:3000${subcategory.photo}`,
+                            sections: subcategory.sections.map(section => {
+                                return {
+                                    id: section._id,
+                                    title: section.name,
+                                }
+                            })
                         }
                     })
                 }
             });
             setCategories(categories);
-            if(categories.length > 0) {
+            if (categories.length > 0) {
                 setSelectedCategory(categories[0].id);
                 setSubcategories(categories[0].subcategories);
             }
-        }
+        };
+
         loadCategories();
     }, [])
 
@@ -48,7 +72,6 @@ const CategoryScreen = ({ navigation }) => {
 
     const Item = ({ id, title }) => {
         const isSelected = selectedCategory === id;
-
         return (
             <TouchableOpacity onPress={() => onCategoryPress(id)}>
                 <View
@@ -75,7 +98,7 @@ const CategoryScreen = ({ navigation }) => {
             setSelectedSubcategories([...selectedSubcategories, id]);
         }
     }
- 
+
     const ItemSubcategory = ({ id, title, image }) => {
         const isSelected = selectedSubcategories.includes(id);
 
@@ -84,7 +107,7 @@ const CategoryScreen = ({ navigation }) => {
                 style={styles.subcategoryContainer}
                 onPress={() => onSubcategoryPress(id)}
             >
-                <ImageBackground source={{uri:image}} style={[
+                <ImageBackground source={{ uri: image }} style={[
                     styles.image,
                     ...(isSelected ? [styles.imagePress] : []),
                 ]}>
@@ -137,7 +160,7 @@ const CategoryScreen = ({ navigation }) => {
                 />
             </View>
 
-            <Pressable style={styles.buttonGoMap} onPress={() => navigation.navigate('Map')}>
+            <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
                 <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
             </Pressable>
             <Pressable style={styles.buttonGoList} onPress={() => navigation.navigate('ListPoi')}>
@@ -145,7 +168,7 @@ const CategoryScreen = ({ navigation }) => {
             </Pressable>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     header: {

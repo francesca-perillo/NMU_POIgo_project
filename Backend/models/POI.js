@@ -32,6 +32,10 @@ const pointSchema = new mongoose.Schema({
     coordinates: {
       type: [Number],
       required: true
+    },
+    address: {
+        type: String,
+        required: true
     }
 });
 

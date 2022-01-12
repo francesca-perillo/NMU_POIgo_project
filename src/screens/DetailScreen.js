@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import ContactInfo from "../components/CotactInfo";
 import colors from '../config/colors';
 import Review from "../components/Review";
 import Entypo from 'react-native-vector-icons/Entypo';
+import * as POIController from '../controller/POIController';
 
 const reviews = [
     {
@@ -19,29 +20,57 @@ const reviews = [
     },
 ];
 
-const contactInfo = [
-    {
-        id: 1,
-        name: "Indirizzo: ",
-        detail: "Via Roma, 77, 87060 Calopezzati CS"
-    },
-    {
-        id: 2,
-        name: "Orario: ",
-        detail: "9-13"
-    },
-    {
-        id: 3,
-        name: "Telefono: ",
-        detail: "055-1234567"
-    },
-];
-
-const DetailScreen = () => {
+const DetailScreen = ({ route }) => {
     const [show, setShow] = useState(false);
+
+    const default_poi = {
+        contactInfo: [],
+        description: "",
+    }
+
+    const [poiDetail, setPoiDetail] = useState(default_poi);
+
+    useEffect(() => {
+        const loadPoiData = async () => {
+            const poiFromApi = await POIController.getPOIById(route.params.params);
+            const [latitude, longitude] = poiFromApi.location.coordinates;
+
+            const poi = {
+                id: poiFromApi._id,
+                name: poiFromApi.name,
+                description: poiFromApi.description,
+                photo: poiFromApi.photo,
+                contactInfo: [
+                    {
+                        id: 1,
+                        name: "Indirizzo: ",
+                        detail: poiFromApi.location.address,
+                    },
+                    {
+                        id: 2,
+                        name: "Orario: ",
+                        detail: poiFromApi.opening_hours,
+                    },
+                    {
+                        id: 3,
+                        name: "Telefono: ",
+                        detail: poiFromApi.activity.tel_number,
+                    },
+                ],
+                coordinates: {
+                    id: poiFromApi.location._id,
+                    latitude,
+                    longitude,
+                }
+            }
+            setPoiDetail(poi);
+        };
+        loadPoiData();
+    }, [])
+
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={require('../../assets/latavernetta.jpg')} />
+            <Image style={styles.image} source={{ uri: `http://192.168.1.11:3000${poiDetail.photo}` }} />
             <TouchableOpacity
                 style={styles.notification}
             >
@@ -52,16 +81,16 @@ const DetailScreen = () => {
             >
                 <Feather name="map-pin" size={30} color="white" />
             </TouchableOpacity>
+
             <View style={styles.contentContainer}>
-                <Text style={styles.title}>La tavernetta</Text>
-                <Text style={styles.description}>Esclusiva taverna rustica con prosciutti a vista, nota per la pasta servita in padelle di acciaio.
-                    Conserviamo tradizioni, piatti, ricette e sapori di una volta.  </Text>
+                <Text style={styles.title}>{poiDetail.name}</Text>
+                <Text style={styles.description}>{`${poiDetail.description.substring(0, 250)}...`}</Text>
             </View>
 
             <View style={styles.info}>
                 <Text style={styles.infoTitle}>Informazioni di contatto</Text>
                 <View style={styles.infoContainer}>
-                    {contactInfo.map(info => (
+                    {poiDetail.contactInfo.map(info => (
                         <ContactInfo key={info.id} contactInfo={info} />
                     ))}
                 </View>

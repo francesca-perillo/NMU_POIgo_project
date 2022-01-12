@@ -1,34 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, SafeAreaView, StyleSheet, Image, Button, Alert, View, FlatList, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import * as POIController from '../controller/POIController';
+import { set } from 'react-native-reanimated';
 import colors from '../config/colors';
 
-
-const segments = [
-    {
-        id: "1",
-        title: "Storici",
-    },
-    {
-        id: "2",
-        title: "Etnici",
-    },
-    {
-        id: "3",
-        title: "Vegani",
-    },
-    {
-        id: "4",
-        title: "Brasserie",
-    },
-    {
-        id: "5",
-        title: "Cucina tipica"
-    }
-];
-
-
-const MapScreen = ({ navigation }) => {
+const MapScreen = ({ route, navigation }) => {
     const [mapRegion, setmapRegion] = useState({
         latitude: 39.4885718926234,
         longitude: 16.81692955302321,
@@ -36,14 +13,36 @@ const MapScreen = ({ navigation }) => {
         longitudeDelta: 0.0421,
     });  //dove proiettare mappa
 
+    const [selectedSegments, setSelectedSegments] = useState([]);
+    const [POIs, setPOI] = useState([]); 
+    const [POIsToShow, setPOIsToShow] = useState([]);
+    const { sections } = route.params;
 
-    const [selectedSegment, setSelectedSegment] = useState('1');
+    useEffect(() => {
+        const loadPOI = async () => {
+            const POIFromApi = await POIController.getAllPOI();
+            setPOI(POIFromApi);
+        };
+        loadPOI();
+    }, [])
+
+    const sectionsPressed = (id) => {
+        let selectedSections;
+        if (selectedSegments.includes(id)) {
+            selectedSections = selectedSegments.filter(item => item !== id);
+        } else {
+            selectedSections = [...selectedSegments, id];
+        }
+
+        const poiToShow = POIs.filter(({ sections }) => sections.some( id => selectedSections.includes(id)));
+        setSelectedSegments(selectedSections);
+        setPOIsToShow(poiToShow);
+    }
 
     const Item = ({ id, title }) => {
-        const isSelected = selectedSegment === id;
-
+        const isSelected = selectedSegments.includes(id);
         return (
-            <TouchableOpacity onPress={() => setSelectedSegment(id)}>
+            <TouchableOpacity onPress={() => sectionsPressed(id)}>
                 <View
                     style={[
                         styles.buttonContainer,
@@ -70,7 +69,7 @@ const MapScreen = ({ navigation }) => {
             <View>
                 <FlatList
                     horizontal={true}
-                    data={segments}
+                    data={sections}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
                 />
@@ -79,23 +78,16 @@ const MapScreen = ({ navigation }) => {
                 style={{ alignSelf: 'stretch', height: '100%' }}
                 region={mapRegion}
             >
-                <Marker coordinate={mapRegion} title='La tavernetta' onPress={() => navigation.navigate('DetailPOI')}>
-                    <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
-                </Marker>
+                {
+                    POIsToShow.map(({_id, location, name}) => {
+                        const [latitude, longitude] = location.coordinates;
+                        const coordinates = {latitude, longitude};
 
-                <Marker coordinate={{
-                    latitude: 39.510824955677506,
-                    longitude: 16.838215562173232
-                }} title='Deltaplano' onPress={() => Alert.alert('Deltaplano Perillo pressed!')}>
-                    <Image source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
-                </Marker>
-
-                <Marker coordinate={{
-                    latitude: 39.51877075151211,
-                    longitude: 16.84714195310711
-                }} title='Bar tabacchi' onPress={() => Alert.alert('Bar Tabacchi title pressed!')} >
-                    <Image source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
-                </Marker>
+                        return <Marker key={_id} coordinate={coordinates} title={name} onPress={() => navigation.navigate('DetailPOI', { params: _id })}>
+                            <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
+                        </Marker>
+                    })
+                }
 
             </MapView>
         </SafeAreaView>
@@ -115,7 +107,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         padding: 10,
         borderRadius: 10,
-        width: 100,
+        width: 120,
         height: 40,
         margin: 5,
         backgroundColor: 'white',
