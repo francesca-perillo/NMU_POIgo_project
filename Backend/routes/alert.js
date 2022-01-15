@@ -4,9 +4,20 @@ const Alert = require('../models/Alert');
 
 const router = express.Router();
 
-// Retrieve all the alerts
+// Retrieve a alert by approval
 router.get('/', async (req, res) => {
-    const alert = await Alert.find();
+    // Retrieve query params
+    const { approval } = req.query;
+    // Build the query
+    const query = {
+        // If approval is defined then check if it's true
+        // If it's true we want to find only the alerts approved
+        // Else we want to find the alerts not approved
+        // If approval is not defined the approval filter will not be applied
+        ...(approval && { approval: /true/i.test(approval) }),
+    }
+    const alert = await Alert.find(query);
+
     res.send(alert);
 });
 
@@ -30,19 +41,21 @@ router.get('/:id', async (req, res) => {
 // Create a new alert
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const {title, description, photo, address, createdBy} = req.body;
+    const { title, description, photo, address, approval, createdBy } = req.body;
 
     if (!title)
         return res.status(400).send("The 'title' field is required");
-    if(!description)
+    if (!description)
         return res.status(400).send("The 'description' field is required");
-    if(!address)
+    if (!address)
         return res.status(400).send("The 'address' field is required");
-    if(!createdBy)
+    if (!approval)
+        return res.status(400).send("The 'approval' field is required");
+    if (!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
     // Create a new alert
-    const alert = await Alert.create({ title, description, photo, address, createdBy });
+    const alert = await Alert.create({ title, description, photo, address, approval, createdBy });
     res.send(alert);
 });
 
@@ -51,24 +64,26 @@ router.put('/:id', async (req, res) => {
     // Retrieve params from the request
     const { id } = req.params;
     // Retrieve values from the request body
-    const { title, description, photo, address, createdBy } = req.body;
+    const { title, description, photo, address, approval, createdBy } = req.body;
 
     // Check if the id is valid
     if (!isValidObjectId(id))
         return res.status(400).send('Invalid id');
-    
+
     if (!title)
         return res.status(400).send("The 'title' field is required");
-    if(!description)
+    if (!description)
         return res.status(400).send("The 'description' field is required");
-    if(!address)
+    if (!address)
         return res.status(400).send("The 'address' field is required");
-    if(!createdBy)
+    if (!approval)
+        return res.status(400).send("The 'approval' field is required");
+    if (!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
 
     // Try to update the alert with the given id
-    const alert = await Alert.findByIdAndUpdate(id, {  title, description, photo, address, createdBy }, { new: true });
+    const alert = await Alert.findByIdAndUpdate(id, { title, description, photo, address, approval, createdBy }, { new: true });
     if (!alert)
         return res.status(404).send('Alert not found');
 
@@ -81,7 +96,7 @@ router.patch('/:id', async (req, res) => {
     // Retrieve params from the request
     const { id } = req.params;
     // Retrieve values from the request body
-    const { title, description, photo, address, createdBy } = req.body;
+    const { title, description, photo, address, approval, createdBy } = req.body;
 
     // Check if the id is valid
     if (!isValidObjectId(id))

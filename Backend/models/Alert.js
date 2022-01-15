@@ -32,6 +32,10 @@ const Alert = new mongoose.Schema({
         type: Address,
         required: true,
     },
+    approval:{
+        type: Boolean,
+        required: true,
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
