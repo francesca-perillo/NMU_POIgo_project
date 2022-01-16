@@ -10,5 +10,5 @@ export default {
     dirty_white_palette: "#F8F6F2",
     green_confirm_operation: "#008000",
     red_discard_operation: "#FF0000",
-    grey: "#696969",
+    grey: "#C0C0C0",
 }

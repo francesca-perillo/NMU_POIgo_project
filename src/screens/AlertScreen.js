@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput, Dimensions } from "react-native";
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
@@ -185,8 +185,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 5,
     height: 80,
-    borderWidth: 1,
-    borderColor: colors.dirty_white_palette,
   },
   title_item: {
     fontSize: 20,
