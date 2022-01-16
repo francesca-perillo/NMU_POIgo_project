@@ -3,7 +3,6 @@ import {Text, SafeAreaView, StyleSheet, Image, Button, Alert, View, TouchableOpa
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import colors from '../config/colors';
-import { color } from 'react-native-reanimated';
 
 const ClassicNavigationScreen = ({navigation}) => {
     const [mapRegion, setmapRegion] = useState({

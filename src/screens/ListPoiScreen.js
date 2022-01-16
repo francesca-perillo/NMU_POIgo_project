@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput} from "react-native";
-import { color } from "react-native-reanimated";
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import React from "react";
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, Dimensions} from "react-native";
+import { Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 
 //dati per la popolazione statica degli alert
@@ -32,71 +31,43 @@ const data_items = [
     },
 ];
 
-const Item = ({ title, message, img}) => (
- <SafeAreaView style={styles.container}>
-  <Text style={styles.hidden} >{message}</Text>
-      <View style={styles.item}>
-        <Image
-          style={styles.image_item}
-          source={{
-            uri: img,
-          }}
-        />
-        <View style={styles.description_item}>
-            <Text style={styles.title_item}>{title}</Text>
-            <Text style={styles.message_item}>{message}</Text>
-        </View>
-          
-      </View>
-  </SafeAreaView>
-);
-
-
-
 const ListPoiScreen = (navigation) => {
-
-    const renderItem = ({ item }) => (
-    <Item
-    title={item.title}
-    message={item.message}
-    img = {item.img}/>
-    );
-
-    //to set visibility at Modal
-    const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
 
-      <View style={styles.header}>
-        <View style={styles.row_container}>
-          <View style={styles.header_title}>
-            <Text style={styles.title}>Lista POI</Text>
-          </View>
-          <TouchableOpacity style={styles.header_icon}>
-            <Entypo name='bell' size={40} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.row_container}>
+      <Text style={styles.title}>Punti di interesse</Text>
+      <Entypo style={styles.header_icon} name='bell' size={30} color={colors.dark_blue_palette} onPress={() => alert(`Lista delle notifiche`)} />
+    </View>
 
-      </View>
-    
-      <View style={styles.searchbar}>
-        <Text style={styles.searchbar_text}>Cerca un punto d'interesse ...</Text>
-        <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
-      </View>
-
+    <Searchbar
+      style={styles.searchbar}
+      placeholder="Ricerca fra i punti di interesse..."
+      onChangeText={onChangeSearch}
+      value={searchQuery}
+    />
       <View style={styles.body}>
+      
       <FlatList
           data={data_items}
-          renderItem={renderItem}
+          renderItem={({item, id})=> {
+
+            return <View style={styles.item} onPress={()=> Alert.alert('sei andato su questo punto di interesse!')}>
+                      <Image
+                        style={styles.image_item}
+                        source={{
+                          uri: item.img,
+                        }}
+                      />
+                      <View style={styles.description_item}>
+                          <Text style={styles.title_item}>{item.title}</Text>
+                          <Text numberOfLines={2} style={styles.message_item}>{item.message}</Text>
+                      </View>  
+                    </View>}}
           keyExtractor={item => `${item.id}`}
         />
-      </View>
-
-      
-   
-        
-    
+      </View>    
     </SafeAreaView>
   );
 };
@@ -112,47 +83,37 @@ const styles = StyleSheet.create({
     marginLeft:10,
   },
   searchbar: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    height: 50,
-    marginLeft: 15,
-    marginRight: 15,
-    padding: 15,
-    flexDirection: 'row',
-  },
-  searchbar_text: {
-      fontSize: 15,
-      color: colors.grey,
-      left: 10,
-  },
-  searchbar_icon: {
-      position: 'absolute',
-      top: 10,
-      right: 30,
-  },
-  hidden: {
-    color: colors.dirty_white_palette,
-    marginVertical:-15,
+    backgroundColor: colors.white,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius:30,
+    shadowColor: colors.dirty_white_palette,
+    borderBottomColor: colors.black,
+    borderTopColor:colors.dirty_white_palette,
+    borderRightColor:colors.dirty_white_palette,
+    borderLeftColor:colors.dirty_white_palette,
   },
   item: {
-    flex: 1,
-    height: 200,
-    width: 300,
+    width: Dimensions.get('window').width/1.1,
     flexDirection: "row",
     alignItems:"center",
+    padding: 10,
+    borderColor:colors.grey,
+    borderTopColor:colors.dirty_white_palette,
+    borderRightColor:colors.dirty_white_palette,
+    borderLeftColor:colors.dirty_white_palette,
+    borderWidth:1,
   },
   description_item: {
-    flex: 3,
-    paddingLeft: "5%",
+    flex: 4,
+    paddingLeft:5,
     flexDirection: "column",
 
   },
   image_item: {
     flex: 1,
-    borderRadius: 5,
-    height:80,
-    borderWidth: 1,
-    borderColor: colors.dirty_white_palette,
+    borderRadius: 10,
+    height: Dimensions.get('window').width/5,
   },
   title_item: {
     fontSize: 20,
@@ -164,23 +125,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "black",
     marginRight: "4%",
+    fontStyle:"italic",
     marginBottom:"4%"
+  },
+  row_container: {
+    flexDirection: "row"
   },
   title: {
     fontSize: 35,
+    padding: 5,
     color: colors.dark_blue_palette,
     fontWeight: "bold",
     textAlign: 'center',
     flex: 5,
-    top:20,
     flexDirection: "row",
   },
-  row_container: {
-    padding: 20,
-    flexDirection: "row"
-  },
   header:{
-    flex: 1,
+    backgroundColor: colors.white,
   },
   header_title:{
     flex: 6,
@@ -189,7 +150,8 @@ const styles = StyleSheet.create({
   header_icon: {
     fontSize: 40,
     flex: 1,
-    top: 20,
+    paddingTop:5,
+    paddingBottom:5,
     justifyContent:"center",
     alignItems: "center",
   },
@@ -197,117 +159,6 @@ const styles = StyleSheet.create({
     flex: 6,
     alignItems: "center",
   },
-  floatinBtn: {
-    position: "absolute",
-    backgroundColor: colors.dark_blue_palette,
-    borderRadius:100,
-    bottom: 95,
-    right: "8%",
-  },
-  nav_bar:{
-    flex: 1,
-  }, 
-
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    
-  },
-  input: {
-    height: 40,
-    borderRadius: 40,
-    borderWidth: 1,
-    borderColor: colors.dark_blue_palette,
-    marginBottom: "5%",
-    backgroundColor: colors.dirty_white_palette,
-    padding:"3%",
-    alignSelf: 'stretch',
-    textAlign: 'center',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: "5%",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button:{
-    borderWidth: 1,
-    borderColor: colors.dark_blue_palette,
-    backgroundColor: colors.dirty_white_palette,
-    justifyContent: "center",
-    alignItems: "center",
-    padding:"3%",
-    borderRadius: 50,
-    alignSelf: 'stretch',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
-  text_take_photo: {
-    color: colors.dark_blue_palette,
-    marginTop: 8,
-    marginLeft: 5,
-  },
-  button_discard:{
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginRight: 5,
-    backgroundColor: colors.red_discard_operation,
-    shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-  },
-  button_confirm: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    backgroundColor: colors.green_confirm_operation,
-    shadowOffset: {
-        width: 0,
-        height: 2
-    },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-    },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    fontSize:18,
-  },
-  buttonGoMap: {
-    alignItems: "center",
-    backgroundColor: colors.dark_blue_palette,
-    borderRadius: 50,
-    marginTop: 150,
-    marginHorizontal: 50,
-    paddingVertical: 20,
-},
-buttonGoMapText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 15,
-},
 });
 
 

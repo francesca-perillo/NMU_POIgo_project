@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Text, SafeAreaView, StyleSheet, Image, Button, Alert, View, FlatList, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as POIController from '../controller/POIController';
-import { set } from 'react-native-reanimated';
 import colors from '../config/colors';
 
 const MapScreen = ({ route, navigation }) => {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput } from "react-native";
-import { color } from "react-native-reanimated";
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";

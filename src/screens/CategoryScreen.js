@@ -4,7 +4,6 @@ import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as CategoriesController from '../controller/CategoriesController';
-import { add } from "react-native-reanimated";
 
 const Stack = createNativeStackNavigator();
 

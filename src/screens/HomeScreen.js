@@ -10,6 +10,8 @@ import CategoryScreen from "./CategoryScreen";
 import ClassicNavigationScreen from "./ClassicNavigationScreen";
 import ListPoiScreen from "./ListPoiScreen";
 import CategoryRoutesScreen from "./CategoryRoutesScreen";
+import LoginScreen from "./LoginScreen";
+import RegisterScreen from "./RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
@@ -61,9 +63,11 @@ const HomeScreen = ({ navigation }) => {
 
 const HomeNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{
+    <Stack.Navigator initialRouteName="Login" screenOptions={{
       headerShown: false
     }}>
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="CityRoaming" component={CityRoamingScreen} />
       <Stack.Screen name="Map" component={MapScreen} /> 
