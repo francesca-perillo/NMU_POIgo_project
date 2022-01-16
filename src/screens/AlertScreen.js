@@ -1,30 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput, Dimensions } from "react-native";
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
+//barra di ricerca
+import { Searchbar } from 'react-native-paper';
 
-const Item = ({ title, message, img }) => (
-  <SafeAreaView style={styles.container}>
-    <Text style={styles.hidden} >{message}</Text>
-    <View style={styles.item}>
-      <Image
-        style={styles.image_item}
-        source={{
-          uri: img,
-        }}
-      />
-      <View style={styles.description_item}>
-        <Text style={styles.title_item}>{title}</Text>
-        <Text style={styles.message_item}>{message}</Text>
-      </View>
-
-    </View>
-  </SafeAreaView>
-);
-
-const AlertList = (navigation) => {
+const AlertList = () => {
   const [alerts, setAlerts] = useState([]);
   const isFocused = useIsFocused();
 
@@ -51,15 +34,12 @@ const AlertList = (navigation) => {
     loadAlerts();
   }, [isFocused])
 
-  const renderItem = ({ item }) => (
-    <Item
-      title={item.title}
-      message={item.message}
-      img={item.img} />
-  );
-
   //to set visibility at Modal
   const [modalVisible, setModalVisible] = useState(false);
+
+  //to search bar
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeSearch = query => setSearchQuery(query);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,21 +50,40 @@ const AlertList = (navigation) => {
             <Text style={styles.title}>SEGNALAZIONI</Text>
           </View>
           <TouchableOpacity style={styles.header_icon}>
-            <Entypo name='bell' size={40} color={colors.dark_blue_palette} onPress={() => Alert.alert(`Lista delle notifiche`)} />
+            <Entypo name='bell' size={30} color={colors.dark_blue_palette} onPress={() => Alert.alert(`Lista delle notifiche`)} />
           </TouchableOpacity>
         </View>
 
       </View>
 
-      <View style={styles.searchbar}>
-        <Text style={styles.searchbar_text}>Cerca una segnalazione ...</Text>
-        <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
-      </View>
+      <Searchbar
+        style={styles.searchbar}
+        placeholder="Ricerca fra le segnalazioni..."
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+      />
 
       <View style={styles.body}>
         <FlatList
           data={alerts}
-          renderItem={renderItem}
+          renderItem={({item, id})=> {
+
+            return <View style={styles.item}>
+                      <Image
+                        style={styles.image_item}
+                        source={{
+                          uri: item.img,
+                        }}
+                      />
+                      <View style={styles.description_item}>
+                        <Text style={styles.title_item} numberOfLines={1}>{item.title}</Text>
+                        <Text style={styles.message_item} numberOfLines={3}>{item.message}</Text>
+                        <Text style={styles.address_item} numberOfLines={1}>
+                          <Text style={styles.address_item_enf}> Città: </Text>{item.address.city}
+                          <Text style={styles.address_item_enf}> Via: </Text>{item.address.street}
+                        </Text>
+                      </View>
+                    </View>}}
           keyExtractor={item => `${item.id}`}
         />
       </View>
@@ -166,20 +165,21 @@ const styles = StyleSheet.create({
     top: 10,
     right: 30,
   },
-  hidden: {
-    color: colors.dirty_white_palette,
-    marginVertical: -15,
-  },
   item: {
-    flex: 1,
+    width: Dimensions.get('window').width/1.1,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems:"center",
+    padding: 10,
+    borderColor:colors.grey,
+    borderTopColor:colors.dirty_white_palette,
+    borderRightColor:colors.dirty_white_palette,
+    borderLeftColor:colors.dirty_white_palette,
+    borderWidth:1,
   },
   description_item: {
     flex: 3,
     paddingLeft: "5%",
     flexDirection: "column",
-
   },
   image_item: {
     flex: 1,
@@ -197,11 +197,20 @@ const styles = StyleSheet.create({
   message_item: {
     fontSize: 18,
     color: "black",
-    marginRight: "4%",
-    marginBottom: "4%"
+  },
+  address_item: {
+    marginTop: 5,
+    fontSize: 16,
+    fontStyle: "italic",
+    color: colors.dark_blue_palette,
+  },
+  address_item_enf: {
+    fontStyle:"normal",
+    fontWeight:"bold",
+    color:colors.black,
   },
   title: {
-    fontSize: 35,
+    fontSize: 30,
     color: colors.dark_blue_palette,
     fontWeight: "bold",
     textAlign: 'center',

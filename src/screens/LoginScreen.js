@@ -6,7 +6,7 @@ import colors from "../config/colors";
 import Entypo from 'react-native-vector-icons/Entypo';
 import isValid from '../config/utils';
 
-const LoginScreen = (navigation) => {
+const LoginScreen = ({navigation}) => {
     const [email, onChangeEmail] = React.useState("");
     const [password, onChangePassword] = React.useState("");
 
@@ -38,11 +38,8 @@ const LoginScreen = (navigation) => {
                 
                     <View style={styles.containerLogin}>
 
-                        
                         <Text style={styles.welcomeText}>Benvenuto!</Text>
-                        
-                       
-
+                      
                         <View style={styles.formInput}>
 
                             <Text style={styles.labelText}>E-mail:</Text>
@@ -89,9 +86,13 @@ const LoginScreen = (navigation) => {
                             <Text style={styles.buttonText}>Login</Text>
                         </Pressable>
 
-                        <Text style={styles.createAccountText}>Non hai ancora un account?
-                            <Text style={styles.regText}> Registrati</Text>
-                        </Text>
+                       
+                            <Pressable onPress={()=>navigation.navigate('Register')} >
+                                <Text style={styles.createAccountText}>Non hai ancora un account?
+                                    <Text style={styles.regText}> Registrati ora! </Text>
+                                </Text> 
+                            </Pressable>
+                        
 
                     </View>
 

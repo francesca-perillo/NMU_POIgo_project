@@ -6,7 +6,7 @@ import colors from "../config/colors";
 import Entypo from 'react-native-vector-icons/Entypo';
 import isValid from '../config/utils';
 
-const RegisterScreen = (navigation) => {
+const RegisterScreen = ({navigation}) => {
 
     const [email, onChangeEmail] = React.useState("");
     const [passwordOne, onChangePasswordOne] = React.useState("");
@@ -39,7 +39,7 @@ const RegisterScreen = (navigation) => {
 
                     <View style={styles.containerRegister}>
 
-                        <Text style={styles.welcomeText}>Registrati ora!</Text>
+                        <Text style={styles.welcomeText}>Registrati... è gratis!</Text>
                 
                         <View style={styles.formInput}>
 
@@ -81,7 +81,6 @@ const RegisterScreen = (navigation) => {
                             </View>
 
                         </View>
-
                         
                         <Pressable
                             style={styles.button}
@@ -96,18 +95,22 @@ const RegisterScreen = (navigation) => {
                                 } else if (passwordOne!=passwordTwo){
                                     Alert.alert('Attenzione','Le due password non coincidono')
                                 } else if (isValid(email, "email")){
-                                    Alert.alert("tutto bene, mettere il controllo alla home page!")
+                                    navigation.navigate('Login')
                                 } else {
                                     Alert.alert('Email non valida','Assicurati di aver scritto correttamente la tua email!')
                                 }
                             }
                         }>
-                            <Text style={styles.buttonText}>Login</Text>
+                            <Text style={styles.buttonText}>Registrati</Text>
                         </Pressable>
 
-                        <Text style={styles.alreadyAccountText}> Hai già un account?
-                            <Text style={styles.regText} onpress={()=> Alert.alert('vai al login')}> Clicca qui!</Text>
-                        </Text>
+                       
+                            <Pressable onPress={()=> navigation.navigate('Login')}>
+                                <Text style={styles.alreadyAccountText}> Hai già un account?
+                                    <Text style={styles.regText}> Accedi! </Text>
+                                </Text>
+                            </Pressable> 
+                        
 
                     </View> 
 
@@ -174,6 +177,7 @@ const styles = StyleSheet.create({
     },
     regText: {
         color: colors.pale_blue_palette,
+        fontStyle:"italic",
         fontWeight:"bold",
     },
     formInput:{
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
     alreadyAccountText: {
         alignItems:"center",
         justifyContent: "center",
-        marginTop:35,
+        marginTop:30,
     }
 });
 
