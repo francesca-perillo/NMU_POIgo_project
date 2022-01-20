@@ -57,7 +57,7 @@ const DetailScreen = ({ route }) => {
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={{ uri: `http://192.168.1.11:3000${poiDetail.photo}` }} />
-        
+
             <TouchableOpacity
                 style={styles.goMap}
             >
