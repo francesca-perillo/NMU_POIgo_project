@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     labelText:{
         marginTop:10,
         marginLeft:10,
-        color:colors.grey,
+        color:colors.dark_blue_palette,
     },
     inputText: {
         flex:10,

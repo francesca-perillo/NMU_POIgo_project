@@ -115,41 +115,13 @@ function HomeChild(){
             <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen}/>
             <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>
             <HomeStack.Screen name='Category' component={CategoryScreen}/>
-            <HomeStack.Screen name='ListPOI' component={ListPoiScreen}/>
+            <HomeStack.Screen name='ListPoi' component={ListPoiScreen}/>
             <HomeStack.Screen name='Map' component={MapScreen}/>
-            <HomeStack.Screen name='DetailScreen' component={DetailScreen}/>
+            <HomeStack.Screen name='DetailPOI' component={DetailScreen}/>
         </HomeStack.Navigator>
         
     )
 }
-
-// const InitialStack = createNativeStackNavigator();
-// function InitialStackScreen(){
-//     return (
-            
-//     )
-// }
-
-
-// function HomeStackScreen(){
-//     return (
-        // <HomeStack.Navigator screenOptions={{ headerShown: false}}>
-        //     <HomeStack.Screen name='Splash' component={InitialStackScreen}/>
-        //     <HomeStack.Screen name='Home' component={HomeScreen}/>
-        //     <HomeStack.Screen name='ClassicNavigation' component={ClassicNavigationScreen}/>
-        //     <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen}/>
-        //     <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>
-        //     <HomeStack.Screen name='Category' component={CategoryScreen}/>
-        //     <HomeStack.Screen name='ListPOI' component={ListPoiScreen}/>
-        //     <HomeStack.Screen name='Map' component={MapScreen}/>
-        //     <HomeStack.Screen name='DetailScreen' component={DetailScreen}/>
-        // </HomeStack.Navigator>
-//     )
-// }
-
-
-
-
 
 const styles = StyleSheet.create({
     container: {
