@@ -212,12 +212,11 @@ const styles = StyleSheet.create({
         height: 50,
         marginHorizontal: 10,
         marginTop: 30,
-
     },
     buttonContainer: {
         padding: 10,
         borderRadius: 10,
-        width: 100,
+        width: 150,
         height: 40,
         marginRight: 5,
         backgroundColor: 'white',

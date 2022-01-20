@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput, Dimensions } from "react-native";
-import { Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
-//barra di ricerca
-import { Searchbar } from 'react-native-paper';
 
 const AlertList = () => {
   const [alerts, setAlerts] = useState([]);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if(!isFocused) 
+    if (!isFocused)
       return
-      
+
     const loadAlerts = async () => {
       const alertsFromApi = await AlertsController.getAllAlertsApproved();
       const alerts = alertsFromApi.map(alert => {
@@ -34,103 +31,84 @@ const AlertList = () => {
     loadAlerts();
   }, [isFocused])
 
-  //to set visibility at Modal
-  const [modalVisible, setModalVisible] = useState(false);
-
-  //to search bar
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  //to set visibility at body
+  const [bodyVisible, setBodyVisible] = useState(true);
+  const [buttonVisible, setButtonVisible] = useState(true);
 
   return (
     <SafeAreaView style={styles.container}>
 
       <View style={styles.header}>
-        <View style={styles.row_container}>
-          <View style={styles.header_title}>
-            <Text style={styles.title}>SEGNALAZIONI</Text>
-          </View>
-          <TouchableOpacity style={styles.header_icon}>
-            <Entypo name='bell' size={30} color={colors.dark_blue_palette} onPress={() => Alert.alert(`Lista delle notifiche`)} />
-          </TouchableOpacity>
-        </View>
-
+        <Text style={styles.title}>Segnalazioni</Text>
+        <Text style={styles.subtitle}>Cosa succede in città ?</Text>
       </View>
 
-      <Searchbar
-        style={styles.searchbar}
-        placeholder="Ricerca fra le segnalazioni..."
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-      />
+      <View style={styles.body}>{
+        bodyVisible ? (
+          <FlatList
+            data={alerts}
+            renderItem={({ item, id }) => {
 
-      <View style={styles.body}>
-        <FlatList
-          data={alerts}
-          renderItem={({item, id})=> {
-
-            return <View style={styles.item}>
-                      <Image
-                        style={styles.image_item}
-                        source={{
-                          uri: item.img,
-                        }}
-                      />
-                      <View style={styles.description_item}>
-                        <Text style={styles.title_item} numberOfLines={1}>{item.title}</Text>
-                        <Text style={styles.message_item} numberOfLines={3}>{item.message}</Text>
-                        <Text style={styles.address_item} numberOfLines={1}>
-                          <Text style={styles.address_item_enf}> Città: </Text>{item.address.city}
-                          <Text style={styles.address_item_enf}> Via: </Text>{item.address.street}
-                        </Text>
-                      </View>
-                    </View>}}
-          keyExtractor={item => `${item.id}`}
-        />
-      </View>
-
-
-      <View style={styles.centeredView}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { setModalVisible(!modalVisible); }}>
-          <View style={styles.centeredView}>
+              return <View style={styles.item}>
+                <Image
+                  style={styles.image_item}
+                  source={{
+                    uri: item.img,
+                  }}
+                />
+                <View style={styles.description_item}>
+                  <Text style={styles.title_item} numberOfLines={1}>{item.title}</Text>
+                  <Text style={styles.message_item} numberOfLines={3}>{item.message}</Text>
+                  <Text style={styles.address_item} numberOfLines={1}>
+                    <Text style={styles.address_item_enf}> Indirizzo: </Text>
+                    {item.address.city}  {item.address.street} 
+                  </Text>
+                </View>
+              </View>
+            }}
+            keyExtractor={item => `${item.id}`}
+          />
+        ) : (
+          <Modal animationType="slide" transparent={true} onRequestClose={() => { setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible) }}>
             <View style={styles.modalView}>
-              <Entypo name='new' size={60} color={colors.dark_blue_palette} />
-              <Text style={styles.title_item}>NUOVA SEGNALAZIONE</Text>
+              <Text style={styles.title_item}>Inserisci i dati per la nuova segnalazione:</Text>
 
+              <TextInput style={styles.input} placeholder="Titolo" placeholderTextColor={colors.grey} />
 
-              <Text style={styles.modalText}>Titolo:</Text>
-              <TextInput style={styles.input} placeholder="es. Allerta meteo, disagi da spazzatura ... " placeholderTextColor={colors.grey} />
+              <TextInput style={styles.input} placeholder="Descrizione" placeholderTextColor={colors.grey} />
 
-              <Text style={styles.modalText}>Descrizione:</Text>
-              <TextInput style={styles.input} placeholder="es. Attenzione! In via Roma 17 un forte  ... " placeholderTextColor={colors.grey} />
+              <TextInput style={styles.input} placeholder="Città" placeholderTextColor={colors.grey} />
 
-              <Pressable style={[styles.button, styles.row_container]} onPress={() => alert(`Vai a galleria/fotocamera`)}>
-                <Entypo name='image' size={30} color={colors.dark_blue_palette} />
-                <Text style={styles.text_take_photo} onPress={() => alert(`Vai a galleria/fotocamera`)}>Scatta o scegli una foto</Text>
-              </Pressable>
+              <TextInput style={styles.input} placeholder="Via" placeholderTextColor={colors.grey} />
 
-              <View style={styles.row_container}>
-                <Pressable style={styles.button_discard} onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={styles.textStyle}>Chiudi</Text>
-                </Pressable>
+              <TextInput style={styles.input} placeholder="CAP" placeholderTextColor={colors.grey} />
 
-                <Pressable style={styles.button_confirm} onPress={() => setModalVisible(!modalVisible)}>
+              <View style={styles.containerInsertPhoto}>
+                  <Pressable style={styles.insertPhoto}>
+                    <Text style={styles.insertPhotoText}>Scegli o scatta una foto</Text>
+                  </Pressable>
+              </View>
+
+              <View style={styles.button_send_alert}>
+                <Pressable style={styles.button_confirm} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
                   <Text style={styles.textStyle}>Invia segnalazione</Text>
                 </Pressable>
+                  <Text style={styles.button_discard} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>Chiudi</Text>
               </View>
 
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        )
+      }
       </View>
 
-
-      <View>
-        <TouchableOpacity style={styles.floatinBtn} >
-          <Entypo name='plus' color="white" size={60} onPress={() => setModalVisible(true)} />
-        </TouchableOpacity>
+      {buttonVisible ? (
+      <View style={styles.buttonContainer}>
+        <Pressable style={styles.button} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
+          <Text style={styles.buttonText}>Avvia nuova segnalazione</Text>
+        </Pressable>
       </View>
-
-
+      ) : null}
 
     </SafeAreaView>
   );
@@ -140,41 +118,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.dirty_white_palette,
-    borderWidth: 1,
-    borderColor: colors.dirty_white_palette,
-    borderBottomColor: colors.grey,
-    marginRight: 10,
-    marginLeft: 10,
+    justifyContent: 'center',
   },
-  searchbar: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    height: 50,
-    marginLeft: 15,
-    marginRight: 15,
-    padding: 15,
-    flexDirection: 'row',
+  header: {
+    height: Dimensions.get('window').height / 5,
+    backgroundColor: colors.dark_blue_palette,
+    borderBottomRightRadius: 200
   },
-  searchbar_text: {
-    fontSize: 15,
+  title: {
+    fontSize: 40,
+    color: colors.white,
+    fontWeight: "bold",
+    marginTop: Dimensions.get('window').height / 16,
+    marginLeft: 20
+  },
+  subtitle: {
     color: colors.grey,
-    left: 10,
-  },
-  searchbar_icon: {
-    position: 'absolute',
-    top: 10,
-    right: 30,
+    fontSize: 30,
+    marginLeft: 20,
+    fontStyle: "italic",
   },
   item: {
-    width: Dimensions.get('window').width/1.1,
+    width: Dimensions.get('window').width / 1.1,
     flexDirection: "row",
-    alignItems:"center",
+    alignItems: "center",
     padding: 10,
-    borderColor:colors.grey,
-    borderTopColor:colors.dirty_white_palette,
-    borderRightColor:colors.dirty_white_palette,
-    borderLeftColor:colors.dirty_white_palette,
-    borderWidth:1,
+    borderTopColor: colors.dirty_white_palette,
+    borderLeftColor: colors.dirty_white_palette,
+    borderRightColor: colors.dirty_white_palette,
+    borderWidth: 1,
   },
   description_item: {
     flex: 3,
@@ -203,38 +175,18 @@ const styles = StyleSheet.create({
     color: colors.dark_blue_palette,
   },
   address_item_enf: {
-    fontStyle:"normal",
-    fontWeight:"bold",
-    color:colors.black,
-  },
-  title: {
-    fontSize: 30,
-    color: colors.dark_blue_palette,
+    fontStyle: "normal",
     fontWeight: "bold",
-    textAlign: 'center',
-    flex: 5,
-    flexDirection: "row",
+    color: colors.black,
   },
   row_container: {
     padding: 20,
     flexDirection: "row"
   },
-  header: {
-    flex: 1,
-  },
-  header_title: {
-    flex: 6,
-    flexDirection: "row",
-  },
-  header_icon: {
-    fontSize: 40,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   body: {
     flex: 6,
     alignItems: "center",
+    marginTop: Dimensions.get('window').height /16
   },
   floatinBtn: {
     position: "absolute",
@@ -246,7 +198,6 @@ const styles = StyleSheet.create({
   nav_bar: {
     flex: 1,
   },
-
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -254,35 +205,30 @@ const styles = StyleSheet.create({
 
   },
   input: {
-    height: 40,
-    borderRadius: 40,
-    borderWidth: 1,
+    width: Dimensions.get('window').width / 1.3,
+    height: 50,
+    fontSize: 20,
+    borderBottomWidth: 1,
     borderColor: colors.dark_blue_palette,
     marginBottom: "5%",
-    backgroundColor: colors.dirty_white_palette,
     padding: "3%",
     alignSelf: 'stretch',
-    textAlign: 'center',
   },
   modalView: {
+    flex: 6,
+    marginTop: Dimensions.get('window').height / 6,
     margin: 20,
-    backgroundColor: colors.white,
-    borderRadius: 20,
     padding: "5%",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+  },
+  buttonContainer: {
+    height: Dimensions.get('window').height / 5,
+    width: "90%",
+    alignSelf: "center",
   },
   button: {
     borderWidth: 1,
     borderColor: colors.dark_blue_palette,
-    backgroundColor: colors.dirty_white_palette,
+    backgroundColor: colors.dark_blue_palette,
     justifyContent: "center",
     alignItems: "center",
     padding: "3%",
@@ -296,35 +242,60 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
   },
+  buttonText: {
+    color: colors.white,
+  },
+  containerInsertPhoto: {
+    flexDirection: "row",
+    marginTop: "5%",
+  },
+  insertPhoto: {
+    width: Dimensions.get('window').width / 1.3,
+    height: 50,
+    borderWidth: 1,
+    borderColor: colors.dark_blue_palette,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "3%",
+    borderRadius: 50,
+    alignSelf: 'stretch',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  insertPhotoText:{
+    color: colors.dark_blue_palette,
+    fontSize: 15,
+  },
   text_take_photo: {
     color: colors.dark_blue_palette,
     marginTop: 8,
     marginLeft: 5,
   },
   button_discard: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginRight: 5,
-    backgroundColor: colors.red_discard_operation,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    fontWeight: "bold",
+    alignSelf: "center",
+    color: colors.dark_blue_palette,
+    marginTop: 10,
+    
+  },
+  button_send_alert:{
+    position: "absolute",
+    bottom: "15%",
+    width: "100%",
+    alignSelf: "center",
   },
   button_confirm: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "3%",
+    borderRadius: 50,
+    alignSelf: 'stretch',
     backgroundColor: colors.green_confirm_operation,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
   },
   textStyle: {
     color: "white",
