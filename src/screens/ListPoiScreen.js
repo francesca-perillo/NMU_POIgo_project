@@ -1,80 +1,107 @@
-import React from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, Dimensions} from "react-native";
-import { Entypo } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, Dimensions, TouchableOpacity} from "react-native";
 import colors from "../config/colors";
-//barra di ricerca
-import { Searchbar } from 'react-native-paper';
+import * as POIController from '../controller/POIController';
 
-//dati per la popolazione statica degli alert
-const data_items = [
-    {
-        id: 1,
-        title: 'Tavernetta da ciccio',
-        message: 'Caratteristica cucina tipica locale, ci troviamo in via roba 56.',
-        img: 'https://www.design-italia.it/wp-content/uploads/2018/01/arredare-tavernetta.png',
-    },
-    {
-        id: 2,
-        title: 'Faro Capo Trionto ',
-        message: 'Angolo suggestivo dello ionio, mare stupendo e pace',
-        img: 'https://www.investinitalyrealestate.com/wp-content/uploads/2019/07/FaroCapoTrionto_Corigliano_CS_EST_02-2-700x466.jpg',
-    },
-    {
-        id: 3,
-        title: 'Muraglie di Annibale',
-        message: 'Le cosiddette “Muraglie di Annibale”...',
-        img: 'https://ecodellojonio.b-cdn.net/media/posts/2014/06/muraglie-17.jpg?aspect_ratio=16:9&width=1152',
-    },
-    {
-        id: 4,
-        title: 'Fiume Trionto',
-        message: 'Il territorio di Pietrapaola, è caratterizzato dalla particolare presenza di grotte e ...',
-        img: 'http://www.mobitaly.it/MultimediaFiles/Img/FiumeTrionto_1.JPG',
-    },
-];
+const ListPoiScreen = ({ route, navigation }) => {
+  const [selectedSegments, setSelectedSegments] = useState([]);
+  const [POIs, setPOI] = useState([]);
+  const [POIsToShow, setPOIsToShow] = useState([]);
+  const { sections } = route.params;
 
-const ListPoiScreen = () => {
+  useEffect(() => {
+    const loadPOI = async () => {
+      const POIFromApi = await POIController.getAllPOI();
+      setPOI(POIFromApi);
+    };
+    loadPOI();
+  }, [])
 
-  // to search bar
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  const sectionsPressed = (id) => {
+    let selectedSections;
+    if (selectedSegments.includes(id)) {
+      selectedSections = selectedSegments.filter(item => item !== id);
+    } else {
+      selectedSections = [...selectedSegments, id];
+    }
+
+    const poiToShow = POIs.filter(({ sections }) => sections.some(id => selectedSections.includes(id)));
+    setSelectedSegments(selectedSections);
+    setPOIsToShow(poiToShow);
+  }
+
+  const Item = ({ id, title }) => {
+    const isSelected = selectedSegments.includes(id);
+    return (
+      <TouchableOpacity onPress={() => sectionsPressed(id)}>
+        <View
+          style={[
+            styles.buttonContainer,
+            ...(isSelected ? [styles.buttonContainerPress] : [])
+          ]}
+        >
+          <Text style={[
+            styles.buttonText,
+            ...(isSelected ? [styles.buttonTextPress] : [])
+          ]}>
+            {title}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    )
+  };
+
+  const renderItem = ({ item }) => (
+    <Item id={item.id} title={item.title} />
+  );
 
   return (
     <SafeAreaView style={styles.container}>
 
-    <View style={styles.row_container}>
-      <Text style={styles.title}>Punti di interesse</Text>
-      <Entypo style={styles.header_icon} name='bell' size={30} color={colors.dark_blue_palette} onPress={() => alert(`Lista delle notifiche`)} />
-    </View>
-
-    <Searchbar
-      style={styles.searchbar}
-      placeholder="Ricerca fra i punti di interesse..."
-      onChangeText={onChangeSearch}
-      value={searchQuery}
-    />
-    
-      <View style={styles.body}>
-      
-      <FlatList
-          data={data_items}
-          renderItem={({item, id})=> {
-
-            return <View style={styles.item} onPress={()=> Alert.alert('sei andato su questo punto di interesse!')}>
-                      <Image
-                        style={styles.image_item}
-                        source={{
-                          uri: item.img,
-                        }}
-                      />
-                      <View style={styles.description_item}>
-                          <Text style={styles.title_item}>{item.title}</Text>
-                          <Text numberOfLines={2} style={styles.message_item}>{item.message}</Text>
-                      </View>  
-                    </View>}}
-          keyExtractor={item => `${item.id}`}
+      <View style={styles.header}>
+        <Text style={styles.title}>Lista POI</Text>
+        <Text style={styles.subtitle}>Ecco cosa ho trovato!</Text>
+      </View>
+   
+      <View style={styles.containerSection}>
+        <FlatList
+          horizontal={true}
+          data={sections}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
         />
-      </View>    
+      </View>
+
+      <View style={styles.body}>
+      {
+        POIsToShow.length > 0 ? (
+        <FlatList
+          data={POIsToShow}
+          renderItem={({ item }) => {
+
+            return <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('DetailPOI', { params: item._id })}>
+              <Image
+                style={styles.image_item}
+                source={{
+                  uri: `http://192.168.1.11:3000${item.photo}`,
+                }}
+              />
+              <View style={styles.description_item}>
+                <Text style={styles.title_item} numberOfLines={1}>{item.name}</Text>
+                <Text style={styles.message_item} numberOfLines={3}>{item.description}</Text>
+              
+              </View>
+            </TouchableOpacity>
+          }}
+          keyExtractor={item => `${item._id}`}
+        />
+        ) : (
+          <View> 
+            <Text>Non ci sono POI da mostrare!</Text>
+          </View>
+        )
+      }
+      </View>
     </SafeAreaView>
   );
 };
@@ -83,44 +110,66 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.dirty_white_palette,
-    borderWidth: 1,
-    borderColor: colors.dirty_white_palette,
-    borderBottomColor: colors.grey,
-    marginRight:10,
-    marginLeft:10,
   },
-  searchbar: {
-    backgroundColor: colors.white,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius:30,
-    shadowColor: colors.dirty_white_palette,
-    borderBottomColor: colors.black,
-    borderTopColor:colors.dirty_white_palette,
-    borderRightColor:colors.dirty_white_palette,
-    borderLeftColor:colors.dirty_white_palette,
+  header: {
+    height: Dimensions.get('window').height / 6,
+    backgroundColor: colors.dark_blue_palette,
+    borderBottomRightRadius: 200,
+  },
+  title: {
+    fontSize: 40,
+    color: colors.white,
+    fontWeight: "bold",
+    marginTop: Dimensions.get('window').height / 16,
+    marginLeft: 20
+  },
+  subtitle: {
+    color: colors.grey,
+    fontSize: 30,
+    marginLeft: 20,
+    fontStyle: "italic",
+  },
+  containerSection:{
+    marginTop: Dimensions.get('window').height / 50,
+  },
+  buttonContainer: {
+    padding: 10,
+    borderRadius: 10,
+    width: 150,
+    height: 40,
+    margin: 5,
+    backgroundColor: 'white',
+  },
+  buttonContainerPress: {
+    backgroundColor: colors.pale_blue_palette,
+  },
+  buttonText: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: colors.dark_blue_palette,
+  },
+  buttonTextPress: {
+    color: 'white',
   },
   item: {
-    width: Dimensions.get('window').width/1.1,
+    width: Dimensions.get('window').width / 1.1,
     flexDirection: "row",
-    alignItems:"center",
+    alignItems: "center",
     padding: 10,
-    borderColor:colors.grey,
-    borderTopColor:colors.dirty_white_palette,
-    borderRightColor:colors.dirty_white_palette,
-    borderLeftColor:colors.dirty_white_palette,
-    borderWidth:1,
+    borderTopColor: colors.dirty_white_palette,
+    borderLeftColor: colors.dirty_white_palette,
+    borderRightColor: colors.dirty_white_palette,
+    borderWidth: 1,
   },
   description_item: {
-    flex: 4,
-    paddingLeft:5,
+    flex: 3,
+    paddingLeft: "5%",
     flexDirection: "column",
-
   },
   image_item: {
     flex: 1,
-    borderRadius: 10,
-    height: Dimensions.get('window').width/5,
+    borderRadius: 5,
+    height: 80,
   },
   title_item: {
     fontSize: 20,
@@ -131,42 +180,16 @@ const styles = StyleSheet.create({
   message_item: {
     fontSize: 18,
     color: "black",
-    marginRight: "4%",
-    fontStyle:"italic",
-    marginBottom:"4%"
   },
   row_container: {
+    padding: 20,
     flexDirection: "row"
-  },
-  title: {
-    fontSize: 35,
-    padding: 5,
-    color: colors.dark_blue_palette,
-    fontWeight: "bold",
-    textAlign: 'center',
-    flex: 5,
-    flexDirection: "row",
-  },
-  header:{
-    backgroundColor: colors.white,
-  },
-  header_title:{
-    flex: 6,
-    flexDirection: "row",
-  },
-  header_icon: {
-    fontSize: 40,
-    flex: 1,
-    paddingTop:5,
-    paddingBottom:5,
-    justifyContent:"center",
-    alignItems: "center",
   },
   body: {
     flex: 6,
     alignItems: "center",
+    marginTop: Dimensions.get('window').height / 70,
   },
 });
-
 
 export default ListPoiScreen;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Image } from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Dimensions, Image } from "react-native";
 import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -28,6 +28,23 @@ const CategoryScreen = ({ navigation }) => {
 
         navigation.navigate('Map', { sections: sections })
     };
+
+    const navigateToListWithSection = () => {
+        const sections = [];
+
+        selectedSubcategories.forEach(id => {
+            categories.forEach(currentCategory =>
+                currentCategory.subcategories.filter(subcategory => subcategory.id === id).forEach(subcategory =>
+                    subcategory.sections.forEach(section =>
+                        sections.push(section)
+                    )
+                )
+            );
+        });
+
+        navigation.navigate('ListPoi', { sections: sections })
+    };
+
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -133,7 +150,7 @@ const CategoryScreen = ({ navigation }) => {
         <View>
             <View style={styles.header}>
                 <Text style={styles.title}>Categorie</Text>
-                <Entypo style={styles.notification} name='bell' size={35} color={colors.dark_blue_palette} onPress={() => alert(`Lista delle notifiche`)} />
+                <Text style={styles.subtitle}>Seleziona le tue preferenze!</Text>
             </View>
 
             <View style={styles.searchbar}>
@@ -159,33 +176,38 @@ const CategoryScreen = ({ navigation }) => {
                 />
             </View>
 
-            <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
-                <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
-            </Pressable>
-            <Pressable style={styles.buttonGoList} onPress={() => navigation.navigate('ListPoi')}>
-                <Text style={styles.buttonGoListText} >Vai alla lista</Text>
-            </Pressable>
+            <View style={styles.containerButton}>
+                <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
+                    <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
+                </Pressable>
+
+                <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
+                    <Text style={styles.buttonGoListText} >Vai alla lista</Text>
+                </Pressable>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     header: {
-        height: 100,
-        flexDirection: 'row',
+        height: Dimensions.get('window').height / 6,
+        backgroundColor: colors.dark_blue_palette,
+        borderBottomRightRadius: 200,
     },
     title: {
-        top: 40,
         fontSize: 40,
-        fontWeight: 'bold',
-        color: colors.dark_blue_palette,
-        paddingLeft: 20,
+        color: colors.white,
+        fontWeight: "bold",
+        marginTop: Dimensions.get('window').height / 16,
+        marginLeft: 20
     },
-    notification: {
-        position: 'absolute',
-        top: 50,
-        right: 40,
-    },
+    subtitle: {
+        color: colors.grey,
+        fontSize: 25,
+        marginLeft: 20,
+        fontStyle: "italic",
+      },
     searchbar: {
         backgroundColor: 'white',
         top: 10,
@@ -234,7 +256,7 @@ const styles = StyleSheet.create({
     },
     listOfSubcategory: {
         marginTop: 10,
-
+        height: Dimensions.get('window').height / 6,
     },
     subcategoryContainer: {
         borderRadius: 10,
@@ -276,6 +298,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderRadius: 10,
         opacity: 0.5,
+    },
+    containerButton: {
+        width: "100%",
+        alignSelf: "center",
+        marginTop: Dimensions.get('window').height / 5,
     },
     buttonGoMap: {
         alignItems: "center",

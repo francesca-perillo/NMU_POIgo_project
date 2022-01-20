@@ -226,6 +226,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   button: {
+    marginHorizontal: 50,
+    paddingVertical: 20,
     borderWidth: 1,
     borderColor: colors.dark_blue_palette,
     backgroundColor: colors.dark_blue_palette,
@@ -290,12 +292,23 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   button_confirm: {
+    marginHorizontal: 50,
+    paddingVertical: 15,
+    borderWidth: 1,
+    backgroundColor: colors.green_confirm_operation,
+    borderColor: colors.green_confirm_operation,
     justifyContent: "center",
     alignItems: "center",
     padding: "3%",
     borderRadius: 50,
     alignSelf: 'stretch',
-    backgroundColor: colors.green_confirm_operation,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   textStyle: {
     color: "white",
