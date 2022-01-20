@@ -5,8 +5,12 @@ import { SafeAreaView } from "react-navigation";
 import colors from "../config/colors";
 import Entypo from 'react-native-vector-icons/Entypo';
 import isValid from '../config/utils';
+//per navigare tra le schermate si importa useNavigator e
+//si dichiara const navigation = useNavigation();
+import { useNavigation } from '@react-navigation/native';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = () => {
+    const navigation = useNavigation();
     const [email, onChangeEmail] = React.useState("");
     const [password, onChangePassword] = React.useState("");
 
@@ -18,14 +22,7 @@ const LoginScreen = ({navigation}) => {
                 style={{height: Dimensions.get('window').height/2.5,
                 }}>
                     <SafeAreaView style={styles.divLogo}>
-                        <ImageBackground
-                            source={require('../../assets/logo.png')}
-                            style={styles.logo}>
-                            
-                        </ImageBackground>
-                        <Text style={styles.textLogo}>
-                            poiGo
-                        </Text>
+                       {/*il logo viene generato da Splash Screen, lo spazio per il logo viene dato qui!*/}
                     </SafeAreaView>
             </ImageBackground>
 
@@ -73,13 +70,13 @@ const LoginScreen = ({navigation}) => {
                             style={styles.button}
                             onPress={() => {
                                 if (email == "") {
-                                Alert.alert('Attenzione','Inserisci l\'email prima di continuare')
+                                Alert.alert('Attenzione','Inserisci l\'email prima di continuare');
                                 } else if (password==""){
-                                    Alert.alert('Attenzione','Inserisci la password prima di continuare')
+                                    Alert.alert('Attenzione','Inserisci la password prima di continuare');
                                 } else if (isValid(email, "email")){
-                                    navigation.navigate('Home')
+                                    navigation.navigate('Home');
                                 } else {
-                                    Alert.alert('Email non valida','Assicurati di aver scritto correttamente la tua email!')
+                                    Alert.alert('Email non valida','Assicurati di aver scritto correttamente la tua email!');
                                 }
                             }
                         }>
@@ -87,21 +84,21 @@ const LoginScreen = ({navigation}) => {
                         </Pressable>
 
                        
-                            <Pressable onPress={()=>navigation.navigate('Register')} >
-                                <Text style={styles.createAccountText}>Non hai ancora un account?
-                                    <Text style={styles.regText}> Registrati ora! </Text>
-                                </Text> 
-                            </Pressable>
+                        <Pressable onPress={()=> navigation.navigate('Register')} >
+                            <Text style={styles.createAccountText}>Non hai ancora un account?
+                                <Text style={styles.regText}> Registrati ora! </Text>
+                            </Text> 
+                        </Pressable>
                         
 
                     </View>
 
-                    </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
 
-                </KeyboardAvoidingView> 
+            </KeyboardAvoidingView> 
 
                 
-                </View>
+        </View>
     );
 }
 
@@ -124,22 +121,13 @@ const styles = StyleSheet.create({
         shadowRadius:5,
         elevation:20,
     },
-    textLogo: {
-        color: colors.white,
-        fontSize: 40,
-        fontWeight: 'bold',
-        textShadowOffset:{width:1,height:10},
-        shadowOpacity: 0.4,
-        shadowRadius:5,
-        elevation:20,
-    },
     bottomView: {
         flex: 1,
         backgroundColor: colors.white,
         bottom: Dimensions.get('window').height/8,
         borderTopStartRadius:60, 
         borderTopEndRadius:50,
-        shadowColor: colors.black,
+        shadowColor: colors.white,
         shadowOffset: { width: 0, height: -10 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -173,7 +161,7 @@ const styles = StyleSheet.create({
     labelText:{
         marginTop:10,
         marginLeft:10,
-        color:colors.grey,
+        color:colors.dark_blue_palette,
     },
     inputText: {
         flex:10,

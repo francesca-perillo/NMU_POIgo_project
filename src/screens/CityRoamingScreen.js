@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, Alert, SafeAreaView, Pressable, Dimensions, Image} from "react-native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DetailScreen from './DetailScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
-
-const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
+//per navigare tra le schermate si importa useNavigator e
+//si dichiara const navigation = useNavigation();
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({ navigation }) => {
+const CityRoaming = () => {
+    const navigation = useNavigation();
     return (
        
         <SafeAreaView style={styles.container}>
@@ -44,26 +44,11 @@ const HomeScreen = ({ navigation }) => {
                 </Pressable>
                 
             </View>
-
-           
-
-            <View style={styles.nav_bar} >
-                <Text></Text>
-            </View>
+    
         </SafeAreaView>
     );
 }
 
-const HomeNavigator = () => {
-  return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{
-      headerShown: false
-    }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Details" component={DetailScreen} />
-    </Stack.Navigator>
-  );
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -173,4 +158,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default HomeNavigator;
+export default CityRoaming;

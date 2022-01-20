@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, Dimensions} from "react-native";
 import { Entypo } from '@expo/vector-icons';
 import colors from "../config/colors";
+//barra di ricerca
+import { Searchbar } from 'react-native-paper';
 
 //dati per la popolazione statica degli alert
 const data_items = [
@@ -31,7 +33,11 @@ const data_items = [
     },
 ];
 
-const ListPoiScreen = (navigation) => {
+const ListPoiScreen = () => {
+
+  // to search bar
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeSearch = query => setSearchQuery(query);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,6 +53,7 @@ const ListPoiScreen = (navigation) => {
       onChangeText={onChangeSearch}
       value={searchQuery}
     />
+    
       <View style={styles.body}>
       
       <FlatList

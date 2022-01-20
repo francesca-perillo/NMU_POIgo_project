@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
-import {Text, SafeAreaView, StyleSheet, Image, Button, Alert, View, TouchableOpacity } from 'react-native';
+import {Text, StyleSheet, Image, Button, Alert, View, Pressable} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import colors from '../config/colors';
+//barra di ricerca
+import { Searchbar } from 'react-native-paper';
 
 const ClassicNavigationScreen = ({navigation}) => {
+
+    // to search bar for departure 
+    const [searchQueryDeparture, setSearchQueryDeparture] = React.useState('');
+    const onChangeDeparture = query => setSearchQueryDeparture(query);
+    // to search bar for arrival
+    const [searchQueryArrival, setSearchQueryArrival] = React.useState('');
+    const onChangeArrival = query => setSearchQueryArrival(query);
+
     const [mapRegion, setmapRegion] = useState({
         latitude: 39.4885718926234,
         longitude: 16.81692955302321,
@@ -19,43 +29,51 @@ const ClassicNavigationScreen = ({navigation}) => {
     return (
         <View >
            <View style={styles.listOfSegments}>
-                    <View style={[styles.searchbar, styles.row_container]}>
-                        <Text style={styles.searchbar_text}>Calcolo della posizione ...</Text>
-                        <Ionicons style={styles.searchbar_icon} name="map" size={24} color="grey" />
-                    </View>
+                <Searchbar
+                    style={styles.searchbar}
+                    placeholder="Da dove parti?"
+                    onChangeText={onChangeDeparture}
+                    value={searchQueryDeparture}
+                />
                     
-                    <View style={[styles.searchbar, styles.row_container]}>
-                        <Text style={styles.searchbar_text}>Inserisci destinazione di arrivo</Text>
-                        <Ionicons style={styles.searchbar_icon} name="map" size={24} color="grey" />
-                    </View>
+                <Searchbar
+                    style={styles.searchbar}
+                    placeholder="Dove vuoi andare?"
+                    onChangeText={onChangeArrival}
+                    value={searchQueryArrival}
+                />
                 </View>
 
-            <MapView
-                style={{ alignSelf: 'stretch', height: '100%' }}
-                region={mapRegion}
-            >
+                <MapView
+                    style={{ alignSelf: 'stretch', height: '100%' }}
+                    region={mapRegion}>
                 
-                <Marker coordinate={{
-                    latitude: 39.510824955677506,
-                    longitude: 16.838215562173232
-                }} title='PARTENZA'>
-                    <Image source={{ uri: 'https://i.ibb.co/RczRvY5/markqer.png' }} style={{ width: 38, height: 35 }} />
-                </Marker>
+                    <Marker coordinate={{
+                        latitude: 39.510824955677506,
+                        longitude: 16.838215562173232
+                    }} title='PARTENZA'>
+                        <Image source={{ uri: 'https://i.ibb.co/RczRvY5/markqer.png' }} style={{ width: 38, height: 35 }} />
+                    </Marker>
 
-                <Marker coordinate={{
-                    latitude: 39.51877075151211,
-                    longitude: 16.84714195310711
-                }} title='ARRIVO'>
-                    <Image source={{ uri: 'https://i.ibb.co/RczRvY5/markqer.png' }} style={{ width: 38, height: 35 }} />
-                </Marker>
+                    <Marker coordinate={{
+                        latitude: 39.51877075151211,
+                        longitude: 16.84714195310711
+                    }} title='ARRIVO'>
+                        <Image source={{ uri: 'https://i.ibb.co/RczRvY5/markqer.png' }} style={{ width: 38, height: 35 }} />
+                    </Marker>
 
-            </MapView>
+                </MapView>
 
             <Button
                 title="Press me"
                 onPress={() => Alert.alert('Simple Button pressed')}
             />
-
+        
+            <Pressable
+                style={styles.button}
+                onPress={() => navigation.navigate('Tab')}>
+                <Text style={styles.buttonText}>Registrati</Text>
+            </Pressable>
 
         </View>
     );

@@ -1,54 +1,163 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './src/screens/HomeScreen';
-import TabBarNavigation from './src/components/TabBarNavigation';
-import AlertScreen from './src/screens/AlertScreen';
-import CalendarScreen from './src/screens/CalendarScreen';
-import POIviciniScreen from './src/screens/POIviciniScreen';
+import React, { useEffect, useRef } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+//Screens to show in tab bar
+import HomeScreen from "./src/screens/HomeScreen";
+import CalendarScreen from "./src/screens/CalendarScreen";
+import AlertList from "./src/screens/AlertScreen";
+import POIviciniScreen from "./src/screens/POIviciniScreen";
+//Screen to show as chindren of HomeScreen in tab bar
+import CityRoamingScreen from './src/screens/CityRoamingScreen';
+import MapScreen from "./src/screens/MapScreen";
+import DetailScreen from "./src/screens/DetailScreen";
+import CategoryScreen from "./src/screens/CategoryScreen";
+import ClassicNavigationScreen from "./src/screens/ClassicNavigationScreen";
+import ListPoiScreen from "./src/screens/ListPoiScreen";
+import CategoryRoutesScreen from "./src/screens/CategoryRoutesScreen";
+//Screen to show without bar 
+import SplashScreen from "./src/screens/SplashScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+//Navbar with style and animation
+import * as Animatable from 'react-native-animatable';
+import colors from './src/config/colors';
+import { StyleSheet, TouchableOpacity} from 'react-native'
+import Icon, { Icons } from './src/components/Icons';
 
-const Tab = createBottomTabNavigator();
+//tab style!
+const TabButton = (props) => {
+    const { item, onPress, accessibilityState } = props;
+    const focused = accessibilityState.selected;
+    const viewRef = useRef(null);  
+  
+    useEffect(() => {
+      if (focused) 
+        viewRef.current.animate({0: {scale: 1, rotate: '0deg'}, 1: {scale: 1, rotate: '360deg'}});
+    }, [focused])
 
-const tabs = [
-  {
-    name: 'Home',
-    icon: 'home-outline',
-    route: 'Home'
-  },
-  {
-    name: 'Eventi',
-    icon: 'ios-calendar-outline',
-    route: 'Calendar',
-  },
-  {
-    name: 'Segnalazioni',
-    icon: 'megaphone-outline',
-    route: 'Alert',
-  },
-  {
-    name: 'Vicino a te',
-    icon: 'location-outline',
-    route: 'Near',
-  },
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={styles.container}>
+          <Animatable.View
+            ref={viewRef}
+            duration={500}
+            style={styles.container}>
+            <Icon type={item.type} name={focused ? item.activeIcon : item.inActiveIcon} color={focused ? colors.dark_blue_palette : colors.grey} />
+          </Animatable.View>
+          <Animatable.Text style={{color: focused ? colors.dark_blue_palette : colors.grey}}>{item.label}</Animatable.Text>
+      </TouchableOpacity>
+    )
+}
+const TabArr = [
+    { route: 'Home', label: 'Home', type: Icons.Ionicons, activeIcon: 'home', inActiveIcon: 'home-outline', component: HomeChild },
+    { route: 'Eventi', label: 'Eventi', type: Icons.Ionicons, activeIcon: 'calendar', inActiveIcon: 'calendar-outline', component: CalendarScreen },
+    { route: 'Segnalazioni', label: 'Segnalazioni', type: Icons.Ionicons, activeIcon: 'megaphone', inActiveIcon: 'megaphone-outline', component: AlertList},
+    { route: 'Near', label: 'Vicino a te', type: Icons.Ionicons, activeIcon: 'location', inActiveIcon: 'location-outline', component: POIviciniScreen },
 ];
 
-
-
-function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        tabBar={(navigationProps) => <TabBarNavigation {...{ navigationProps, tabs }} />}
-        screenOptions={{headerShown: false}}
-        
-      >
-        <Tab.Screen name="BackHome" component={HomeScreen}/>
-        <Tab.Screen name="Calendar" component={CalendarScreen} />
-        <Tab.Screen name="Alert" component={AlertScreen} />
-        <Tab.Screen name="Near" component={POIviciniScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+const Tab = createBottomTabNavigator();
+function NavigationalBar() {
+    return (
+        <Tab.Navigator
+            screenOptions={{
+                headerShown: false,
+                tabBarStyle: {
+                height: 70,
+                position: 'absolute',
+                borderTopLeftRadius:20,
+                borderTopRightRadius:20, 
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 12,
+                },
+                shadowOpacity: 0.58,
+                shadowRadius: 16.00,
+                elevation: 24,
+                }
+            }}
+        >
+            {TabArr.map((item, index) => {
+                return(
+                    <Tab.Screen key={index} name={item.label} component={item.component}
+                    options={{
+                    tabBarButton: (props) => <TabButton {...props} item={item} />
+                    }}
+                />
+                )
+            })}
+        </Tab.Navigator>
+    )
 }
 
+const InitialStack = createNativeStackNavigator()
+const App = () => {    
+    return(
+        <NavigationContainer> 
+            <InitialStack.Navigator screenOptions={{ headerShown: false}}>
+                <InitialStack.Screen name='Splash' component={SplashScreen}/>
+                <InitialStack.Screen name='Login' component={LoginScreen}/>
+                <InitialStack.Screen name='Register' component={RegisterScreen}/>
+                <InitialStack.Screen name='Home' component={NavigationalBar}/>
+            </InitialStack.Navigator>
+        </NavigationContainer> 
+    )    
+}
+
+const HomeStack = createNativeStackNavigator();
+function HomeChild(){
+    return (
+        <HomeStack.Navigator screenOptions={{ headerShown: false}}>
+            <HomeStack.Screen name='Home' component={HomeScreen}/>
+            <HomeStack.Screen name='ClassicNavigation' component={ClassicNavigationScreen}/>
+            <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen}/>
+            <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>
+            <HomeStack.Screen name='Category' component={CategoryScreen}/>
+            <HomeStack.Screen name='ListPOI' component={ListPoiScreen}/>
+            <HomeStack.Screen name='Map' component={MapScreen}/>
+            <HomeStack.Screen name='DetailScreen' component={DetailScreen}/>
+        </HomeStack.Navigator>
+        
+    )
+}
+
+// const InitialStack = createNativeStackNavigator();
+// function InitialStackScreen(){
+//     return (
+            
+//     )
+// }
+
+
+// function HomeStackScreen(){
+//     return (
+        // <HomeStack.Navigator screenOptions={{ headerShown: false}}>
+        //     <HomeStack.Screen name='Splash' component={InitialStackScreen}/>
+        //     <HomeStack.Screen name='Home' component={HomeScreen}/>
+        //     <HomeStack.Screen name='ClassicNavigation' component={ClassicNavigationScreen}/>
+        //     <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen}/>
+        //     <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>
+        //     <HomeStack.Screen name='Category' component={CategoryScreen}/>
+        //     <HomeStack.Screen name='ListPOI' component={ListPoiScreen}/>
+        //     <HomeStack.Screen name='Map' component={MapScreen}/>
+        //     <HomeStack.Screen name='DetailScreen' component={DetailScreen}/>
+        // </HomeStack.Navigator>
+//     )
+// }
+
+
+
+
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
+})
+
 export default App;
+
