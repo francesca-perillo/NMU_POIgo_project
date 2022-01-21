@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {Text, StyleSheet, Image, Button, Alert, View, Pressable} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Ionicons } from '@expo/vector-icons';
 import colors from '../config/colors';
 //barra di ricerca
 import { Searchbar } from 'react-native-paper';

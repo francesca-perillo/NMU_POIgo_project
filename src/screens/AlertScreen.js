@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, Modal, Pressable, TextInput, Dimensions } from "react-native";
+import { StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions } from "react-native";
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
@@ -19,7 +19,7 @@ const AlertList = () => {
           id: alert._id,
           title: alert.title,
           message: alert.description,
-          img: `http://192.168.1.11:3000${alert.photo}`,
+          img: `http://192.168.1.10:3000${alert.photo}`,
           address: alert.address,
           createBy: alert.createdBy,
         }
@@ -36,7 +36,7 @@ const AlertList = () => {
   const [buttonVisible, setButtonVisible] = useState(true);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
 
       <View style={styles.header}>
         <Text style={styles.title}>Segnalazioni</Text>
@@ -110,7 +110,7 @@ const AlertList = () => {
       </View>
       ) : null}
 
-    </SafeAreaView>
+    </View>
   );
 };
 

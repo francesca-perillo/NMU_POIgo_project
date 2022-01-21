@@ -1,13 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Dimensions, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
 import colors from '../config/colors';
-import { Ionicons, Entypo } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as CategoriesController from '../controller/CategoriesController';
+//barra di ricerca
+import { Searchbar } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
 const CategoryScreen = ({ navigation }) => {
+    // to search bar for departure 
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const onChangeText = query => setSearchQuery(query);
+
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -59,7 +64,7 @@ const CategoryScreen = ({ navigation }) => {
                         return {
                             id: subcategory._id,
                             title: subcategory.name,
-                            image: `http://192.168.1.11:3000${subcategory.photo}`,
+                            image: `http://192.168.1.10:3000${subcategory.photo}`,
                             sections: subcategory.sections.map(section => {
                                 return {
                                     id: section._id,
@@ -153,10 +158,12 @@ const CategoryScreen = ({ navigation }) => {
                 <Text style={styles.subtitle}>Seleziona le tue preferenze!</Text>
             </View>
 
-            <View style={styles.searchbar}>
-                <Text style={styles.searchbar_text}>Cerca una categoria</Text>
-                <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
-            </View>
+            <Searchbar
+                    style={styles.searchbar}
+                    placeholder="Cerca ..."
+                    onChangeText={onChangeText}
+                    value={searchQuery}
+                />
 
             <View style={styles.listOfcategory}>
                 <FlatList
@@ -209,7 +216,6 @@ const styles = StyleSheet.create({
         fontStyle: "italic",
       },
     searchbar: {
-        backgroundColor: 'white',
         top: 10,
         borderRadius: 10,
         height: 50,
@@ -217,6 +223,14 @@ const styles = StyleSheet.create({
         marginRight: 10,
         padding: 15,
         flexDirection: 'row',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.00,
+        elevation: 1,
     },
     searchbar_text: {
         fontSize: 15,
@@ -234,6 +248,8 @@ const styles = StyleSheet.create({
         height: 50,
         marginHorizontal: 10,
         marginTop: 30,
+        alignContent: 'center',
+        alignItems: 'center'
     },
     buttonContainer: {
         padding: 10,
@@ -256,7 +272,7 @@ const styles = StyleSheet.create({
     },
     listOfSubcategory: {
         marginTop: 10,
-        height: Dimensions.get('window').height / 6,
+        height: Dimensions.get('window').height,
     },
     subcategoryContainer: {
         borderRadius: 10,

@@ -51,12 +51,13 @@ const TabButton = (props) => {
     )
 }
 const TabArr = [
-    { route: 'Home', label: 'Home', type: Icons.Ionicons, activeIcon: 'home', inActiveIcon: 'home-outline', component: HomeChild },
+    { route: 'Home', label: 'Home Page', type: Icons.Ionicons, activeIcon: 'home', inActiveIcon: 'home-outline', component: HomeChild },
     { route: 'Eventi', label: 'Eventi', type: Icons.Ionicons, activeIcon: 'calendar', inActiveIcon: 'calendar-outline', component: CalendarScreen },
     { route: 'Segnalazioni', label: 'Segnalazioni', type: Icons.Ionicons, activeIcon: 'megaphone', inActiveIcon: 'megaphone-outline', component: AlertList},
     { route: 'Near', label: 'Vicino a te', type: Icons.Ionicons, activeIcon: 'location', inActiveIcon: 'location-outline', component: POIviciniScreen },
 ];
 
+//Navigator per la barra di navigazione
 const Tab = createBottomTabNavigator();
 function NavigationalBar() {
     return (
@@ -92,6 +93,7 @@ function NavigationalBar() {
     )
 }
 
+//navigator per gli screens iniziali, che non necessitano della barra di navigazione.
 const InitialStack = createNativeStackNavigator()
 const App = () => {    
     return(
@@ -110,7 +112,7 @@ const HomeStack = createNativeStackNavigator();
 function HomeChild(){
     return (
         <HomeStack.Navigator screenOptions={{ headerShown: false}}>
-            <HomeStack.Screen name='Home' component={HomeScreen}/>
+            <HomeStack.Screen name='HomeScreen' component={HomeScreen}/>
             <HomeStack.Screen name='ClassicNavigation' component={ClassicNavigationScreen}/>
             <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen}/>
             <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>

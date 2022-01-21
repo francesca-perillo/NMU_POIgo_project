@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Alert, SafeAreaView, Pressable, Dimensions, Image} from "react-native";
-import Entypo from 'react-native-vector-icons/Entypo';
+import { StyleSheet, Text, View, Pressable, Dimensions, Image} from "react-native";
 import colors from '../config/colors';
 const windowWidth = Dimensions.get('window').width;
 //per navigare tra le schermate si importa useNavigator e
@@ -11,20 +10,15 @@ const CityRoaming = () => {
     const navigation = useNavigation();
     return (
        
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
 
-            <View style={styles.header}>
-                    <View style={styles.row_container}>
-                        <View style={styles.header_title}/>
-                        <View style={styles.header_icon}>
-                            <Entypo name='bell' size={35} color={colors.dark_blue_palette}  onPress={() => Alert.alert(`Lista delle notifiche`)}/>
-                        </View>
-                    </View>
+            <View style = {styles.header}>
+                <Text style ={styles.title}>City Roaming</Text>
+                <Text style ={styles.subtitle}>Fai la tua scelta!</Text>
             </View>
 
             <View style={styles.body}>
-                <Text style ={styles.title}>City Roaming</Text>
-                <Text style ={styles.sub_title}>Scegli il tipo di navigazione City Roaming che preferisci</Text>
+                <Text style ={styles.buttonDescription}>Fidati di noi, scegli un percoso a tema!</Text>
                 <Pressable onPress={() => navigation.navigate('Routes')}>
                     <Image style={styles.buttonImage}
                         source={require("../../assets/ButtonImg/tematic_route.jpg")}>
@@ -34,6 +28,7 @@ const CityRoaming = () => {
                     </View>
                 </Pressable>
 
+                <Text style ={styles.buttonDescription}>Segui i tuoi interessi!</Text>
                 <Pressable onPress={() => navigation.navigate('Category')}>
                     <Image style={styles.buttonImage}
                         source={require("../../assets/ButtonImg/area_interest.jpg")}>
@@ -45,7 +40,7 @@ const CityRoaming = () => {
                 
             </View>
     
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -57,11 +52,18 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     buttonImage: {
-      width: windowWidth-60,
-      height: 100,
-      marginBottom: 40,
-      borderRadius: 50,
-      
+        width: windowWidth-60,
+        height: 120,
+        marginBottom: 40,
+        borderRadius: 60,
+        //opacity: 0.5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
     },
     row_container: {
         flex: 1,
@@ -69,7 +71,9 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     header:{
-        flex: 1,
+        height: Dimensions.get('window').height/5,
+        backgroundColor: colors.dark_blue_palette,
+        borderBottomRightRadius:200
     },
     header_title:{
         flex: 6,
@@ -83,8 +87,8 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 6,
-        marginTop: "35%",
-        alignItems:"center"
+        alignItems: "center",
+        marginTop: Dimensions.get('window').height /16
     },
     nav_bar:{
         flex: 1,
@@ -93,15 +97,24 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 40,
-        color: colors.dark_blue_palette,
+        color: colors.white,
         fontWeight: "bold",
-        textAlign: 'center',
-        marginVertical: 8,
+        marginTop: Dimensions.get('window').height/16,
+        marginLeft: 20
     },
-    sub_title:{
+    subtitle:{
+        color: colors.grey,
+        fontSize: 40,
+        marginLeft: 20,
+        fontStyle: "italic",
+    },
+    buttonDescription:{
         color: colors.dark_blue_palette,
         textAlign: 'center',
-        marginVertical: 8,
+        fontSize: 20,
+        marginVertical:20,
+        marginLeft: 30, 
+        marginRight: 30,
     },
     buttonContainer: {
         alignItems:"center",
