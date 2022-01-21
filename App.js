@@ -65,18 +65,19 @@ function NavigationalBar() {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
-                height: 70,
+                height: 80,
                 position: 'absolute',
-                borderTopLeftRadius:20,
-                borderTopRightRadius:20, 
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 12,
-                },
-                shadowOpacity: 0.58,
-                shadowRadius: 16.00,
-                elevation: 24,
+                alignContent: "center",
+                // borderTopLeftRadius:20,
+                // borderTopRightRadius:20, 
+                // shadowColor: "#000",
+                // shadowOffset: {
+                //     width: 0,
+                //     height: 12,
+                // },
+                // shadowOpacity: 0.58,
+                // shadowRadius: 16.00,
+                // elevation: 24,
                 }
             }}
         >

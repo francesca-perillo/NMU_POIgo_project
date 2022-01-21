@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Dimensions } from "react-native";
 import colors from "../config/colors";
-import { Ionicons, Entypo } from '@expo/vector-icons';
+//barra di ricerca
+import { Searchbar } from 'react-native-paper';
 
 const Item = ({ poiName, distance }) => (
   <SafeAreaView style={styles.container}>
@@ -18,6 +19,10 @@ const Item = ({ poiName, distance }) => (
 
 const POIviciniScreen = () => {
 
+  // to search bar 
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeText = query => setSearchQuery(query);
+
   const renderItem = ({ item }) => (
     <Item
       poiName={item.name}
@@ -25,23 +30,25 @@ const POIviciniScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>POI vicini</Text>
         <Text style={styles.subtitle}>Cosa c'è intorno a te ?</Text>
       </View>
 
-      <View style={styles.searchbar}>
-        <Text style={styles.searchbar_text}>Cerca tra i POI vicini ...</Text>
-        <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
-      </View>
+      <Searchbar
+        style={styles.searchbar}
+        placeholder="Cerca ..."
+        onChangeText={onChangeText}
+        value={searchQuery}
+      />
 
       <FlatList
         data={data_items}
         renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
       />
-    </SafeAreaView>
+    </View>
 
   )
 }
@@ -74,14 +81,21 @@ const styles = StyleSheet.create({
     marginVertical: -15,
   },
   searchbar: {
-    backgroundColor: 'white',
     borderRadius: 10,
     height: 50,
     marginTop: 15,
     marginLeft: 15,
     marginRight: 15,
-    padding: 15,
+    marginBottom: 10,
     flexDirection: 'row',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.00,
+    elevation: 1,
   },
   searchbar_text: {
     fontSize: 15,

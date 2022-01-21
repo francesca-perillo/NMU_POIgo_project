@@ -9,7 +9,7 @@ import { Searchbar } from 'react-native-paper';
 const Stack = createNativeStackNavigator();
 
 const CategoryScreen = ({ navigation }) => {
-    // to search bar for departure 
+    // to search bar 
     const [searchQuery, setSearchQuery] = React.useState('');
     const onChangeText = query => setSearchQuery(query);
 
@@ -159,11 +159,11 @@ const CategoryScreen = ({ navigation }) => {
             </View>
 
             <Searchbar
-                    style={styles.searchbar}
-                    placeholder="Cerca ..."
-                    onChangeText={onChangeText}
-                    value={searchQuery}
-                />
+                style={styles.searchbar}
+                placeholder="Cerca ..."
+                onChangeText={onChangeText}
+                value={searchQuery}
+            />
 
             <View style={styles.listOfcategory}>
                 <FlatList
@@ -318,7 +318,8 @@ const styles = StyleSheet.create({
     containerButton: {
         width: "100%",
         alignSelf: "center",
-        marginTop: Dimensions.get('window').height / 5,
+        marginTop: Dimensions.get('window').height/1.5,
+        position:'absolute'
     },
     buttonGoMap: {
         alignItems: "center",

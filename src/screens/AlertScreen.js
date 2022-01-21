@@ -142,10 +142,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 1.1,
     flexDirection: "row",
     alignItems: "center",
-    padding: 10,
     borderTopColor: colors.dirty_white_palette,
     borderLeftColor: colors.dirty_white_palette,
     borderRightColor: colors.dirty_white_palette,
+    borderBottomColor: colors.grey,
     borderWidth: 1,
   },
   description_item: {
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 6,
     alignItems: "center",
-    marginTop: Dimensions.get('window').height /16
+    marginTop: Dimensions.get('window').height /40
   },
   floatinBtn: {
     position: "absolute",

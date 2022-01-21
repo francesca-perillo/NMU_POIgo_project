@@ -56,7 +56,7 @@ const ListPoiScreen = ({ route, navigation }) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
 
       <View style={styles.header}>
         <Text style={styles.title}>Lista POI</Text>
@@ -83,7 +83,7 @@ const ListPoiScreen = ({ route, navigation }) => {
               <Image
                 style={styles.image_item}
                 source={{
-                  uri: `http://192.168.1.11:3000${item.photo}`,
+                  uri: `http://192.168.1.10:3000${item.photo}`,
                 }}
               />
               <View style={styles.description_item}>
@@ -110,7 +110,7 @@ const ListPoiScreen = ({ route, navigation }) => {
       )
       }
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

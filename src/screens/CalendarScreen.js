@@ -212,6 +212,7 @@ subtitle:{
     borderRightColor: colors.dirty_white_palette,
     borderLeftColor: colors.dirty_white_palette,
     borderBottomColor: colors.dirty_white_palette,
+    borderTopColor: colors.grey,
   },
   logo: {
     width: 30,
