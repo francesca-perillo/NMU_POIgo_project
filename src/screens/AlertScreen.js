@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    height: Dimensions.get('window').height / 5,
+    height: Dimensions.get('window').height / 6,
     backgroundColor: colors.dark_blue_palette,
     borderBottomRightRadius: 200
   },

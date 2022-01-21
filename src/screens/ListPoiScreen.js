@@ -96,10 +96,18 @@ const ListPoiScreen = ({ route, navigation }) => {
           keyExtractor={item => `${item._id}`}
         />
         ) : (
-          <View> 
-            <Text>Non ci sono POI da mostrare!</Text>
+          selectedSegments.length > 0 ? (
+          <View style={styles.error}> 
+            <Image style={styles.imageError} source={require('../../assets/no_data.png')} />
+            <Text style={styles.textError}>Non ci sono POI da mostrare!</Text>
+          </View>
+        ) : (
+          <View style={styles.error}> 
+            <Image style={styles.imageError} source={require('../../assets/no_sections.png')} />
+            <Text style={styles.textError}>Seleziona una sezione per vedere i POI disponibili!</Text>
           </View>
         )
+      )
       }
       </View>
     </SafeAreaView>
@@ -190,6 +198,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: Dimensions.get('window').height / 70,
   },
+  error: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: Dimensions.get('window').height / 10,
+  },
+  imageError: {
+    marginLeft: Dimensions.get('window').width / 10,
+    marginRight: Dimensions.get('window').width / 10,
+    width: Dimensions.get('window').width / 1.5,
+    height: Dimensions.get('window').height / 5,
+  },
+  textError:{
+    fontSize: 20,
+    color: colors.dark_blue_palette,
+    fontWeight: "bold",
+    marginVertical: 15,
+    width: Dimensions.get('window').width / 1.5,
+    textAlign: 'center',
+  }
 });
 
 export default ListPoiScreen;
