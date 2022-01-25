@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Dimensions, ScrollView } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import ContactInfo from "../components/CotactInfo";
 import colors from '../config/colors';
-import Review from "../components/Review";
 import * as POIController from '../controller/POIController';
 
-const DetailScreen = ({ route }) => {
+const DetailScreen = ({ route, navigation }) => {
     const [show, setShow] = useState(false);
 
     const default_poi = {
@@ -15,12 +14,13 @@ const DetailScreen = ({ route }) => {
     }
 
     const [poiDetail, setPoiDetail] = useState(default_poi);
+    const [readAll, setReadAll] = useState(false);
 
     useEffect(() => {
         const loadPoiData = async () => {
             const poiFromApi = await POIController.getPOIById(route.params.params);
             const [latitude, longitude] = poiFromApi.location.coordinates;
-
+        
             const poi = {
                 id: poiFromApi._id,
                 name: poiFromApi.name,
@@ -47,8 +47,12 @@ const DetailScreen = ({ route }) => {
                     id: poiFromApi.location._id,
                     latitude,
                     longitude,
+                },
+                sections: {
+                    id: poiFromApi.sections,
                 }
             }
+            
             setPoiDetail(poi);
         };
         loadPoiData();
@@ -56,33 +60,31 @@ const DetailScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{ uri: `http://192.168.1.10:3000${poiDetail.photo}` }} />
+            <ImageBackground source={{ uri: `http://192.168.1.11:3000${poiDetail.photo}` }} resizeMode="cover" style={styles.imageBackground}>
+                <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
+                    <Ionicons style={styles.goBackIcon} name="ios-arrow-back" size={32} color="white" />
+                </TouchableOpacity>
+                
+                <View style={styles.info}>
+                    <Text style={styles.title}>{poiDetail.name}</Text>
 
-            <TouchableOpacity
-                style={styles.goMap}
-            >
-                <Feather name="map-pin" size={30} color="white" />
-            </TouchableOpacity>
-
-            <View style={styles.contentContainer}>
-                <Text style={styles.title}>{poiDetail.name}</Text>
-                <Text style={styles.description}>{`${poiDetail.description.substring(0, 250)}...`}</Text>
-            </View>
-
-            <View style={styles.info}>
-                <Text style={styles.infoTitle}>Informazioni di contatto</Text>
-                <View style={styles.infoContainer}>
                     {poiDetail.contactInfo.map(info => (
                         <ContactInfo key={info.id} contactInfo={info} />
                     ))}
-                </View>
-            </View>
 
-            <View style={styles.reviewsContainer}>
-                {show && reviews.map(review => (
-                    <Review key={review.id} review={review} />
-                ))}
-            </View>
+                    <ScrollView style={styles.description}>
+                        <Text style={styles.descriptionText}>{
+                            readAll ? poiDetail.description : poiDetail.description.substring(0, 300) + "..."
+                        }</Text>
+                        <TouchableOpacity onPress={() => setReadAll(!readAll)}>
+                            <Text style={styles.read}>{readAll ? "Chiudi" : "Leggi tutto"}</Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                    <TouchableOpacity style={styles.goMap} onPress={() => console.log("press")}>
+                        <Text style={styles.goMapText}>Vai alla mappa</Text>
+                    </TouchableOpacity>
+                </View>
+            </ImageBackground>
         </View>
     )
 }
@@ -90,52 +92,70 @@ const DetailScreen = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
     },
-    image: {
-        height: '30%',
-        width: '100%',
-        resizeMode: 'cover',
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
+    imageBackground: {
+        flex: 1,
+        justifyContent: "center"
     },
-    goMap: {
-        position: "absolute",
-        top: '25%',
-        right: 30,
+    goBack: {
+        backgroundColor: colors.white,
+        opacity: 0.8,
+        width: 50,
+        height: 50,
         borderRadius: 50,
-        width: 70,
-        height: 70,
-        padding: 20,
-        backgroundColor: "#0284C9",
+        justifyContent: "center",
+        position: "absolute",
+        top: 40,
+        left: 20,
+        zIndex: 1,
     },
-    contentContainer: {
+    goBackIcon: {
+       color: colors.dark_blue_palette,
+       alignSelf: "center",
+    },
+    info: {
+        marginTop: Dimensions.get('window').width / 1.5,
+        maxHeight: 500,
+        backgroundColor: colors.grey_palette,
         margin: 20,
+        borderRadius: 15,
+        padding: 15,
+        opacity: 0.9,
     },
     title: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: "bold",
-        color: '#0A3556'
+        color: colors.dark_blue_palette,
+        borderBottomColor: colors.dark_blue_palette,
+        borderBottomWidth: 1,
+        marginBottom: 10,
     },
     description: {
         fontSize: 20,
-        textAlign: 'justify',
+        marginTop: 20,
         lineHeight: 20 * 1.2,
     },
-    infoContainer: {
-        backgroundColor: "#F5F5F5",
-        borderRadius: 10,
-        marginTop: 10,
-        padding: 10,
+    descriptionText: {
+        fontSize: 15,
+        textAlign: 'justify',
     },
-    info: {
-        margin: 20,
-        borderRadius: 10,
-    },
-    infoTitle: {
-        fontSize: 30,
-        color: '#0A3556',
+    read: {
+        color: colors.dark_blue_palette,
         fontWeight: "bold",
+        textAlign: 'justify',
+        textDecorationLine: 'underline',
+    },
+    goMap: {
+        marginTop: 20,
+        backgroundColor: colors.dark_blue_palette,
+        borderRadius: 15,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    goMapText: {
+        color: colors.white,
+        fontSize: 20,
     },
 });
 

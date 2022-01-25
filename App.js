@@ -10,7 +10,6 @@ import POIviciniScreen from "./src/screens/POIviciniScreen";
 //Screen to show as chindren of HomeScreen in tab bar
 import CityRoamingScreen from './src/screens/CityRoamingScreen';
 import MapScreen from "./src/screens/MapScreen";
-import DetailScreen from "./src/screens/DetailScreen";
 import CategoryScreen from "./src/screens/CategoryScreen";
 import ClassicNavigationScreen from "./src/screens/ClassicNavigationScreen";
 import ListPoiScreen from "./src/screens/ListPoiScreen";
@@ -19,6 +18,7 @@ import CategoryRoutesScreen from "./src/screens/CategoryRoutesScreen";
 import SplashScreen from "./src/screens/SplashScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
+import DetailScreen from "./src/screens/DetailScreen";
 //Navbar with style and animation
 import * as Animatable from 'react-native-animatable';
 import colors from './src/config/colors';
@@ -104,6 +104,7 @@ const App = () => {
                 <InitialStack.Screen name='Login' component={LoginScreen}/>
                 <InitialStack.Screen name='Register' component={RegisterScreen}/>
                 <InitialStack.Screen name='Home' component={NavigationalBar}/>
+                <HomeStack.Screen name='DetailPOI' component={DetailScreen}/>
             </InitialStack.Navigator>
         </NavigationContainer> 
     )    
@@ -119,10 +120,8 @@ function HomeChild(){
             <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>
             <HomeStack.Screen name='Category' component={CategoryScreen}/>
             <HomeStack.Screen name='ListPoi' component={ListPoiScreen}/>
-            <HomeStack.Screen name='Map' component={MapScreen}/>
-            <HomeStack.Screen name='DetailPOI' component={DetailScreen}/>
-        </HomeStack.Navigator>
-        
+            <HomeStack.Screen name='Map' component={MapScreen}/>      
+        </HomeStack.Navigator>      
     )
 }
 
