@@ -17,17 +17,13 @@ const RegisterScreen = ({navigation}) => {
         <View style={styles.container}>
             <ImageBackground
                 source={require('../../assets/wallpaper1.jpg')}
-                style={{height: Dimensions.get('window').height/2.5,
+                style={{height: Dimensions.get('window').height/2.5, opacity: .9
                 }}>
                     <SafeAreaView style={styles.divLogo}>
                         <ImageBackground
                             source={require('../../assets/logo.png')}
                             style={styles.logo}>
-                            
                         </ImageBackground>
-                        <Text style={styles.textLogo}>
-                            poiGo
-                        </Text>
                     </SafeAreaView>
             </ImageBackground>
             
@@ -135,8 +131,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     logo: {
-        height:60,
-        width:60,
+        height:100,
+        width:100,
         textShadowOffset:{width:1,height:10},
         shadowOpacity: 0.4,
         shadowRadius:5,
@@ -157,9 +153,6 @@ const styles = StyleSheet.create({
         bottom: Dimensions.get('window').height/5,
         borderTopStartRadius:60, 
         borderTopEndRadius:50,
-        textShadowOffset:{width:1,height:10},
-        shadowOpacity: .3,
-        shadowRadius:1,
     },
     containerRegister:{
         margin: 30, 

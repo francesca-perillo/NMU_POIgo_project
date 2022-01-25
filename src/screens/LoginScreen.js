@@ -19,10 +19,14 @@ const LoginScreen = () => {
         <View style={styles.container}>
             <ImageBackground
                 source={require('../../assets//wallpaper1.jpg')}
-                style={{height: Dimensions.get('window').height/2.5,
+                style={{height: Dimensions.get('window').height/2.5, opacity: .9
                 }}>
                     <SafeAreaView style={styles.divLogo}>
                        {/*il logo viene generato da Splash Screen, lo spazio per il logo viene dato qui!*/}
+                        {/* <ImageBackground
+                            source={require('../../assets/logo.png')}
+                            style={styles.logo}>
+                        </ImageBackground> */}
                     </SafeAreaView>
             </ImageBackground>
 
@@ -113,13 +117,14 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     logo: {
-        marginTop:30,
-        height:80,
-        width:80,
-        textShadowOffset:{width:1,height:10},
-        shadowOpacity: 0.4,
-        shadowRadius:5,
-        elevation:20,
+        marginTop:25,
+        height:120,
+        width:120,
+        shadowColor: colors.black,
+        shadowOffset: { width: 0, height: -10 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 10,
     },
     bottomView: {
         flex: 1,
@@ -127,7 +132,7 @@ const styles = StyleSheet.create({
         bottom: Dimensions.get('window').height/8,
         borderTopStartRadius:60, 
         borderTopEndRadius:50,
-        shadowColor: colors.white,
+        shadowColor: colors.black,
         shadowOffset: { width: 0, height: -10 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,

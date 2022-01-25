@@ -18,7 +18,7 @@ const CityRoaming = () => {
             </View>
 
             <View style={styles.body}>
-                <Text style ={styles.buttonDescription}>Fidati di noi, scegli un percoso a tema!</Text>
+                <Text style ={styles.buttonDescription}>Fidati di noi, scegli un percorso a tema!</Text>
                 <Pressable onPress={() => navigation.navigate('Routes')}>
                     <Image style={styles.buttonImage}
                         source={require("../../assets/ButtonImg/tematic_route.jpg")}>
