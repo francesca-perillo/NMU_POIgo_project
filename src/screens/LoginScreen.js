@@ -1,6 +1,6 @@
 // Import React and Component
-import React from "react";
-import {Alert, Dimensions, Text, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, StyleSheet, View, TextInput, ImageBackground, Pressable} from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Alert, Dimensions, Text, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, StyleSheet, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import { SafeAreaView } from "react-navigation";
 import colors from "../config/colors";
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -18,35 +18,31 @@ const LoginScreen = () => {
         //container
         <View style={styles.container}>
             <ImageBackground
-                source={require('../../assets//wallpaper1.jpg')}
-                style={{height: Dimensions.get('window').height/2.5, opacity: .9
+                source={require('../../assets/wallpaper1.jpg')}
+                style={{
+                    height: Dimensions.get('window').height / 2.5
                 }}>
-                    <SafeAreaView style={styles.divLogo}>
-                       {/*il logo viene generato da Splash Screen, lo spazio per il logo viene dato qui!*/}
-                        {/* <ImageBackground
-                            source={require('../../assets/logo.png')}
-                            style={styles.logo}>
-                        </ImageBackground> */}
-                    </SafeAreaView>
+                <SafeAreaView style={styles.divLogo}>
+                    {/*il logo viene generato da Splash Screen, lo spazio per il logo viene dato qui!*/} 
+                </SafeAreaView>
             </ImageBackground>
-
 
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.bottomView}>
 
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                
+
                     <View style={styles.containerLogin}>
 
                         <Text style={styles.welcomeText}>Benvenuto!</Text>
-                      
+
                         <View style={styles.formInput}>
 
                             <Text style={styles.labelText}>E-mail:</Text>
                             <View style={styles.row}>
-                                <Entypo style={styles.icon} name="user" size={20} color={colors.grey}/>
-                                <TextInput 
+                                <Entypo style={styles.icon} name="user" size={20} color={colors.grey} />
+                                <TextInput
                                     style={styles.inputText}
                                     placeholder="mariorossi@gmail.com"
                                     onChangeText={onChangeEmail}
@@ -58,15 +54,15 @@ const LoginScreen = () => {
 
                             <Text style={styles.labelText}>Password:</Text>
                             <View style={styles.row}>
-                            <Entypo style={styles.icon} name="key" size={20} color={colors.grey}/>
-                                <TextInput 
+                                <Entypo style={styles.icon} name="key" size={20} color={colors.grey} />
+                                <TextInput
                                     style={styles.inputText}
                                     onChangeText={onChangePassword}
                                     value={password}
                                     placeholder="********"
                                     autoComplete="password-new">
-                                </TextInput>  
-                            </View>  
+                                </TextInput>
+                            </View>
 
                         </View>
 
@@ -74,52 +70,45 @@ const LoginScreen = () => {
                             style={styles.button}
                             onPress={() => {
                                 if (email == "") {
-                                Alert.alert('Attenzione','Inserisci l\'email prima di continuare');
-                                } else if (password==""){
-                                    Alert.alert('Attenzione','Inserisci la password prima di continuare');
-                                } else if (isValid(email, "email")){
+                                    Alert.alert('Attenzione', 'Inserisci l\'email prima di continuare');
+                                } else if (password == "") {
+                                    Alert.alert('Attenzione', 'Inserisci la password prima di continuare');
+                                } else if (isValid(email, "email")) {
                                     navigation.navigate('Home');
                                 } else {
-                                    Alert.alert('Email non valida','Assicurati di aver scritto correttamente la tua email!');
+                                    Alert.alert('Email non valida', 'Assicurati di aver scritto correttamente la tua email!');
                                 }
                             }
-                        }>
+                            }>
                             <Text style={styles.buttonText}>Login</Text>
                         </Pressable>
 
-                       
-                        <Pressable onPress={()=> navigation.navigate('Register')} >
+                        <Pressable onPress={() => navigation.navigate('Register')} >
                             <Text style={styles.createAccountText}>Non hai ancora un account?
                                 <Text style={styles.regText}> Registrati ora! </Text>
-                            </Text> 
+                            </Text>
                         </Pressable>
-                        
-
                     </View>
-
                 </TouchableWithoutFeedback>
-
-            </KeyboardAvoidingView> 
-
-                
+            </KeyboardAvoidingView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
-        backgroundColor:'#ffffff'
+        flex: 1,
+        backgroundColor: '#ffffff'
     },
     divLogo: {
-        marginTop: Dimensions.get('window').height/40,
+        marginTop: Dimensions.get('window').height / 15,
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
     },
     logo: {
-        marginTop:25,
-        height:120,
-        width:120,
+        marginTop: 25,
+        height: 120,
+        width: 120,
         shadowColor: colors.black,
         shadowOffset: { width: 0, height: -10 },
         shadowOpacity: 0.25,
@@ -129,72 +118,67 @@ const styles = StyleSheet.create({
     bottomView: {
         flex: 1,
         backgroundColor: colors.white,
-        bottom: Dimensions.get('window').height/8,
-        borderTopStartRadius:60, 
-        borderTopEndRadius:50,
-        shadowColor: colors.black,
-        shadowOffset: { width: 0, height: -10 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 10,
+        bottom: Dimensions.get('window').height / 8,
+        borderTopStartRadius: 60,
+        borderTopEndRadius: 50,
     },
-    containerLogin:{
+    containerLogin: {
         margin: 30,
-        flex:1,     
+        flex: 1,
         justifyContent: "space-around"
     },
-    welcomeText:{
-        color:colors.dark_blue_palette,
-        fontSize:34,
-        fontWeight:'bold',
+    welcomeText: {
+        color: colors.dark_blue_palette,
+        fontSize: 34,
+        fontWeight: 'bold',
     },
     regText: {
         color: colors.pale_blue_palette,
-        fontStyle:"italic",
-        fontWeight:"bold",
+        fontStyle: "italic",
+        fontWeight: "bold",
     },
     row: {
-        flexDirection:"row",
+        flexDirection: "row",
     },
-    icon:{
-        flex:1,
-        marginTop:15,
+    icon: {
+        flex: 1,
+        marginTop: 15,
     },
     formInput: {
-        marginTop:20,
+        marginTop: 20,
     },
-    labelText:{
-        marginTop:10,
-        marginLeft:10,
-        color:colors.dark_blue_palette,
+    labelText: {
+        marginTop: 10,
+        marginLeft: 10,
+        color: colors.dark_blue_palette,
     },
     inputText: {
-        flex:10,
+        flex: 10,
         height: 40,
         padding: 10,
         borderBottomWidth: 1,
-        borderBottomColor:colors.dark_blue_palette,
+        borderBottomColor: colors.dark_blue_palette,
     },
-    button:{
-        marginTop:40,
-        backgroundColor:colors.dark_blue_palette,
-        height:50,
-        width: Dimensions.get('window').width/2,
-        marginLeft: Dimensions.get('window').width/5,
-        justifyContent:'center',
-        borderRadius:50,
-        alignItems:'center',
-        textShadowOffset:{width:1,height:10},
+    button: {
+        marginTop: 40,
+        backgroundColor: colors.dark_blue_palette,
+        height: 50,
+        width: Dimensions.get('window').width / 2,
+        marginLeft: Dimensions.get('window').width / 5,
+        justifyContent: 'center',
+        borderRadius: 50,
+        alignItems: 'center',
+        textShadowOffset: { width: 1, height: 10 },
         shadowOpacity: 0.4,
-        shadowRadius:5,
-        elevation:20,
+        shadowRadius: 5,
+        elevation: 20,
     },
-    buttonText:{
-        color:colors.white,
-        fontSize:18,
+    buttonText: {
+        color: colors.white,
+        fontSize: 18,
     },
     createAccountText: {
-        marginTop:30,
+        marginTop: 30,
     }
 });
 

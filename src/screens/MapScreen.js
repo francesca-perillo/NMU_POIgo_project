@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, SafeAreaView, StyleSheet, Image, Button, Alert, View, FlatList, TouchableOpacity } from 'react-native';
+import { Text, SafeAreaView, StyleSheet, Image, Alert, View, FlatList, TouchableOpacity, StatusBar} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as POIController from '../controller/POIController';
 import colors from '../config/colors';
@@ -64,8 +64,10 @@ const MapScreen = ({ route, navigation }) => {
     );
 
     return (
+        <SafeAreaView style={styles.AndroidSafeArea}>
         <SafeAreaView style={styles.listOfSegments}>
             <View>
+                <Text style={styles.listOfSegmentsTitle}>Seleziona una sezione per visualizzare i POI:</Text>
                 <FlatList
                     horizontal={true}
                     data={sections}
@@ -90,18 +92,27 @@ const MapScreen = ({ route, navigation }) => {
 
             </MapView>
         </SafeAreaView>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    AndroidSafeArea: {
         flex: 1,
+        backgroundColor: colors.dark_blue_palette ,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
     },
     listOfSegments: {
         width: '100%',
         height: '100%',
-        marginTop: 30,
-        backgroundColor: '#EFECE7',
+        marginTop: 10,
+        backgroundColor: colors.dark_blue_palette,
+    },
+    listOfSegmentsTitle: {
+        fontSize: 20,
+        color: colors.grey_palette,
+        fontWeight: 'bold',
+        marginLeft: 10,
     },
     buttonContainer: {
         padding: 10,
@@ -109,6 +120,7 @@ const styles = StyleSheet.create({
         width: 150,
         height: 40,
         margin: 5,
+        marginBottom: 10,
         backgroundColor: 'white',
     },
     buttonContainerPress: {

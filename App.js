@@ -65,7 +65,9 @@ function NavigationalBar() {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
-                height: 80,
+                height: 70,
+                paddingTop: 10,
+                paddingBottom: 10,
                 position: 'absolute',
                 alignContent: "center",
                 // borderTopLeftRadius:20,

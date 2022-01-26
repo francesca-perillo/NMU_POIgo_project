@@ -50,7 +50,6 @@ const CategoryScreen = ({ navigation }) => {
         navigation.navigate('ListPoi', { sections: sections })
     };
 
-
     useEffect(() => {
         const loadCategories = async () => {
             const categoriesFromApi = await CategoriesController.getAllCategories();
@@ -64,7 +63,7 @@ const CategoryScreen = ({ navigation }) => {
                         return {
                             id: subcategory._id,
                             title: subcategory.name,
-                            image: `http://192.168.1.10:3000${subcategory.photo}`,
+                            image: `http://192.168.1.11:3000${subcategory.photo}`,
                             sections: subcategory.sections.map(section => {
                                 return {
                                     id: section._id,
@@ -183,15 +182,29 @@ const CategoryScreen = ({ navigation }) => {
                 />
             </View>
 
-            <View style={styles.containerButton}>
-                <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
-                    <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
-                </Pressable>
+            {selectedSubcategories.length > 0 ? (
+                <View style={styles.containerButton}>
+                    <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
+                        <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
+                    </Pressable>
 
-                <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
-                    <Text style={styles.buttonGoListText} >Vai alla lista</Text>
-                </Pressable>
-            </View>
+                    <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
+                        <Text style={styles.buttonGoListText} >Vai alla lista</Text>
+                    </Pressable>
+                </View>
+            ) : (
+                <View style={styles.containerButton}>
+                    <Pressable style={styles.buttonGoMapDisabled}>
+                        <Text style={styles.buttonGoMapTextDisabled} >Vai alla mappa</Text>
+                    </Pressable>
+
+                    <Pressable style={styles.buttonGoListDisabled}>
+                        <Text style={styles.buttonGoListTextDisabled} >Vai alla lista</Text>
+                    </Pressable>
+                </View>
+            )
+            }
+
         </View>
     );
 };
@@ -214,7 +227,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginLeft: 20,
         fontStyle: "italic",
-      },
+    },
     searchbar: {
         top: 10,
         borderRadius: 10,
@@ -318,8 +331,8 @@ const styles = StyleSheet.create({
     containerButton: {
         width: "100%",
         alignSelf: "center",
-        marginTop: Dimensions.get('window').height/1.5,
-        position:'absolute'
+        marginTop: Dimensions.get('window').height / 1.5,
+        position: 'absolute'
     },
     buttonGoMap: {
         alignItems: "center",
@@ -329,8 +342,22 @@ const styles = StyleSheet.create({
         marginHorizontal: 50,
         paddingVertical: 20,
     },
+    buttonGoMapDisabled:{
+        alignItems: "center",
+        borderColor: colors.grey,
+        borderWidth: 1,
+        borderRadius: 50,
+        marginTop: 100,
+        marginHorizontal: 50,
+        paddingVertical: 20,
+    },
     buttonGoMapText: {
-        color: 'white',
+        color: colors.white,
+        textAlign: 'center',
+        fontSize: 15,
+    },
+    buttonGoMapTextDisabled: {
+        color: colors.grey,
         textAlign: 'center',
         fontSize: 15,
     },
@@ -338,8 +365,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         margin: 5,
     },
+    buttonGoListDisabled: {
+        alignItems: "center",
+        margin: 5,
+    },
     buttonGoListText: {
         color: colors.dark_blue_palette,
+        fontSize: 15,
+        textDecorationLine: 'underline',
+    },
+    buttonGoListTextDisabled: {
+        color: colors.grey,
         fontSize: 15,
         textDecorationLine: 'underline',
     },
