@@ -63,7 +63,7 @@ const CategoryScreen = ({ navigation }) => {
                         return {
                             id: subcategory._id,
                             title: subcategory.name,
-                            image: `http://192.168.1.11:3000${subcategory.photo}`,
+                            image: subcategory.photo,
                             sections: subcategory.sections.map(section => {
                                 return {
                                     id: section._id,
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     containerButton: {
         width: "100%",
         alignSelf: "center",
-        marginTop: Dimensions.get('window').height / 1.5,
+        marginTop: Dimensions.get('window').height / 1.4,
         position: 'absolute'
     },
     buttonGoMap: {

@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions } from "react-native";
+
+import { StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions, TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
+import Camera from '../components/Camera';
+import CameraPreview from "../components/CameraPreview";
+import * as CloudinaryController from '../controller/CloudinaryController';
+
+const INPUT_BORDER_WIDTH = 1;
 
 const AlertList = () => {
   const [alerts, setAlerts] = useState([]);
@@ -18,8 +24,8 @@ const AlertList = () => {
         return {
           id: alert._id,
           title: alert.title,
-          message: alert.description,
-          img: `http://192.168.1.10:3000${alert.photo}`,
+          description: alert.description,
+          img: alert.photo,
           address: alert.address,
           createBy: alert.createdBy,
         }
@@ -35,6 +41,36 @@ const AlertList = () => {
   const [bodyVisible, setBodyVisible] = useState(true);
   const [buttonVisible, setButtonVisible] = useState(true);
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+  const [cap, setCap] = useState();
+  const [photo, setPhoto] = useState("");
+  const [address, setAddress] = useState({});
+  const addressObject = { city, street, cap };
+  const [startCamera, setStartCamera] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [capturedImage, setCapturedImage] = useState(null);
+
+  const onCapturePhoto = async (photo) => {
+    if(!photo) 
+      return;
+    setPreviewVisible(true);
+    setCapturedImage(photo);
+  }
+
+  const insertAlert = async (image) => {
+    const newAlert = await AlertsController.insertAlert(title, description, image, addressObject);
+    console.log(alert)
+    setAlerts(alerts => [newAlert, ...alerts]);
+  };
+
+  const insertPhotoOnCloudinary = async () => {
+    const photoByCloudinary = await CloudinaryController.sendsPhotoToCloudinary(capturedImage);
+    insertAlert(photoByCloudinary.msg);
+  }
+
   return (
     <View style={styles.container}>
 
@@ -43,73 +79,97 @@ const AlertList = () => {
         <Text style={styles.subtitle}>Cosa succede in città ?</Text>
       </View>
 
-      <View style={styles.body}>{
-        bodyVisible ? (
-          <FlatList
-            data={alerts}
-            renderItem={({ item, id }) => {
+      <View style={styles.body}>
+        <FlatList
+          data={alerts}
+          renderItem={({ item, id }) => {
 
-              return <View style={styles.item}>
-                <Image
-                  style={styles.image_item}
-                  source={{
-                    uri: item.img,
-                  }}
-                />
-                <View style={styles.description_item}>
-                  <Text style={styles.title_item} numberOfLines={1}>{item.title}</Text>
-                  <Text style={styles.message_item} numberOfLines={3}>{item.message}</Text>
-                  <Text style={styles.address_item} numberOfLines={1}>
-                    <Text style={styles.address_item_enf}> Indirizzo: </Text>
-                    {item.address.city}  {item.address.street} 
-                  </Text>
+            return <View style={styles.item}>
+              <Image
+                style={styles.image_item}
+                source={{
+                  uri: item.img,
+                }}
+              />
+              <View style={styles.description_item}>
+                <Text style={styles.title_item} numberOfLines={1}>{item.title}</Text>
+                <Text style={styles.message_item} numberOfLines={3}>{item.description}</Text>
+                <Text style={styles.address_item} numberOfLines={1}>
+                  <Text style={styles.address_item_enf}> Indirizzo: </Text>
+                  {item.address.city}  {item.address.street}
+                </Text>
+              </View>
+            </View>
+          }}
+          keyExtractor={item => `${item.id}`}
+        />
+      </View>
+
+      {
+        !bodyVisible &&
+        <Modal animationType="slide" statusBarTranslucent={true} onRequestClose={() => { setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible) }}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Segnalazioni</Text>
+            <Text style={styles.subtitle}>Segnala qualcosa</Text>
+          </View>
+          <KeyboardAvoidingView style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View style={styles.containerInsert}>
+
+                <Text style={styles.titleInsert}>Cosa vuoi segnalare? </Text>
+
+                <TextInput style={styles.input} onChangeText={setTitle} placeholder="Titolo" placeholderTextColor={colors.grey} />
+
+                <TextInput style={styles.input} onChangeText={setDescription} placeholder="Descrizione" placeholderTextColor={colors.grey} />
+
+                <Text style={styles.titleInsert}>Dove avviene ciò? </Text>
+               
+                <TextInput style={styles.input} onChangeText={setStreet} placeholder="Via" placeholderTextColor={colors.grey} />
+
+                <View style={styles.twoColumns}>
+                  <TextInput style={[styles.input, styles.halfSizeInput]} onChangeText={setCity} placeholder="Città" placeholderTextColor={colors.grey} />
+                  <TextInput style={[styles.input, styles.halfSizeInput]} keyboardType="number-pad" onChangeText={setCap} placeholder="CAP" placeholderTextColor={colors.grey} />
+                </View>
+
+                {previewVisible && capturedImage ? (
+                  <View style={styles.containerPreview}>
+                  <Pressable style={[styles.insertPhoto, styles.insertPhotoComplete]}>
+                    <Text style={styles.insertPhotoCompleteText}>Foto inserita!</Text>
+                  </Pressable>
+                    { 
+                      // <CameraPreview photo={//capturedImage} /> 
+                    }
+                  </View>
+                ) : (startCamera ? (
+                  <Camera onCapturePhoto={onCapturePhoto}/>
+                ) : (
+                  <Pressable onPress={() => setStartCamera(true)} style={styles.insertPhoto}>
+                    <Text style={styles.insertPhotoText}>Scatta una foto</Text>
+                  </Pressable>
+                )
+                )}
+
+                <View style={styles.containerButtonSendAlert}>
+                  <Pressable style={styles.buttonConfirmNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible), setAddress(addressObject), insertPhotoOnCloudinary()]}>
+                    <Text style={styles.buttonConfirmNewAlertText}>Invia segnalazione</Text>
+                  </Pressable>
+                  <Text style={styles.buttonDiscardNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>Chiudi</Text>
                 </View>
               </View>
-            }}
-            keyExtractor={item => `${item.id}`}
-          />
-        ) : (
-          <Modal animationType="slide" transparent={true} onRequestClose={() => { setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible) }}>
-            <View style={styles.modalView}>
-              <Text style={styles.title_item}>Inserisci i dati per la nuova segnalazione:</Text>
-
-              <TextInput style={styles.input} placeholder="Titolo" placeholderTextColor={colors.grey} />
-
-              <TextInput style={styles.input} placeholder="Descrizione" placeholderTextColor={colors.grey} />
-
-              <TextInput style={styles.input} placeholder="Città" placeholderTextColor={colors.grey} />
-
-              <TextInput style={styles.input} placeholder="Via" placeholderTextColor={colors.grey} />
-
-              <TextInput style={styles.input} placeholder="CAP" placeholderTextColor={colors.grey} />
-
-              <View style={styles.containerInsertPhoto}>
-                  <Pressable style={styles.insertPhoto}>
-                    <Text style={styles.insertPhotoText}>Scegli o scatta una foto</Text>
-                  </Pressable>
-              </View>
-
-              <View style={styles.button_send_alert}>
-                <Pressable style={styles.button_confirm} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
-                  <Text style={styles.textStyle}>Invia segnalazione</Text>
-                </Pressable>
-                  <Text style={styles.button_discard} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>Chiudi</Text>
-              </View>
-
-            </View>
-          </Modal>
-        )
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+        </Modal>
       }
-      </View>
 
       {buttonVisible ? (
-      <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
-          <Text style={styles.buttonText}>Avvia nuova segnalazione</Text>
-        </Pressable>
-      </View>
+        <View style={styles.containerButtonNewAlert}>
+          <Pressable style={styles.buttonNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
+            <Text style={styles.buttonTextNewAlert}>Avvia nuova segnalazione</Text>
+          </Pressable>
+        </View>
       ) : null}
-
     </View>
   );
 };
@@ -140,6 +200,8 @@ const styles = StyleSheet.create({
   },
   item: {
     width: Dimensions.get('window').width / 1.1,
+    marginBottom: 5,
+    paddingBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     borderTopColor: colors.dirty_white_palette,
@@ -184,140 +246,123 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   body: {
-    flex: 6,
-    alignItems: "center",
-    marginTop: Dimensions.get('window').height /40
-  },
-  floatinBtn: {
-    position: "absolute",
-    backgroundColor: colors.dark_blue_palette,
-    borderRadius: 100,
-    bottom: 120,
-    right: "8%",
-  },
-  nav_bar: {
     flex: 1,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-
+    marginTop: Dimensions.get('window').height / 40
   },
-  input: {
-    width: Dimensions.get('window').width / 1.3,
-    height: 50,
-    fontSize: 20,
-    borderBottomWidth: 1,
-    borderColor: colors.dark_blue_palette,
-    marginBottom: "5%",
-    padding: "3%",
-    alignSelf: 'stretch',
-  },
-  modalView: {
-    flex: 6,
-    marginTop: Dimensions.get('window').height / 6,
-    margin: 20,
-    padding: "5%",
-  },
-  buttonContainer: {
+  containerButtonNewAlert: {
     height: Dimensions.get('window').height / 5,
     width: "90%",
     alignSelf: "center",
   },
-  button: {
+  buttonNewAlert: {
     marginHorizontal: 50,
     paddingVertical: 20,
     borderWidth: 1,
     borderColor: colors.dark_blue_palette,
     backgroundColor: colors.dark_blue_palette,
-    justifyContent: "center",
-    alignItems: "center",
     padding: "3%",
     borderRadius: 50,
     alignSelf: 'stretch',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
   },
-  buttonText: {
+  buttonTextNewAlert: {
     color: colors.white,
+    fontSize: 15,
+    textAlign: "center",
   },
-  containerInsertPhoto: {
+
+  //Stile nuova segnalazione
+  keyboardAvoidingView: {
+    flex: 1,
+    bottom: Dimensions.get('window').height / 10,
+  },
+  containerInsert: {
+    margin: 20,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  titleInsert: {
+    fontSize: 20,
+    color: colors.dark_blue_palette,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  twoColumns: {
     flexDirection: "row",
-    marginTop: "5%",
+    justifyContent: "space-between",
   },
+  input: {
+    alignSelf: "center",
+    height: 40,
+    borderColor: colors.grey,
+    borderWidth: INPUT_BORDER_WIDTH,
+    marginBottom: 10,
+    padding: 5,
+    borderRadius: 5,
+    width: Dimensions.get('window').width / 1.1,
+  },
+  halfSizeInput: {
+    width: Dimensions.get('window').width / 2.3,
+    marginHorizontal: -(INPUT_BORDER_WIDTH * 2),
+  },
+
+  //Stile fotocamera chiusa
   insertPhoto: {
-    width: Dimensions.get('window').width / 1.3,
-    height: 50,
-    borderWidth: 1,
+    alignSelf: "center",
+    width: Dimensions.get('window').width / 1.1,
+    height: 40,
     borderColor: colors.dark_blue_palette,
+    borderWidth: 1,
+    borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    padding: "3%",
-    borderRadius: 50,
-    alignSelf: 'stretch',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
   },
-  insertPhotoText:{
+
+  insertPhotoComplete:{
+    backgroundColor: colors.dark_blue_palette,
+  },
+
+  insertPhotoCompleteText: {
+    color: colors.white,
+    fontSize: 15
+  },
+
+  insertPhotoText: {
     color: colors.dark_blue_palette,
     fontSize: 15,
   },
-  text_take_photo: {
-    color: colors.dark_blue_palette,
-    marginTop: 8,
-    marginLeft: 5,
+
+  //Stile foto scattata
+  containerPreview: {
   },
-  button_discard: {
-    fontWeight: "bold",
-    alignSelf: "center",
-    color: colors.dark_blue_palette,
-    marginTop: 10,
-    
+  containerButtonSendAlert: {
+
   },
-  button_send_alert:{
-    position: "absolute",
-    bottom: "15%",
-    width: "100%",
-    alignSelf: "center",
-  },
-  button_confirm: {
+
+  buttonConfirmNewAlert: {
     marginHorizontal: 50,
+    marginTop: 20,
     paddingVertical: 15,
     borderWidth: 1,
-    backgroundColor: colors.green_confirm_operation,
     borderColor: colors.green_confirm_operation,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: colors.green_confirm_operation,
     padding: "3%",
     borderRadius: 50,
-    alignSelf: 'stretch',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
   },
-  textStyle: {
-    color: "white",
+  buttonConfirmNewAlertText: {
+    color: colors.white,
+    fontSize: 15,
+    textAlign: "center",
+  },
+  buttonDiscardNewAlert: {
+    color: colors.dark_blue_palette,
+    fontSize: 20,
+    textDecorationLine: "underline",
+    textAlign: "center",
     fontWeight: "bold",
-    textAlign: "center"
+    marginTop: 20,
+    padding: 10,
   },
-  modalText: {
-    fontSize: 18,
-  }
 });
 
 export default AlertList;

@@ -60,7 +60,7 @@ const DetailScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={{ uri: `http://192.168.1.11:3000${poiDetail.photo}` }} resizeMode="cover" style={styles.imageBackground}>
+            <ImageBackground source={{ uri: poiDetail.photo }} resizeMode="cover" style={styles.imageBackground}>
                 <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
                     <Ionicons style={styles.goBackIcon} name="ios-arrow-back" size={32} color="white" />
                 </TouchableOpacity>

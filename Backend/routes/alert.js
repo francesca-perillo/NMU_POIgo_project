@@ -41,18 +41,20 @@ router.get('/:id', async (req, res) => {
 // Create a new alert
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const { title, description, photo, address, approval, createdBy } = req.body;
+    const { title, description, photo, address, approval, createdBy} = req.body;
 
     if (!title)
-        return res.status(400).send("The 'title' field is required");
+        return res.status(400).send({error: 'Title is required'});
     if (!description)
-        return res.status(400).send("The 'description' field is required");
+        return res.status(400).send({error: 'Description is required'});
+    if (!photo)
+        return res.status(400).send({error: 'Photo is required'});
     if (!address)
-        return res.status(400).send("The 'address' field is required");
+        return res.status(400).send({error: 'Address is required'});
     if (!approval)
-        return res.status(400).send("The 'approval' field is required");
+        return res.status(400).send({error: 'Approval is required'});
     if (!createdBy)
-        return res.status(400).send("The 'createdBy' field is required");
+        return res.status(400).send(error.createdBy = 'CreatedBy is required');
 
     // Create a new alert
     const alert = await Alert.create({ title, description, photo, address, approval, createdBy });

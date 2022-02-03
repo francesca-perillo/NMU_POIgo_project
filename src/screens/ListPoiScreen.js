@@ -83,7 +83,7 @@ const ListPoiScreen = ({ route, navigation }) => {
               <Image
                 style={styles.image_item}
                 source={{
-                  uri: `http://192.168.1.10:3000${item.photo}`,
+                  uri: item.photo,
                 }}
               />
               <View style={styles.description_item}>

@@ -1,1 +1,1 @@
-export const BASE_URL = "https://poigo.herokuapp.com";
+export const BASE_URL = "https://26b8-87-19-141-6.ngrok.io";
