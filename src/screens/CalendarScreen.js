@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, LocaleConfig} from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { View, Text, Image, ImageBackground, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import colors from '../config/colors';
 import * as CalendarController from '../controller/CalendarController';
@@ -18,42 +18,32 @@ const windowWidth = Dimensions.get('window').width;
 
 //qui andremo a mettere i dati degli eventi presi dal db
 const marked_days = {
-  '2021/12/16':'blue', '2022/1/21':'blue',
+  '2021/12/16': 'blue', '2022/1/21': 'blue',
 };
 
-function markedDays(day, month, year, state) {
+function markedDays(events, day, month, year, state) {
+  var flag = false;
   var full_day = year + "/" + month + "/" + day
-  var color = ''
-  var src_img = ''
-  if (Object.keys(marked_days).includes(full_day)) {
-    color = marked_days[full_day]
-    src_img = dict_src_img[color]
-    return (
-      <View>
-        <TouchableOpacity styles>
-          <ImageBackground source={(src_img)} style={styles.logo}>
-            <Text style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              color: colors.white,
-              padding: 5
-            }}>{day}</Text>
+
+  events.forEach(element => {
+    element.date === full_day ? flag = true : false;
+  });
+     
+  return (
+    <View>
+      <TouchableOpacity styles>
+        <ImageBackground source={(flag ? require("../../assets/calendar/marker-calendar-blue.png") : "")} style={styles.logo}>
+              <Text style={{
+                textAlign: 'center',
+                fontSize: 15,
+                fontWeight: 'bold',
+                color: flag ? colors.white : colors.dark_blue_palette,
+                padding: 5
+              }}>{day}</Text>
           </ImageBackground>
         </TouchableOpacity>
       </View>
-    );
-  }
-
-  else return (
-    <View>
-      <Text style={{
-        textAlign: 'center',
-        fontWeight: state === "disabled" ? "normal" : "bold",
-        color: state === "disabled" ? "gray" : "black",
-        padding: 5
-      }}>{day}</Text>
-    </View>
-  )
+  );
 }
 
 const CalendarScreen = () => {
@@ -67,10 +57,10 @@ const CalendarScreen = () => {
           id: event._id,
           title: event.title,
           description: event.description,
-          date: event.date.substring(0, 10),
+          date: event.date,
         }
       })
-    
+
       setEvents(events);
     };
 
@@ -79,17 +69,17 @@ const CalendarScreen = () => {
 
   return (
     <View style={styles.container}>
-      
-      <View style = {styles.header}>
-        <Text style ={styles.title}>Calendario</Text>
-        <Text style ={styles.subtitle}>Eventi importanti</Text>
+
+      <View style={styles.header}>
+        <Text style={styles.title}>Calendario</Text>
+        <Text style={styles.subtitle}>Eventi importanti</Text>
       </View>
 
       <View style={styles.body}>
         <Calendar
           markingType={'custom'}
           dayComponent={({ date, state }) => {
-            return (markedDays(date.day, date.month, date.year, state))
+            return (markedDays(events, date.day, date.month, date.year, state))
           }}
           theme={{
             backgroundColor: colors.dirty_white_palette,
@@ -103,32 +93,29 @@ const CalendarScreen = () => {
         </Calendar>
       </View>
       <View style={styles.footer}>
-          
+
         <View style={styles.item}>
-        {
-          events.map(event =>
-          <View style={styles.description_item}  key={event.id}>
+          {
+            events.map(event =>
+              <View style={styles.description_item} key={event.id}>
 
-            <View style={styles.map_item}>
-              <Image style = {{width:60, height:60}} source={require("../../assets/logo.png")}/>  
-            </View>
+                <View style={styles.map_item}>
+                  <Image style={{ width: 60, height: 60 }} source={require("../../assets/logo.png")} />
+                </View>
 
-            <View style={styles.wrapper}>
-              <Text style={styles.title_item}>{event.title}</Text>
-              <Text style={styles.date_item}>{event.date}</Text>
-              <Text style={styles.message_item}>{event.description}</Text>
-            </View>
+                <View style={styles.wrapper}>
+                  <Text style={styles.title_item}>{event.title}</Text>
+                  <Text style={styles.date_item}>{event.date}</Text>
+                  <Text style={styles.message_item}>{event.description}</Text>
+                </View>
 
-          </View>
-        )}
-        </View>  
+              </View>
+            )}
+        </View>
       </View>
     </View>
   )
 }
-
-
-
 
 export default CalendarScreen;
 
@@ -144,14 +131,14 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-    padding:2,
+    padding: 2,
   },
   description_item: {
     flexDirection: "row",
   },
   wrapper: {
     flexDirection: 'column',
-    marginLeft:10,
+    marginLeft: 10,
     justifyContent: 'center',
   },
   title_item: {
@@ -168,23 +155,23 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: colors.white,
     fontWeight: "bold",
-    marginTop: Dimensions.get('window').height/16,
+    marginTop: Dimensions.get('window').height / 16,
     marginLeft: 20
-},
-subtitle:{
+  },
+  subtitle: {
     color: colors.grey,
     fontSize: 30,
     marginLeft: 20,
     fontStyle: "italic",
-},
+  },
   row_container: {
     padding: 20,
     flexDirection: "row"
   },
-  header:{
-    height: Dimensions.get('window').height/6,
+  header: {
+    height: Dimensions.get('window').height / 6,
     backgroundColor: colors.dark_blue_palette,
-    borderBottomRightRadius:200,
+    borderBottomRightRadius: 200,
     alignContent: 'center',
   },
   body: {
@@ -206,9 +193,9 @@ subtitle:{
   },
   footer: {
     flex: 3.5,
-    borderWidth:1,
-    marginRight:10,
-    marginLeft:10,
+    borderWidth: 1,
+    marginRight: 10,
+    marginLeft: 10,
     borderRightColor: colors.dirty_white_palette,
     borderLeftColor: colors.dirty_white_palette,
     borderBottomColor: colors.dirty_white_palette,
@@ -223,12 +210,3 @@ subtitle:{
     textAlign: 'center',
   }
 });
-
-var dict_src_img = {
-  "blue": (require("../../assets/calendar/marker-calendar-blue.png")),
-  "green": (require("../../assets/calendar/marker-calendar-green.png")),
-  "water": (require("../../assets/calendar/marker-calendar-water.png")),
-  "purple": (require("../../assets/calendar/marker-calendar-purple.png")),
-  "darkpink": (require("../../assets/calendar/marker-calendar-darkpink.png")),
-  "yellow": (require("../../assets/calendar/marker-calendar-yellow.png"))
-};
