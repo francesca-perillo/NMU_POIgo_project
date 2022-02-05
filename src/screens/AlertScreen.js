@@ -70,6 +70,9 @@ const AlertList = () => {
     setButtonVisible(!buttonVisible);
     setIsLoading(false);
     setHasErrors(false);
+    setPreviewVisible(false);
+    setCapturedImage(null);
+    setStartCamera(false);
   } 
 
   return (

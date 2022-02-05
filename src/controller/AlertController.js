@@ -27,9 +27,7 @@ export const getAllAlertsApproved = async () => {
     return alerts;
 };
 
-export const insertAlert = async (title, description, photo, address) => {
-    console.log(photo);
-    
+export const insertAlert = async (title, description, photo, address) => { 
     let response = await fetch(
          `${BASE_URL}/alerts`,
          {
