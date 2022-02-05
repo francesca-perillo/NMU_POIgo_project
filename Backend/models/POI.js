@@ -13,11 +13,11 @@ const Activity = new mongoose.Schema({
         type: String,
         required: true,
     },
-    partita_iva:{
+    partita_iva: {
         type: Number,
         required: true,
     },
-    tel_number:{
+    tel_number: {
         type: Number,
         required: true,
     }
@@ -25,13 +25,13 @@ const Activity = new mongoose.Schema({
 
 const pointSchema = new mongoose.Schema({
     type: {
-      type: String,
-      enum: ['Point'],
-      required: true
+        type: String,
+        enum: ['Point'],
+        required: true
     },
     coordinates: {
-      type: [Number],
-      required: true
+        type: [Number],
+        required: true
     },
     address: {
         type: String,
@@ -43,7 +43,7 @@ const POI = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-    }, 
+    },
     photo: {
         type: String,
         required: true,
@@ -67,16 +67,17 @@ const POI = new mongoose.Schema({
     location: {
         type: pointSchema,
         required: true,
+        index: '2dsphere',
     },
     sections: {
         type: [mongoose.Types.ObjectId],
         ref: 'categories',
-        required: true, 
+        required: true,
     },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-        required: true, 
+        required: true,
     }
 })
 

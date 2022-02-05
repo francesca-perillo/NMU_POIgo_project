@@ -10,6 +10,48 @@ router.get('/', async (req, res) => {
     res.send(pois);
 });
 
+// Get the POI nearest to a specified location
+router.get('/nearest', async (req, res) => {
+    const { lat, lng, maxDistance } = req.query;
+
+    if (!lat)
+        return res.status(400).send({ error: 'Latitude is required' });
+
+    if (!lng)
+        return res.status(400).send({ error: 'Longitude is required' });
+
+    const latitude = parseFloat(lat);
+    const longitude = parseFloat(lng);
+    const distance = parseInt(maxDistance);
+
+    if (isNaN(latitude))
+        return res.status(400).send({ error: 'Latitude must be a float' });
+
+    if (isNaN(longitude))
+        return res.status(400).send({ error: 'Longitude must be a float' });
+
+    if (maxDistance && isNaN(distance))
+        return res.status(400).send({ error: 'maxDistance must be an integer' });
+
+    const pois = await POI.aggregate([
+        {
+            $geoNear: {
+                near: { type: "Point", coordinates: [longitude, latitude] },
+                distanceField: "distance",
+                maxDistance: distance || 5000,
+                spherical: true
+            }
+        },
+        {
+            $addFields: {
+                distance: { $toInt: "$distance" },
+            }
+        },
+    ]);
+
+    res.send(pois);
+});
+
 // Retrieve a poi by id
 router.get('/:id', async (req, res) => {
     // Retrieve params from the request
@@ -30,37 +72,37 @@ router.get('/:id', async (req, res) => {
 // Create a new poi
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const { name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy} = req.body;
+    const { name, photo, description, opening_hours, activity, is_Validate, location, sections, createdBy } = req.body;
 
     if (!name)
         return res.status(400).send("The 'name' field is required");
-    if(!photo)
+    if (!photo)
         return res.status(400).send("The 'photo' field is required");
-    if(!description)
+    if (!description)
         return res.status(400).send("The 'description' field is required");
-    if(!opening_hours)
+    if (!opening_hours)
         return res.status(400).send("The 'opening_hours' field is required");
-    if(!activity)
+    if (!activity)
         return res.status(400).send("The 'activity' field is required");
-    if(!activity.email)
+    if (!activity.email)
         return res.status(400).send("The 'activity.email' field is required");
-    if(!activity.name)
+    if (!activity.name)
         return res.status(400).send("The 'activity.name' field is required");
-    if(!activity.surname)
+    if (!activity.surname)
         return res.status(400).send("The 'activity.surname' field is required");
-    if(!activity.partita_iva)
+    if (!activity.partita_iva)
         return res.status(400).send("The 'activity.partita_iva' field is required");
-    if(!activity.tel_number)
+    if (!activity.tel_number)
         return res.status(400).send("The 'activity.tel_number' field is required");
-    if(!is_Validate)
+    if (!is_Validate)
         return res.status(400).send("The 'is_Validate' field is required");
-    if(!location)
+    if (!location)
         return res.status(400).send("The 'location' field is required");
-    if(!sections)
+    if (!sections)
         return res.status(400).send("The 'sections' field is required");
-    if(!Array.isArray(sections))
+    if (!Array.isArray(sections))
         return res.status(400).send("The 'sections' field must be an array");
-    if(!createdBy)
+    if (!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
     // Create a new poi
@@ -78,36 +120,36 @@ router.put('/:id', async (req, res) => {
     // Check if the id is valid
     if (!isValidObjectId(id))
         return res.status(400).send('Invalid id');
-    
+
     if (!name)
         return res.status(400).send("The 'name' field is required");
-    if(!photo)
+    if (!photo)
         return res.status(400).send("The 'photo' field is required");
-    if(!description)
+    if (!description)
         return res.status(400).send("The 'description' field is required");
-    if(!opening_hours)
+    if (!opening_hours)
         return res.status(400).send("The 'opening_hours' field is required");
-    if(!activity)
+    if (!activity)
         return res.status(400).send("The 'activity' field is required");
-        if(!activity.email)
+    if (!activity.email)
         return res.status(400).send("The 'activity.email' field is required");
-    if(!activity.name)
+    if (!activity.name)
         return res.status(400).send("The 'activity.name' field is required");
-    if(!activity.surname)
+    if (!activity.surname)
         return res.status(400).send("The 'activity.surname' field is required");
-    if(!activity.partita_iva)
+    if (!activity.partita_iva)
         return res.status(400).send("The 'activity.partita_iva' field is required");
-    if(!activity.tel_number)
+    if (!activity.tel_number)
         return res.status(400).send("The 'activity.tel_number' field is required");
-    if(!is_Validate)
+    if (!is_Validate)
         return res.status(400).send("The 'is_Validate' field is required");
-    if(!location)
+    if (!location)
         return res.status(400).send("The 'location' field is required");
-    if(!sections)
+    if (!sections)
         return res.status(400).send("The 'sections' field is required");
-    if(!Array.isArray(sections))
+    if (!Array.isArray(sections))
         return res.status(400).send("The 'sections' field must be an array");
-    if(!createdBy)
+    if (!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
     // Try to update the poi with the given id
