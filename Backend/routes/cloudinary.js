@@ -11,6 +11,11 @@ router.post('/', async (req, res) => {
        
         const uploadResponse = await cloudinary.uploader.upload(photoBase64,{
             upload_preset: "upload_POIGO",
+            transformation: {
+                crop: "fill",
+                width: 256,
+                height: 256,
+            }
         });
         res.json({msg: uploadResponse.secure_url});
     } catch (err) {
