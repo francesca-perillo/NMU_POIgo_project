@@ -16,11 +16,6 @@ LocaleConfig.defaultLocale = 'it';
 
 const windowWidth = Dimensions.get('window').width;
 
-//qui andremo a mettere i dati degli eventi presi dal db
-const marked_days = {
-  '2021/12/16': 'blue', '2022/1/21': 'blue',
-};
-
 function markedDays(events, day, month, year, state) {
   var flag = false;
   var full_day = year + "/" + month + "/" + day

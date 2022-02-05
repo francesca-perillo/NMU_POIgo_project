@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions, TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, ScrollView } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
 import Camera from '../components/Camera';
-import CameraPreview from "../components/CameraPreview";
 import * as CloudinaryController from '../controller/CloudinaryController';
 
 const INPUT_BORDER_WIDTH = 1;
@@ -19,18 +18,7 @@ const AlertList = () => {
       return
 
     const loadAlerts = async () => {
-      const alertsFromApi = await AlertsController.getAllAlertsApproved();
-      const alerts = alertsFromApi.map(alert => {
-        return {
-          id: alert._id,
-          title: alert.title,
-          description: alert.description,
-          img: alert.photo,
-          address: alert.address,
-          createBy: alert.createdBy,
-        }
-      });
-
+      const alerts = await AlertsController.getAllAlertsApproved();
       setAlerts(alerts);
     };
 
@@ -41,20 +29,20 @@ const AlertList = () => {
   const [bodyVisible, setBodyVisible] = useState(true);
   const [buttonVisible, setButtonVisible] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasErrors, setHasErrors] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [cap, setCap] = useState();
-  const [photo, setPhoto] = useState("");
-  const [address, setAddress] = useState({});
   const addressObject = { city, street, cap };
   const [startCamera, setStartCamera] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
 
   const onCapturePhoto = async (photo) => {
-    if(!photo) 
+    if (!photo)
       return;
     setPreviewVisible(true);
     setCapturedImage(photo);
@@ -62,14 +50,27 @@ const AlertList = () => {
 
   const insertAlert = async (image) => {
     const newAlert = await AlertsController.insertAlert(title, description, image, addressObject);
-    console.log(alert)
-    setAlerts(alerts => [newAlert, ...alerts]);
+    setAlerts(alerts => [...alerts, newAlert]);
+    dismissModal();
   };
 
   const insertPhotoOnCloudinary = async () => {
+    if (title === "" || description === "" || capturedImage === "" || city === "" || street === "" || cap === "") {
+      setHasErrors(true);
+      return;
+    }
+    
+    setIsLoading(true);
     const photoByCloudinary = await CloudinaryController.sendsPhotoToCloudinary(capturedImage);
     insertAlert(photoByCloudinary.msg);
   }
+
+  const dismissModal = () => {
+    setBodyVisible(!bodyVisible);
+    setButtonVisible(!buttonVisible);
+    setIsLoading(false);
+    setHasErrors(false);
+  } 
 
   return (
     <View style={styles.container}>
@@ -118,32 +119,34 @@ const AlertList = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.containerInsert}>
 
+                {hasErrors && <Text style={styles.titleError}>Inserisci tutti i campi!</Text>}
+
                 <Text style={styles.titleInsert}>Cosa vuoi segnalare? </Text>
 
-                <TextInput style={styles.input} onChangeText={setTitle} placeholder="Titolo" placeholderTextColor={colors.grey} />
+                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setTitle} placeholder="Titolo" placeholderTextColor={colors.grey} />
 
-                <TextInput style={styles.input} onChangeText={setDescription} placeholder="Descrizione" placeholderTextColor={colors.grey} />
+                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setDescription} placeholder="Descrizione" placeholderTextColor={colors.grey} />
 
                 <Text style={styles.titleInsert}>Dove avviene ciò? </Text>
-               
-                <TextInput style={styles.input} onChangeText={setStreet} placeholder="Via" placeholderTextColor={colors.grey} />
+
+                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setStreet} placeholder="Via" placeholderTextColor={colors.grey} />
 
                 <View style={styles.twoColumns}>
-                  <TextInput style={[styles.input, styles.halfSizeInput]} onChangeText={setCity} placeholder="Città" placeholderTextColor={colors.grey} />
-                  <TextInput style={[styles.input, styles.halfSizeInput]} keyboardType="number-pad" onChangeText={setCap} placeholder="CAP" placeholderTextColor={colors.grey} />
+                  <TextInput style={[styles.input, styles.halfSizeInput, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setCity} placeholder="Città" placeholderTextColor={colors.grey} />
+                  <TextInput style={[styles.input, styles.halfSizeInput, ...(hasErrors ? [styles.inputError]: [])]} keyboardType="number-pad" onChangeText={setCap} placeholder="CAP" placeholderTextColor={colors.grey} />
                 </View>
 
                 {previewVisible && capturedImage ? (
                   <View style={styles.containerPreview}>
-                  <Pressable style={[styles.insertPhoto, styles.insertPhotoComplete]}>
-                    <Text style={styles.insertPhotoCompleteText}>Foto inserita!</Text>
-                  </Pressable>
-                    { 
+                    <Pressable style={[styles.insertPhoto, styles.insertPhotoComplete]}>
+                      <Text style={styles.insertPhotoCompleteText}>Foto inserita!</Text>
+                    </Pressable>
+                    {
                       // <CameraPreview photo={//capturedImage} /> 
                     }
                   </View>
                 ) : (startCamera ? (
-                  <Camera onCapturePhoto={onCapturePhoto}/>
+                  <Camera onCapturePhoto={onCapturePhoto} />
                 ) : (
                   <Pressable onPress={() => setStartCamera(true)} style={styles.insertPhoto}>
                     <Text style={styles.insertPhotoText}>Scatta una foto</Text>
@@ -152,10 +155,11 @@ const AlertList = () => {
                 )}
 
                 <View style={styles.containerButtonSendAlert}>
-                  <Pressable style={styles.buttonConfirmNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible), setAddress(addressObject), insertPhotoOnCloudinary()]}>
-                    <Text style={styles.buttonConfirmNewAlertText}>Invia segnalazione</Text>
+                  <Pressable style={styles.buttonConfirmNewAlert} onPress={insertPhotoOnCloudinary}>
+                    {isLoading && <ActivityIndicator color={colors.white}/>}
+                    {!isLoading && <Text style={styles.buttonConfirmNewAlertText}>Invia segnalazione</Text>}
                   </Pressable>
-                  <Text style={styles.buttonDiscardNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>Chiudi</Text>
+                  {!isLoading && <Text style={styles.buttonDiscardNewAlert} onPress={dismissModal}>Chiudi</Text>}
                 </View>
               </View>
             </TouchableWithoutFeedback>
@@ -281,6 +285,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  titleError: {
+    fontSize: 20,
+    color: colors.red_discard_operation,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
   titleInsert: {
     fontSize: 20,
     color: colors.dark_blue_palette,
@@ -301,6 +312,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: Dimensions.get('window').width / 1.1,
   },
+  inputError: {
+    borderColor: colors.red_discard_operation,
+  },
   halfSizeInput: {
     width: Dimensions.get('window').width / 2.3,
     marginHorizontal: -(INPUT_BORDER_WIDTH * 2),
@@ -318,7 +332,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  insertPhotoComplete:{
+  insertPhotoComplete: {
     backgroundColor: colors.dark_blue_palette,
   },
 

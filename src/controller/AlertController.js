@@ -12,10 +12,24 @@ export const getAllAlertsApproved = async () => {
         }
     );
     let json = await response.json();
-    return json;
+
+    const alerts = json.map(alert => {
+        return {
+          id: alert._id,
+          title: alert.title,
+          description: alert.description,
+          img: alert.photo,
+          address: alert.address,
+          createBy: alert.createdBy,
+        }
+      });
+
+    return alerts;
 };
 
 export const insertAlert = async (title, description, photo, address) => {
+    console.log(photo);
+    
     let response = await fetch(
          `${BASE_URL}/alerts`,
          {
@@ -40,6 +54,16 @@ export const insertAlert = async (title, description, photo, address) => {
          }
     );
     
-    let json = await response.json();
-    return json;
+    const json = await response.json();
+
+    const alert = {
+        id: json._id,
+        title: json.title,
+        description: json.description,
+        img: json.photo,
+        address: json.address,
+        createdBy: json.createdBy,
+    }
+
+    return alert;
 };

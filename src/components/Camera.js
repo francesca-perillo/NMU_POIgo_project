@@ -82,8 +82,6 @@ const CameraCapture = ({ onCapturePhoto }) => {
             quality: 0,
             base64: true,
             fixOrientation: true,
-            width: 180, 
-            height: 180, 
         };
 
         const photo = await camera.takePictureAsync(options);
