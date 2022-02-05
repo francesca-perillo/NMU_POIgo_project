@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Dimensions } from "react-native";
 import colors from "../config/colors";
+import { getNearestPOI } from "../controller/POIController";
 //barra di ricerca
 import { Searchbar } from 'react-native-paper';
 
@@ -10,18 +11,38 @@ const Item = ({ poiName, distance }) => (
       <View style={styles.item}>
         <Text style={styles.poi_item}>{poiName}</Text>
         <View style={styles.container_message_item}>
-          <Text style={styles.distance_item}>{distance}</Text>
+          <Text style={styles.distance_item}>{distance} m</Text>
         </View>
       </View>
     </View>
   </SafeAreaView>
 );
 
+//TODO: Get user location
+const USER_LOCATION = {
+  lat: 16.7988958,
+  lng: 39.5593769
+}
+
 const POIviciniScreen = () => {
 
   // to search bar 
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [nearPOIs, setNearPOIs] = useState([]);
   const onChangeText = query => setSearchQuery(query);
+
+  useEffect(() => {
+    const loadPOI = async () => {
+      const nearPOIs = await getNearestPOI(USER_LOCATION.lat, USER_LOCATION.lng);
+      setNearPOIs(nearPOIs);
+    }
+
+    loadPOI();
+  }, [])
+
+  const filteredPOIs = useMemo(() => {
+    return nearPOIs.filter(poi => new RegExp(searchQuery, 'i').test(poi.name))
+  }, [nearPOIs, searchQuery])
 
   const renderItem = ({ item }) => (
     <Item
@@ -44,9 +65,9 @@ const POIviciniScreen = () => {
       />
 
       <FlatList
-        data={data_items}
+        data={filteredPOIs}
         renderItem={renderItem}
-        keyExtractor={item => `${item.id}`}
+        keyExtractor={item => item._id}
       />
     </View>
 
@@ -152,38 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-//dati per la popolazione statica degli alert
-const data_items = [
-  {
-    id: 1,
-    name: 'La tavernetta',
-    distance: '52 m',
-  },
-  {
-    id: 2,
-    name: 'Il giardino dei Papi',
-    distance: '78 m',
-  },
-  {
-    id: 3,
-    name: 'Castello',
-    distance: '120 m',
-  },
-  {
-    id: 4,
-    name: 'Cantina vecchia',
-    distance: '1.3 km',
-  },
-  {
-    id: 5,
-    name: 'Il vinaio',
-    distance: '2.5 km',
-  },
-  {
-    id: 6,
-    name: 'Escape Room',
-    distance: '2.56 m',
-  },
-];
 export default POIviciniScreen;

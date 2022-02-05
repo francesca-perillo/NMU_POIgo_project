@@ -14,7 +14,23 @@ export const getAllPOI = async () => {
     return json;
 };
 
-export const getPOIById = async ( id ) => {
+export const getNearestPOI = async (lat, lng) => {
+    let response = await fetch(
+        `${BASE_URL}/pois/nearest?lat=${lat}&lng=${lng}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+
+    let json = await response.json();
+    return json;
+}
+
+export const getPOIById = async (id) => {
     let response = await fetch(
         `${BASE_URL}/pois/${id}`,
         {
