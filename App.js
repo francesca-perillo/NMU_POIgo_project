@@ -19,41 +19,42 @@ import SplashScreen from "./src/screens/SplashScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import DetailScreen from "./src/screens/DetailScreen";
+import NavigatorScreen from "./src/screens/NavigatorScreen";
 //Navbar with style and animation
 import * as Animatable from 'react-native-animatable';
 import colors from './src/config/colors';
-import { StyleSheet, TouchableOpacity} from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Icon, { Icons } from './src/components/Icons';
 
 //tab style!
 const TabButton = (props) => {
     const { item, onPress, accessibilityState } = props;
     const focused = accessibilityState.selected;
-    const viewRef = useRef(null);  
-  
+    const viewRef = useRef(null);
+
     useEffect(() => {
-      if (focused) 
-        viewRef.current.animate({0: {scale: 1, rotate: '0deg'}, 1: {scale: 1, rotate: '360deg'}});
+        if (focused)
+            viewRef.current.animate({ 0: { scale: 1, rotate: '0deg' }, 1: { scale: 1, rotate: '360deg' } });
     }, [focused])
 
     return (
-      <TouchableOpacity
-        onPress={onPress}
-        style={styles.container}>
-          <Animatable.View
-            ref={viewRef}
-            duration={500}
+        <TouchableOpacity
+            onPress={onPress}
             style={styles.container}>
-            <Icon type={item.type} name={focused ? item.activeIcon : item.inActiveIcon} color={focused ? colors.dark_blue_palette : colors.grey} />
-          </Animatable.View>
-          <Animatable.Text style={{color: focused ? colors.dark_blue_palette : colors.grey}}>{item.label}</Animatable.Text>
-      </TouchableOpacity>
+            <Animatable.View
+                ref={viewRef}
+                duration={500}
+                style={styles.container}>
+                <Icon type={item.type} name={focused ? item.activeIcon : item.inActiveIcon} color={focused ? colors.dark_blue_palette : colors.grey} />
+            </Animatable.View>
+            <Animatable.Text style={{ color: focused ? colors.dark_blue_palette : colors.grey }}>{item.label}</Animatable.Text>
+        </TouchableOpacity>
     )
 }
 const TabArr = [
     { route: 'Home', label: 'Home Page', type: Icons.Ionicons, activeIcon: 'home', inActiveIcon: 'home-outline', component: HomeChild },
     { route: 'Eventi', label: 'Eventi', type: Icons.Ionicons, activeIcon: 'calendar', inActiveIcon: 'calendar-outline', component: CalendarScreen },
-    { route: 'Segnalazioni', label: 'Segnalazioni', type: Icons.Ionicons, activeIcon: 'megaphone', inActiveIcon: 'megaphone-outline', component: AlertList},
+    { route: 'Segnalazioni', label: 'Segnalazioni', type: Icons.Ionicons, activeIcon: 'megaphone', inActiveIcon: 'megaphone-outline', component: AlertList },
     { route: 'Near', label: 'Vicino a te', type: Icons.Ionicons, activeIcon: 'location', inActiveIcon: 'location-outline', component: POIviciniScreen },
 ];
 
@@ -65,31 +66,31 @@ function NavigationalBar() {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
-                height: 70,
-                paddingTop: 10,
-                paddingBottom: 10,
-                position: 'absolute',
-                alignContent: "center",
-                // borderTopLeftRadius:20,
-                // borderTopRightRadius:20, 
-                // shadowColor: "#000",
-                // shadowOffset: {
-                //     width: 0,
-                //     height: 12,
-                // },
-                // shadowOpacity: 0.58,
-                // shadowRadius: 16.00,
-                // elevation: 24,
+                    height: 70,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    position: 'absolute',
+                    alignContent: "center",
+                    // borderTopLeftRadius:20,
+                    // borderTopRightRadius:20, 
+                    // shadowColor: "#000",
+                    // shadowOffset: {
+                    //     width: 0,
+                    //     height: 12,
+                    // },
+                    // shadowOpacity: 0.58,
+                    // shadowRadius: 16.00,
+                    // elevation: 24,
                 }
             }}
         >
             {TabArr.map((item, index) => {
-                return(
+                return (
                     <Tab.Screen key={index} name={item.label} component={item.component}
-                    options={{
-                    tabBarButton: (props) => <TabButton {...props} item={item} />
-                    }}
-                />
+                        options={{
+                            tabBarButton: (props) => <TabButton {...props} item={item} />
+                        }}
+                    />
                 )
             })}
         </Tab.Navigator>
@@ -98,40 +99,41 @@ function NavigationalBar() {
 
 //navigator per gli screens iniziali, che non necessitano della barra di navigazione.
 const InitialStack = createNativeStackNavigator()
-const App = () => {    
-    return(
-        <NavigationContainer> 
-            <InitialStack.Navigator screenOptions={{ headerShown: false}}>
-                <InitialStack.Screen name='Splash' component={SplashScreen}/>
-                <InitialStack.Screen name='Login' component={LoginScreen}/>
-                <InitialStack.Screen name='Register' component={RegisterScreen}/>
-                <InitialStack.Screen name='Home' component={NavigationalBar}/>
-                <HomeStack.Screen name='DetailPOI' component={DetailScreen}/>
+const App = () => {
+    return (
+        <NavigationContainer>
+            <InitialStack.Navigator screenOptions={{ headerShown: false }}>
+                <InitialStack.Screen name='Splash' component={SplashScreen} />
+                <InitialStack.Screen name='Login' component={LoginScreen} />
+                <InitialStack.Screen name='Register' component={RegisterScreen} />
+                <InitialStack.Screen name='Home' component={NavigationalBar} />
+                <HomeStack.Screen name='DetailPOI' component={DetailScreen} />
             </InitialStack.Navigator>
-        </NavigationContainer> 
-    )    
+        </NavigationContainer>
+    )
 }
 
 const HomeStack = createNativeStackNavigator();
-function HomeChild(){
+function HomeChild() {
     return (
-        <HomeStack.Navigator screenOptions={{ headerShown: false}}>
-            <HomeStack.Screen name='HomeScreen' component={HomeScreen}/>
-            <HomeStack.Screen name='ClassicNavigation' component={ClassicNavigationScreen}/>
-            <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen}/>
-            <HomeStack.Screen name='Routes' component={CategoryRoutesScreen}/>
-            <HomeStack.Screen name='Category' component={CategoryScreen}/>
-            <HomeStack.Screen name='ListPoi' component={ListPoiScreen}/>
-            <HomeStack.Screen name='Map' component={MapScreen}/>      
-        </HomeStack.Navigator>      
+        <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+            <HomeStack.Screen name='HomeScreen' component={HomeScreen} />
+            <HomeStack.Screen name='ClassicNavigation' component={ClassicNavigationScreen} />
+            <HomeStack.Screen name='CityRoaming' component={CityRoamingScreen} />
+            <HomeStack.Screen name='Routes' component={CategoryRoutesScreen} />
+            <HomeStack.Screen name='Category' component={CategoryScreen} />
+            <HomeStack.Screen name='ListPoi' component={ListPoiScreen} />
+            <HomeStack.Screen name='Map' component={MapScreen} />
+            <HomeStack.Screen name='Navigator' component={NavigatorScreen} />
+        </HomeStack.Navigator>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
 

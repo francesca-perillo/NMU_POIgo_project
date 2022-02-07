@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Dimensions, ScrollView } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Dimensions, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ContactInfo from "../components/CotactInfo";
 import colors from '../config/colors';
 import * as POIController from '../controller/POIController';
@@ -20,7 +20,7 @@ const DetailScreen = ({ route, navigation }) => {
         const loadPoiData = async () => {
             const poiFromApi = await POIController.getPOIById(route.params.params);
             const [latitude, longitude] = poiFromApi.location.coordinates;
-        
+
             const poi = {
                 id: poiFromApi._id,
                 name: poiFromApi.name,
@@ -52,7 +52,7 @@ const DetailScreen = ({ route, navigation }) => {
                     id: poiFromApi.sections,
                 }
             }
-            
+
             setPoiDetail(poi);
         };
         loadPoiData();
@@ -64,7 +64,7 @@ const DetailScreen = ({ route, navigation }) => {
                 <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
                     <Ionicons style={styles.goBackIcon} name="ios-arrow-back" size={32} color="white" />
                 </TouchableOpacity>
-                
+
                 <View style={styles.info}>
                     <Text style={styles.title}>{poiDetail.name}</Text>
 
@@ -80,7 +80,7 @@ const DetailScreen = ({ route, navigation }) => {
                             <Text style={styles.read}>{readAll ? "Chiudi" : "Leggi tutto"}</Text>
                         </TouchableOpacity>
                     </ScrollView>
-                    <TouchableOpacity style={styles.goMap} onPress={() => console.log("press")}>
+                    <TouchableOpacity style={styles.goMap} onPress={() => navigation.navigate('Navigator', { params: poiDetail.coordinates })}>
                         <Text style={styles.goMapText}>Vai alla mappa</Text>
                     </TouchableOpacity>
                 </View>
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     goBackIcon: {
-       color: colors.dark_blue_palette,
-       alignSelf: "center",
+        color: colors.dark_blue_palette,
+        alignSelf: "center",
     },
     info: {
         marginTop: Dimensions.get('window').width / 1.5,

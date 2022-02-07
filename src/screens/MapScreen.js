@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, SafeAreaView, StyleSheet, Image, Alert, View, FlatList, TouchableOpacity, StatusBar} from 'react-native';
+import { Text, SafeAreaView, StyleSheet, Image, Alert, View, FlatList, TouchableOpacity, StatusBar } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as POIController from '../controller/POIController';
 import colors from '../config/colors';
@@ -13,7 +13,7 @@ const MapScreen = ({ route, navigation }) => {
     });  //dove proiettare mappa
 
     const [selectedSegments, setSelectedSegments] = useState([]);
-    const [POIs, setPOI] = useState([]); 
+    const [POIs, setPOI] = useState([]);
     const [POIsToShow, setPOIsToShow] = useState([]);
     const { sections } = route.params;
 
@@ -33,7 +33,7 @@ const MapScreen = ({ route, navigation }) => {
             selectedSections = [...selectedSegments, id];
         }
 
-        const poiToShow = POIs.filter(({ sections }) => sections.some( id => selectedSections.includes(id)));
+        const poiToShow = POIs.filter(({ sections }) => sections.some(id => selectedSections.includes(id)));
         setSelectedSegments(selectedSections);
         setPOIsToShow(poiToShow);
     }
@@ -65,33 +65,33 @@ const MapScreen = ({ route, navigation }) => {
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
-        <SafeAreaView style={styles.listOfSegments}>
-            <View>
-                <Text style={styles.listOfSegmentsTitle}>Seleziona una sezione per visualizzare i POI:</Text>
-                <FlatList
-                    horizontal={true}
-                    data={sections}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
-            <MapView
-                style={{ alignSelf: 'stretch', height: '100%' }}
-                region={mapRegion}
-            >
-                {
-                    POIsToShow.map(({_id, location, name}) => {
-                        const [latitude, longitude] = location.coordinates;
-                        const coordinates = {latitude, longitude};
+            <SafeAreaView style={styles.listOfSegments}>
+                <View>
+                    <Text style={styles.listOfSegmentsTitle}>Seleziona una sezione per visualizzare i POI:</Text>
+                    <FlatList
+                        horizontal={true}
+                        data={sections}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id}
+                    />
+                </View>
+                <MapView
+                    style={{ alignSelf: 'stretch', height: '100%' }}
+                    region={mapRegion}
+                >
+                    {
+                        POIsToShow.map(({ _id, location, name }) => {
+                            const [latitude, longitude] = location.coordinates;
+                            const coordinates = { latitude, longitude };
 
-                        return <Marker key={_id} coordinate={coordinates} title={name} onPress={() => navigation.navigate('DetailPOI', { params: _id })}>
-                            <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
-                        </Marker>
-                    })
-                }
+                            return <Marker key={_id} coordinate={coordinates} title={name} onPress={() => navigation.navigate('DetailPOI', { params: _id })}>
+                                <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
+                            </Marker>
+                        })
+                    }
 
-            </MapView>
-        </SafeAreaView>
+                </MapView>
+            </SafeAreaView>
         </SafeAreaView>
     );
 };
@@ -99,7 +99,7 @@ const MapScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     AndroidSafeArea: {
         flex: 1,
-        backgroundColor: colors.dark_blue_palette ,
+        backgroundColor: colors.dark_blue_palette,
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
     },
     listOfSegments: {
