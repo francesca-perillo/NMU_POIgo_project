@@ -1,32 +1,47 @@
-import React from "react";
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, ImageBackground, Alert} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, ImageBackground, Alert, Dimensions } from "react-native";
 import colors from '../config/colors';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import * as CategoriesRoutesController from '../controller/CategoriesRoutesController';
 
-const category = [
-    {
-        id: "1",
-        title: "Vie dello shopping",
-        image: require("../../assets/img/categoryRoutes/shopping.jpg"),
-    },
-    {
-        id: "2",
-        title: "Percorsi enogastronomici",
-        image: require("../../assets/img/categoryRoutes/gastronomy.jpg"),
-    },
-    {
-        id: "3",
-        title: "Percorso storico-Artistici",
-        image: require("../../assets/img/categoryRoutes/museum.jpg"),
-    },
-    {
-        id: "4",
-        title: "Vie dell'artigianato",
-        image: require("../../assets/img/categoryRoutes/craftsmanship.jpg"),
-    },
-];
+// const category = [
+//     {
+//         id: "1",
+//         title: "Vie dello shopping",
+//         image: require("../../assets/img/categoryRoutes/shopping.jpg"),
+//     },
+//     {
+//         id: "2",
+//         title: "Percorsi enogastronomici",
+//         image: require("../../assets/img/categoryRoutes/gastronomy.jpg"),
+//     },
+//     {
+//         id: "4",
+//         title: "Vie dell'artigianato",
+//         image: require("../../assets/img/categoryRoutes/craftsmanship.jpg"),
+//     },
+// ];
 
 const CategoryRoutesScreen = ({ navigation }) => {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const loadCategories = async () => {
+            const categoriesFromApi = await CategoriesRoutesController.getAllCategories();
+            const categories = categoriesFromApi.map(category => {
+                return {
+                    id: category._id,
+                    title: category.name,
+                    image: category.photo,
+                }
+            });
+
+            setCategories(categories);
+        };
+
+        loadCategories();
+    }, [])
+
     const renderItem = ({ item }) => (
         <Item id={item.id} title={item.title} image={item.image} />
     );
@@ -35,7 +50,7 @@ const CategoryRoutesScreen = ({ navigation }) => {
         return (
             <TouchableOpacity onPress={() => Alert.alert('Vai alla mappa')}>
                 <View style={styles.categoryContainer}>
-                    <ImageBackground source={image} style={styles.categoryImage}>
+                    <ImageBackground source={{ uri: image }} style={styles.categoryImage}>
                         <View style={styles.darkOverlay} />
                     </ImageBackground>
 
@@ -53,18 +68,13 @@ const CategoryRoutesScreen = ({ navigation }) => {
         <View>
             <View style={styles.header}>
                 <Text style={styles.title}>Percorsi</Text>
-                <Entypo style={styles.notification} name='bell' size={35} color={colors.dark_blue_palette} onPress={() => alert(`Lista delle notifiche`)} />
-            </View>
-
-            <View style={styles.searchbar}>
-                <Text style={styles.searchbar_text}>Cerca un percorso</Text>
-                <Ionicons style={styles.searchbar_icon} name="search" size={24} color="grey" />
+                <Text style={styles.subtitle}>Scegli la tua avventura!</Text>
             </View>
 
             <View style={styles.listOfcategory}>
                 <FlatList
                     vertical={true}
-                    data={category}
+                    data={categories}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
                 />
@@ -75,15 +85,22 @@ const CategoryRoutesScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     header: {
-        height: 100,
-        flexDirection: 'row',
+        height: Dimensions.get('window').height / 6,
+        backgroundColor: colors.dark_blue_palette,
+        borderBottomRightRadius: 200,
     },
     title: {
-        top: 50,
         fontSize: 40,
-        fontWeight: 'bold',
-        color: colors.dark_blue_palette,
-        paddingLeft: 20,
+        color: colors.white,
+        fontWeight: "bold",
+        marginTop: Dimensions.get('window').height / 16,
+        marginLeft: 20
+    },
+    subtitle: {
+        color: colors.grey,
+        fontSize: 25,
+        marginLeft: 20,
+        fontStyle: "italic",
     },
     notification: {
         position: 'absolute',
