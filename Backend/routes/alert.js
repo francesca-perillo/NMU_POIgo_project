@@ -1,5 +1,6 @@
 const express = require('express');
 const { isValidObjectId } = require('mongoose');
+const { getCoordinatesByAddress } = require("../utils/geocode");
 const Alert = require('../models/Alert');
 
 const router = express.Router();
@@ -21,6 +22,20 @@ router.get('/', async (req, res) => {
     res.send(alert);
 });
 
+router.get('/geocode', async (req, res) => {
+    const { q } = req.query;
+
+    if (!q)
+        return res.status(400).send({ error: "Address is required" });
+
+    const response = await getCoordinatesByAddress(req.query);
+    const { items } = response;
+
+    const [address] = items.map(item => item.position);
+
+    res.send(address);
+})
+
 // Retrieve a alert by id
 router.get('/:id', async (req, res) => {
     // Retrieve params from the request
@@ -41,18 +56,18 @@ router.get('/:id', async (req, res) => {
 // Create a new alert
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const { title, description, photo, address, approval, createdBy} = req.body;
+    const { title, description, photo, address, approval, createdBy } = req.body;
 
     if (!title)
-        return res.status(400).send({error: 'Title is required'});
+        return res.status(400).send({ error: 'Title is required' });
     if (!description)
-        return res.status(400).send({error: 'Description is required'});
+        return res.status(400).send({ error: 'Description is required' });
     if (!photo)
-        return res.status(400).send({error: 'Photo is required'});
+        return res.status(400).send({ error: 'Photo is required' });
     if (!address)
-        return res.status(400).send({error: 'Address is required'});
+        return res.status(400).send({ error: 'Address is required' });
     if (!approval)
-        return res.status(400).send({error: 'Approval is required'});
+        return res.status(400).send({ error: 'Approval is required' });
     if (!createdBy)
         return res.status(400).send(error.createdBy = 'CreatedBy is required');
 

@@ -8,6 +8,7 @@ const userRoute = require('./routes/user');
 const alertRoute = require('./routes/alert');
 const eventRoute = require('./routes/event');
 const cloudinaryRoute = require('./routes/cloudinary');
+const mapsRoute = require('./routes/maps');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/user', userRoute);
 app.use('/alerts', alertRoute);
 app.use('/events', eventRoute);
 app.use('/cloudinary', cloudinaryRoute);
+app.use('/maps', mapsRoute);
 app.use('/assets', express.static('assets'));
 
 module.exports = app;
