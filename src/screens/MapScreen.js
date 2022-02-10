@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, SafeAreaView, StyleSheet, Image, Alert, View, FlatList, TouchableOpacity, StatusBar } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as POIController from '../controller/POIController';
+import * as AlertController from '../controller/AlertController';
 import colors from '../config/colors';
 
 const MapScreen = ({ route, navigation }) => {
@@ -14,15 +15,34 @@ const MapScreen = ({ route, navigation }) => {
 
     const [selectedSegments, setSelectedSegments] = useState([]);
     const [POIs, setPOI] = useState([]);
+    const [alertsCoordinates, setAlertsCoordinates] = useState([]);
     const [POIsToShow, setPOIsToShow] = useState([]);
     const { sections } = route.params;
 
     useEffect(() => {
-        const loadPOI = async () => {
+        const loadPOIAndAlerts = async () => {
             const POIFromApi = await POIController.getAllPOI();
             setPOI(POIFromApi);
+            const alertFromApi = await AlertController.getAllAlertsApproved();
+            const alertAddress = alertFromApi.map(element => {
+                const id = element.id;
+                const address = element.address.street + " " + element.address.city
+                return {
+                    id,
+                    address
+                }
+            })
+
+            alertAddress.forEach(async element => {
+                const coordinateAlert = await AlertController.getCoordinatesByAddress(element.address);
+                const alertShow = {
+                    id: element.id,
+                    coordinate: coordinateAlert
+                }
+                setAlertsCoordinates(alertsCoordinates => [...alertsCoordinates, alertShow]);
+            });
         };
-        loadPOI();
+        loadPOIAndAlerts();
     }, [])
 
     const sectionsPressed = (id) => {
@@ -90,6 +110,16 @@ const MapScreen = ({ route, navigation }) => {
                         })
                     }
 
+                    {
+                        alertsCoordinates && alertsCoordinates.map(({ id, coordinate }) => {
+                            const lat = coordinate.lat;
+                            const lng = coordinate.lng;
+
+                            return <Marker key={id} coordinate={{ latitude: lat, longitude: lng }} title={"Alert"} onPress={() => navigation.navigate('Segnalazioni')}>
+                                <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/alert_marker.png')} />
+                            </Marker>
+                        })
+                    }
                 </MapView>
             </SafeAreaView>
         </SafeAreaView>

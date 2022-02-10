@@ -2,7 +2,7 @@ import { BASE_URL } from "../config/api"
 
 export const getAllAlertsApproved = async () => {
     let response = await fetch(
-       `${BASE_URL}/alerts?approval=true`,
+        `${BASE_URL}/alerts?approval=true`,
         {
             method: 'GET',
             headers: {
@@ -15,22 +15,36 @@ export const getAllAlertsApproved = async () => {
 
     const alerts = json.map(alert => {
         return {
-          id: alert._id,
-          title: alert.title,
-          description: alert.description,
-          img: alert.photo,
-          address: alert.address,
-          createBy: alert.createdBy,
+            id: alert._id,
+            title: alert.title,
+            description: alert.description,
+            img: alert.photo,
+            address: alert.address,
+            createBy: alert.createdBy,
         }
-      });
+    });
 
     return alerts;
 };
 
-export const insertAlert = async (title, description, photo, address) => { 
+export const getCoordinatesByAddress = async (address) => {
     let response = await fetch(
-         `${BASE_URL}/alerts`,
-         {
+        `${BASE_URL}/alerts/geocode?q=${address}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+    )
+    return await response.json();
+}
+
+export const insertAlert = async (title, description, photo, address) => {
+    let response = await fetch(
+        `${BASE_URL}/alerts`,
+        {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -38,8 +52,8 @@ export const insertAlert = async (title, description, photo, address) => {
             },
             body: JSON.stringify(
                 {
-                    title, 
-                    description, 
+                    title,
+                    description,
                     photo,
                     address,
                     //Non essendoci la funzione di approvazione per gli Alert lato web per il momento 'approval' viene impostato 
@@ -49,9 +63,9 @@ export const insertAlert = async (title, description, photo, address) => {
                     createdBy: '61c33f81031fa17dcf1e2abc',
                 }
             )
-         }
+        }
     );
-    
+
     const json = await response.json();
 
     const alert = {

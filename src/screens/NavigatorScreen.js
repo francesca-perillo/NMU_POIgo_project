@@ -1,27 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapView, { Polyline, Marker } from 'react-native-maps';
 import colors from '../config/colors';
+import { getPolyline } from '../controller/NavigatorController'
 
 //TODO: Get user location
 const USER_LOCATION = {
-    latitude: 39.5593769,
-    longitude: 16.7988958
+    latitude: 39.5617884,
+    longitude: 16.7995341
 }
 
 const NavigatorScreen = ({ route, navigation }) => {
-    const POICoordinate = route.params.params;
+    const POICoordinate = route.params.poiCoordinates;
+    const [coordinates, setCoordinates] = useState([]);
 
     const destination = {
         latitude: POICoordinate.latitude,
         longitude: POICoordinate.longitude
     }
 
-    const coordinates = [
-        USER_LOCATION,
-        destination,
-    ]
+    useEffect(() => {
+        const getCoordinates = async () => {
+            const coordinates = await getPolyline(USER_LOCATION, destination);
+            setCoordinates(coordinates);
+        }
+        getCoordinates();
+    }, [POICoordinate])
 
     const [mapRegion, setmapRegion] = useState({
         latitude: 39.55892,
@@ -39,10 +44,10 @@ const NavigatorScreen = ({ route, navigation }) => {
                 style={{ alignSelf: 'stretch', height: '100%' }}
                 region={mapRegion}
             >
-                <Marker coordinate={coordinates[0]}>
+                <Marker coordinate={USER_LOCATION}>
                     <Image source={require('../../assets/red_marker.png')} style={{ width: 20, height: 30 }} />
                 </Marker>
-                <Marker coordinate={coordinates[1]}>
+                <Marker coordinate={destination}>
                     <Image source={require('../../assets/marker.png')} style={{ width: 15, height: 25 }} />
                 </Marker>
 

@@ -80,7 +80,7 @@ const DetailScreen = ({ route, navigation }) => {
                             <Text style={styles.read}>{readAll ? "Chiudi" : "Leggi tutto"}</Text>
                         </TouchableOpacity>
                     </ScrollView>
-                    <TouchableOpacity style={styles.goMap} onPress={() => navigation.navigate('Navigator', { params: poiDetail.coordinates })}>
+                    <TouchableOpacity style={styles.goMap} onPress={() => navigation.navigate('Navigator', { poiCoordinates: poiDetail.coordinates })}>
                         <Text style={styles.goMapText}>Vai alla mappa</Text>
                     </TouchableOpacity>
                 </View>
