@@ -7,6 +7,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import AlertList from "./src/screens/AlertScreen";
 import POIviciniScreen from "./src/screens/POIviciniScreen";
+import Transport from "./src/screens/Transport";
 //Screen to show as chindren of HomeScreen in tab bar
 import CityRoamingScreen from './src/screens/CityRoamingScreen';
 import MapScreen from "./src/screens/MapScreen";
@@ -56,6 +57,7 @@ const TabArr = [
     { route: 'Eventi', label: 'Eventi', type: Icons.Ionicons, activeIcon: 'calendar', inActiveIcon: 'calendar-outline', component: CalendarScreen },
     { route: 'Segnalazioni', label: 'Segnalazioni', type: Icons.Ionicons, activeIcon: 'megaphone', inActiveIcon: 'megaphone-outline', component: AlertList },
     { route: 'Near', label: 'Vicino a te', type: Icons.Ionicons, activeIcon: 'location', inActiveIcon: 'location-outline', component: POIviciniScreen },
+    { route: 'Transport', label: 'Trasporto', type: Icons.Ionicons, activeIcon: 'ios-car', inActiveIcon: 'ios-car-outline', component: Transport },
 ];
 
 //Navigator per la barra di navigazione
@@ -66,9 +68,9 @@ function NavigationalBar() {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {
-                    height: 70,
+                    height: 80,
                     paddingTop: 10,
-                    paddingBottom: 10,
+                    paddingBottom: 20,
                     position: 'absolute',
                     alignContent: "center",
                     // borderTopLeftRadius:20,
@@ -107,6 +109,7 @@ const App = () => {
                 <InitialStack.Screen name='Login' component={LoginScreen} />
                 <InitialStack.Screen name='Register' component={RegisterScreen} />
                 <InitialStack.Screen name='Home' component={NavigationalBar} />
+                <InitialStack.Screen name='Transport' component={Transport} />
                 <HomeStack.Screen name='DetailPOI' component={DetailScreen} />
             </InitialStack.Navigator>
         </NavigationContainer>

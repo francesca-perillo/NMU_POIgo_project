@@ -55,20 +55,25 @@ const POIviciniScreen = () => {
       <View style={styles.header}>
         <Text style={styles.title}>POI vicini</Text>
         <Text style={styles.subtitle}>Cosa c'è intorno a te ?</Text>
+
+        <Searchbar
+          style={styles.searchbar}
+          placeholder="Cerca ..."
+          onChangeText={onChangeText}
+          value={searchQuery}
+        />
+
       </View>
 
-      <Searchbar
-        style={styles.searchbar}
-        placeholder="Cerca ..."
-        onChangeText={onChangeText}
-        value={searchQuery}
-      />
+      <View style={styles.body}>
+        <FlatList
+          data={filteredPOIs}
+          renderItem={renderItem}
+          keyExtractor={item => item._id}
+        />
+      </View>
 
-      <FlatList
-        data={filteredPOIs}
-        renderItem={renderItem}
-        keyExtractor={item => item._id}
-      />
+      
     </View>
 
   )
@@ -80,9 +85,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dirty_white_palette,
   },
   header: {
-    height: Dimensions.get('window').height / 6,
+    height: Dimensions.get('window').height / 5,
     backgroundColor: colors.dark_blue_palette,
-    borderBottomRightRadius: 200
   },
   title: {
     fontSize: 40,
@@ -95,6 +99,7 @@ const styles = StyleSheet.create({
     color: colors.grey,
     fontSize: 30,
     marginLeft: 20,
+    marginTop:10,
     fontStyle: "italic",
   },
   hidden: {
@@ -102,7 +107,7 @@ const styles = StyleSheet.create({
     marginVertical: -15,
   },
   searchbar: {
-    borderRadius: 10,
+    borderRadius: 30,
     height: 50,
     marginTop: 15,
     marginLeft: 15,
@@ -122,6 +127,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.grey,
     left: 10,
+  },
+  body: {
+    flex: 6,
+    marginTop: Dimensions.get('window').height /16
   },
   searchbar_icon: {
     position: 'absolute',

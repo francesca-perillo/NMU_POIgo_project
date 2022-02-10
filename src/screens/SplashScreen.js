@@ -16,6 +16,7 @@ const SplashScreen = () => {
 
     const moveLogo = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
     const moveTitle = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+    const upView = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
 
 
     const contentTransition = useRef(new Animated.Value(Dimensions.get('window').height)).current;
@@ -53,8 +54,8 @@ const SplashScreen = () => {
                     moveLogo,
                     {
                         toValue: {
-                            x: (Dimensions.get("window").width / 60),
-                            y: (Dimensions.get('window').height / 1.8)
+                            x: 0,
+                            y: Dimensions.get('window').height * 1.53
                         },
                         useNativeDriver: true
                     }
@@ -64,7 +65,17 @@ const SplashScreen = () => {
                     {
                         toValue: {
                             x: 0,
-                            y: (Dimensions.get('window').height / 2) + 1000
+                            y: (Dimensions.get('window').height)
+                        },
+                        useNativeDriver: true
+                    }
+                ),
+                Animated.timing(
+                    upView,
+                    {
+                        toValue: {
+                            x: 0,
+                            y: - Dimensions.get('window').height
                         },
                         useNativeDriver: true
                     }
@@ -82,7 +93,6 @@ const SplashScreen = () => {
         }, 3000);
 
     }, [])
-
 
     return(
         <View style={{
@@ -102,8 +112,12 @@ const SplashScreen = () => {
             }}>
                 <Animated.View style={{
                     flex: 1,
+                    backgroundColor: colors.white,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    transform: [
+                        { translateY: upView.y }
+                    ]
                 }}>
                     <Animated.Image source={require('../../assets/logo.png')}
                         style={{

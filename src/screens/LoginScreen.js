@@ -1,5 +1,5 @@
 // Import React and Component
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Alert, Dimensions, Text, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, StyleSheet, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import { SafeAreaView } from "react-navigation";
 import colors from "../config/colors";
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     divLogo: {
-        marginTop: Dimensions.get('window').height / 15,
         justifyContent: 'center',
         alignItems: 'center',
     },
