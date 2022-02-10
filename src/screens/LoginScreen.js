@@ -69,18 +69,19 @@ const LoginScreen = () => {
                         <Pressable
                             style={styles.button}
                             onPress={() => {
-                                if (email == "") {
-                                    Alert.alert('Attenzione', 'Inserisci l\'email prima di continuare');
-                                } else if (password == "") {
-                                    Alert.alert('Attenzione', 'Inserisci la password prima di continuare');
-                                } else if (isValid(email, "email")) {
-                                    navigation.navigate('Home');
-                                } else {
-                                    Alert.alert('Email non valida', 'Assicurati di aver scritto correttamente la tua email!');
-                                }
+                                // if (email == "") {
+                                //     Alert.alert('Attenzione', 'Inserisci l\'email prima di continuare');
+                                // } else if (password == "") {
+                                //     Alert.alert('Attenzione', 'Inserisci la password prima di continuare');
+                                // } else if (isValid(email, "email")) {
+                                //     navigation.navigate('Home');
+                                // } else {
+                                //     Alert.alert('Email non valida', 'Assicurati di aver scritto correttamente la tua email!');
+                                // }
+                                navigation.navigate('Home');
                             }
                             }>
-                            <Text style={styles.buttonText}>Login</Text>
+                            <Text style={styles.buttonText}>Accedi</Text>
                         </Pressable>
 
                         <Pressable onPress={() => navigation.navigate('Register')} >
