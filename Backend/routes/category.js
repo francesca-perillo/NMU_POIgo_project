@@ -17,12 +17,12 @@ router.get('/:id', async (req, res) => {
 
     // Check if the id is valid
     if (!isValidObjectId(id))
-        return res.status(400).send('Invalid id');
+        return res.status(400).send({ error: "Invalid id" });
 
     // Retrieve the category with the given id
     const category = await Category.findById(id);
     if (!category)
-        return res.status(404).send('Category not found');
+        return res.status(404).send({ error: "Category not found" });
 
     res.send(category);
 });

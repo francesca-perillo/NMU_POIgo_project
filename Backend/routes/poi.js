@@ -59,12 +59,12 @@ router.get('/:id', async (req, res) => {
 
     // Check if the id is valid
     if (!isValidObjectId(id))
-        return res.status(400).send('Invalid id');
+        return res.status(400).send({ error: "Invalid id" });
 
     // Retrieve the poi with the given id
     const poi = await POI.findById(id);
     if (!poi)
-        return res.status(404).send('POI not found');
+        return res.status(404).send({ error: "POI not found" });
 
     res.send(poi);
 });

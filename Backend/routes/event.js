@@ -16,12 +16,12 @@ router.get('/:id', async (req, res) => {
 
     // Check if the id is valid
     if (!isValidObjectId(id))
-        return res.status(400).send('Invalid id');
+        return res.status(400).send({ error: "Invalid id" });
 
     // Retrieve the poi with the given id
     const event = await Event.findById(id);
     if (!event)
-        return res.status(404).send('Event not found');
+        return res.status(404).send({ error: "Event not found" });
 
     res.send(event);
 });
@@ -29,19 +29,19 @@ router.get('/:id', async (req, res) => {
 // Create a new event
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const {description, date, address, hours, createdBy} = req.body;
+    const { description, date, address, hours, createdBy } = req.body;
 
     if (!description)
         return res.status(400).send("The 'description' field is required");
-    if(!date)
+    if (!date)
         return res.status(400).send("The 'date' field is required");
-    if(!address)
+    if (!address)
         return res.status(400).send("The 'address' field is required");
-    if(!hours)
+    if (!hours)
         return res.status(400).send("The 'hours' field is required");
-    if(!createdBy)
+    if (!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
-    
+
     // Create a new event
     const event = await Event.create({ description, date, address, hours, createdBy });
     res.send(event);
@@ -57,16 +57,16 @@ router.put('/:id', async (req, res) => {
     // Check if the id is valid
     if (!isValidObjectId(id))
         return res.status(400).send('Invalid id');
-    
+
     if (!description)
-    return res.status(400).send("The 'description' field is required");
-    if(!date)
+        return res.status(400).send("The 'description' field is required");
+    if (!date)
         return res.status(400).send("The 'date' field is required");
-    if(!address)
+    if (!address)
         return res.status(400).send("The 'address' field is required");
-    if(!hours)
+    if (!hours)
         return res.status(400).send("The 'hours' field is required");
-    if(!createdBy)
+    if (!createdBy)
         return res.status(400).send("The 'createdBy' field is required");
 
     // Try to update the event with the given id

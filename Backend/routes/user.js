@@ -30,13 +30,13 @@ router.get('/:id', async (req, res) => {
 // Create a new user
 router.post('/', async (req, res) => {
     // Retrieve values from the request body
-    const {email, password, credit_cart, activity, is_paid, is_active, is_qualified, type} = req.body;
+    const { email, password, credit_cart, activity, is_paid, is_active, is_qualified, type } = req.body;
 
     if (!email)
         return res.status(400).send("The 'email' field is required");
-    if(!password)
+    if (!password)
         return res.status(400).send("The 'password' field is required");
-    if(!type)
+    if (!type)
         return res.status(400).send("The 'type' field is required");
 
     // Create a new user
@@ -54,16 +54,16 @@ router.put('/:id', async (req, res) => {
     // Check if the id is valid
     if (!isValidObjectId(id))
         return res.status(400).send('Invalid id');
-    
+
     if (!email)
         return res.status(400).send("The 'email' field is required");
-    if(!password)
+    if (!password)
         return res.status(400).send("The 'password' field is required");
-    if(!type)
+    if (!type)
         return res.status(400).send("The 'type' field is required");
 
     // Try to update the user with the given id
-    const user = await User.findByIdAndUpdate(id, {email, password, credit_cart, activity, is_paid, is_active, is_qualified, type }, { new: true });
+    const user = await User.findByIdAndUpdate(id, { email, password, credit_cart, activity, is_paid, is_active, is_qualified, type }, { new: true });
     if (!user)
         return res.status(404).send('User not found');
 

@@ -43,12 +43,12 @@ router.get('/:id', async (req, res) => {
 
     // Check if the id is valid
     if (!isValidObjectId(id))
-        return res.status(400).send('Invalid id');
+        return res.status(400).send({ error: "Invalid id" });
 
     // Retrieve the alert with the given id
     const alert = await Alert.findById(id);
     if (!alert)
-        return res.status(404).send('Alert not found');
+        return res.status(404).send({ error: "Alert not found" });
 
     res.send(alert);
 });
