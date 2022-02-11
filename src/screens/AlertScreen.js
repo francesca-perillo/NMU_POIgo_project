@@ -6,6 +6,7 @@ import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
 import Camera from '../components/Camera';
 import * as CloudinaryController from '../controller/CloudinaryController';
+import * as Location from 'expo-location';
 
 const INPUT_BORDER_WIDTH = 1;
 
@@ -13,17 +14,41 @@ const AlertList = () => {
   const [alerts, setAlerts] = useState([]);
   const isFocused = useIsFocused();
 
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
   useEffect(() => {
+
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+
     if (!isFocused)
       return
-
+  
     const loadAlerts = async () => {
       const alerts = await AlertsController.getAllAlertsApproved();
       setAlerts(alerts);
     };
 
     loadAlerts();
-  }, [isFocused])
+  }, [isFocused]);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
+  console.log(text);
 
   //to set visibility at body
   const [bodyVisible, setBodyVisible] = useState(true);
@@ -49,7 +74,9 @@ const AlertList = () => {
   }
 
   const insertAlert = async (image) => {
-    const newAlert = await AlertsController.insertAlert(title, description, image, addressObject);
+
+    
+    const newAlert = await AlertsController.insertAlert(title, description, image, addressObject, location);
     setAlerts(alerts => [...alerts, newAlert]);
     dismissModal();
   };
