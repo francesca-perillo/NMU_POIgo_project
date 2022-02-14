@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable, TouchableOpacity, ImageBackground, Dimensions, Alert } from "react-native";
 import colors from '../config/colors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as CategoriesController from '../controller/CategoriesController';
-//barra di ricerca
-import { Searchbar } from 'react-native-paper';
+import { LinearGradient } from "expo-linear-gradient";
+import { Animated } from "react-native";
+
+
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
+
 
 const Stack = createNativeStackNavigator();
 
 const CategoryScreen = ({ navigation }) => {
-    // to search bar 
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const onChangeText = query => setSearchQuery(query);
 
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
@@ -151,116 +152,113 @@ const CategoryScreen = ({ navigation }) => {
     );
 
     return (
-        <View>
-            <View style={styles.header}>
-                <Text style={styles.title}>Categorie</Text>
-                <Text style={styles.subtitle}>Seleziona le tue preferenze!</Text>
-            </View>
+         
+            <View style = {{backgroundColor: colors.dirty_white_palette}}>
+                
+                <AnimatedLinearGradient
+                    colors={[colors.dark_blue_palette,colors.dark_blue_palette]}
+                    style={styles.header}>
+                    <Text style ={styles.title}>Categorie</Text>
+                </AnimatedLinearGradient> 
 
-            <Searchbar
-                style={styles.searchbar}
-                placeholder="Cerca ..."
-                onChangeText={onChangeText}
-                value={searchQuery}
-            />
-
-            <View style={styles.listOfcategory}>
-                <FlatList
-                    horizontal={true}
-                    data={categories}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
-
-            <View style={styles.listOfSubcategory}>
-                <FlatList
-                    numColumns={3}
-                    data={subcategories}
-                    renderItem={renderSubcategory}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
-
-            {selectedSubcategories.length > 0 ? (
-                <View style={styles.containerButton}>
-                    <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
-                        <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
-                    </Pressable>
-
-                    <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
-                        <Text style={styles.buttonGoListText} >Vai alla lista</Text>
-                    </Pressable>
+                <View style={styles.listOfcategory}>
+                    <FlatList
+                        horizontal={true}
+                        data={categories}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => item.id}
+                    />
                 </View>
-            ) : (
-                <View style={styles.containerButton}>
-                    <Pressable style={styles.buttonGoMapDisabled}>
-                        <Text style={styles.buttonGoMapTextDisabled} >Vai alla mappa</Text>
-                    </Pressable>
 
-                    <Pressable style={styles.buttonGoListDisabled}>
-                        <Text style={styles.buttonGoListTextDisabled} >Vai alla lista</Text>
-                    </Pressable>
+                <View style={styles.listOfSubcategory}>
+                    <FlatList
+                        numColumns={3}
+                        data={subcategories}
+                        renderItem={renderSubcategory}
+                        keyExtractor={(item) => item.id}
+                    />
                 </View>
-            )
-            }
 
-        </View>
+                {selectedSubcategories.length > 0 ? (
+                    <View style={styles.containerButton}>
+                        <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
+                            <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
+                        </Pressable>
+
+                        <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
+                            <Text style={styles.buttonGoListText} >Vai alla lista</Text>
+                        </Pressable>
+                    </View>
+                ) : (
+                    <View style={styles.containerButton}>
+                        <Pressable style={styles.buttonGoMapDisabled} onPress={() => Alert.alert(
+                                'Per poter proseguire, scegli prima una sottocategotia',
+                                'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
+                                [
+                                    {text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked')},
+                                ],
+                                { 
+                                    cancelable: false 
+                                })}>
+                            <Text style={styles.buttonGoMapTextDisabled} >Vai alla mappa</Text>
+                        </Pressable>
+
+                        <Pressable style={styles.buttonGoListDisabled} onPress={() => Alert.alert(
+                                'Per poter proseguire, scegli prima una sottocategotia',
+                                'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
+                                [
+                                    {text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked')},
+                                ],
+                                { 
+                                    cancelable: false 
+                                })}>
+                            <Text style={styles.buttonGoListTextDisabled} >Vai alla lista</Text>
+                        </Pressable>
+                    </View>
+                )
+                }
+
+        </View>   
     );
 };
 
 const styles = StyleSheet.create({
-    header: {
-        height: Dimensions.get('window').height / 6,
-        backgroundColor: colors.dark_blue_palette,
-        borderBottomRightRadius: 200,
+    header:{
+        height: (Dimensions.get('window').height / 12) * 1.5 ,
     },
     title: {
-        fontSize: 40,
+        fontSize: 30,
+        alignSelf:"center",
         color: colors.white,
         fontWeight: "bold",
-        marginTop: Dimensions.get('window').height / 16,
-        marginLeft: 20
+        marginTop: (Dimensions.get('window').height / 12) * 0.75,
+        //marginLeft: 20
     },
     subtitle: {
         color: colors.grey,
-        fontSize: 25,
+        fontSize: 15,
         marginLeft: 20,
         fontStyle: "italic",
     },
     searchbar: {
-        top: 10,
-        borderRadius: 10,
-        height: 50,
-        marginLeft: 10,
-        marginRight: 10,
-        padding: 15,
-        flexDirection: 'row',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.00,
-        elevation: 1,
-    },
-    searchbar_text: {
-        fontSize: 15,
-        top: 1,
-        color: colors.grey,
-        left: 10,
-    },
-    searchbar_icon: {
         position: 'absolute',
-        top: 10,
-        right: 30,
+        width: Dimensions.get('window').width / 2,
+        alignSelf:"center",
+        borderRadius: 30,
+        borderWidth: 5,
+        borderColor: colors.dirty_white_palette,
+        //shadowColor: 'rgba(252, 252, 252, 0)',
+        backgroundColor: colors.dirty_white_palette,
+        marginTop: (Dimensions.get('window').height / 12) * 1.3 ,
+        height: 50,
+        flexDirection: 'row',
     },
     listOfcategory: {
         width: '100%',
         height: 50,
-        marginHorizontal: 10,
-        marginTop: 30,
+        paddingLeft: 10,
+        backgroundColor:colors.dark_blue_palette,
+        //marginTop: (Dimensions.get('window').height / 12) * 0.1,
         alignContent: 'center',
         alignItems: 'center'
     },
@@ -303,7 +301,7 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
     },
     subcategoryText: {
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
         color: 'white',
@@ -331,25 +329,32 @@ const styles = StyleSheet.create({
     containerButton: {
         width: "100%",
         alignSelf: "center",
-        marginTop: Dimensions.get('window').height / 1.4,
+        bottom: Platform.OS === "ios" ? Dimensions.get('window').height/2.6 : Dimensions.get('window').height/3.1,
         position: 'absolute'
     },
     buttonGoMap: {
         alignItems: "center",
         backgroundColor: colors.dark_blue_palette,
-        borderRadius: 50,
-        marginTop: 100,
-        marginHorizontal: 50,
-        paddingVertical: 20,
+        position: "absolute",
+        width: Dimensions.get('window').width / 2.5,
+        marginLeft: Dimensions.get('window').width / 12,
+        borderWidth:1,
+        borderColor:colors.dark_blue_palette,
+        paddingTop:20,
+        paddingBottom:20,
+        borderRadius: 10,
     },
     buttonGoMapDisabled:{
         alignItems: "center",
         borderColor: colors.grey,
+        backgroundColor: colors.grey,
         borderWidth: 1,
-        borderRadius: 50,
-        marginTop: 100,
-        marginHorizontal: 50,
-        paddingVertical: 20,
+        position: "absolute",
+        width: Dimensions.get('window').width / 2.5,
+        marginLeft: Dimensions.get('window').width / 12,
+        paddingTop:20,
+        paddingBottom:20,
+        borderRadius: 10,
     },
     buttonGoMapText: {
         color: colors.white,
@@ -357,27 +362,39 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     buttonGoMapTextDisabled: {
-        color: colors.grey,
+        color: colors.white,
         textAlign: 'center',
         fontSize: 15,
     },
     buttonGoList: {
         alignItems: "center",
-        margin: 5,
+        position: "absolute",
+        width: Dimensions.get('window').width / 2.5,
+        paddingTop:20,
+        paddingBottom:20,
+        borderRadius: 10,
+        borderColor: colors.dark_blue_palette,
+        borderWidth: 1,
+        marginLeft: Dimensions.get('window').width/2,
     },
     buttonGoListDisabled: {
         alignItems: "center",
-        margin: 5,
+        position: "absolute",
+        width: Dimensions.get('window').width / 2.5,
+        paddingTop:20,
+        paddingBottom:20,
+        borderRadius: 10,
+        borderColor: colors.grey,
+        borderWidth: 1,
+        marginLeft: Dimensions.get('window').width/2,
     },
     buttonGoListText: {
         color: colors.dark_blue_palette,
         fontSize: 15,
-        textDecorationLine: 'underline',
     },
     buttonGoListTextDisabled: {
         color: colors.grey,
         fontSize: 15,
-        textDecorationLine: 'underline',
     },
 })
 

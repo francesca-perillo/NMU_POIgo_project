@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Pressable, Dimensions, Alert} from "react-native";
+import { StyleSheet, Text, View, ScrollView, Pressable, Dimensions} from "react-native";
 import colors from '../config/colors';
 //per navigare tra le schermate si importa useNavigator e
 //si dichiara const navigation = useNavigation();
@@ -8,8 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Searchbar } from 'react-native-paper';
 
 const windowWidth = Dimensions.get('window').width;
-
-const arrival = ['Via Lamberti n.64', 'Via Europa', 'Viale della Speranza', 'Via delle Tofane n.56']
 
 const TransportScreen = () => {
   const navigation = useNavigation();

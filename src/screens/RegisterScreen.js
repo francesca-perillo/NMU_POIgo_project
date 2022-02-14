@@ -124,12 +124,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white
     },
     divLogo: {
-        marginTop: Dimensions.get('window').height / 15,
+        marginTop: Platform.OS === "ios" ? Dimensions.get('window').height/25 : Dimensions.get('window').height/15,
         justifyContent: 'center',
         alignItems: 'center',
     },
     logo: {
-        marginTop: 25,
         height: 120,
         width: 120,
         shadowColor: colors.black,
@@ -202,7 +201,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width / 2,
         marginLeft: Dimensions.get('window').width / 5,
         justifyContent: 'center',
-        borderRadius: 50,
+        borderRadius: 10,
         alignItems: 'center',
         textShadowOffset: { width: 1, height: 10 },
         shadowOpacity: 0.4,

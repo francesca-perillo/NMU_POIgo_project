@@ -25,7 +25,8 @@ const HomeScreen = () => {
                     source={require("../../assets/ButtonImg/cla_nav.jpg")}>
                 </Image>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>Navigazione Classica</Text>
+                    <Text style={styles.buttonText}>navigazione</Text>
+                    <Text style={styles.buttonText}>classica</Text>
                 </View>
             </Pressable>
 
@@ -35,7 +36,8 @@ const HomeScreen = () => {
                     source={require("../../assets/ButtonImg/sem_nav.jpg")}>
                 </Image>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>City Roaming</Text>
+                    <Text style={styles.buttonText}>Navigazione</Text>
+                    <Text style={styles.buttonText}>personalizzata</Text>
                 </View>
             </Pressable>
         </View>
@@ -57,7 +59,7 @@ buttonImage: {
     width: windowWidth-60,
     height: 120,
     marginBottom: 40,
-    borderRadius: 60,
+    borderRadius: 30,
     //opacity: 0.5,
     shadowColor: "#000",
     shadowOffset: {

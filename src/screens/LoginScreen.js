@@ -1,6 +1,6 @@
 // Import React and Component
 import React from "react";
-import { Alert, Dimensions, Text, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, StyleSheet, View, TextInput, ImageBackground, Pressable } from 'react-native';
+import { Dimensions, Text, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, StyleSheet, View, TextInput, ImageBackground, Pressable } from 'react-native';
 import { SafeAreaView } from "react-navigation";
 import colors from "../config/colors";
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -102,11 +102,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     divLogo: {
+        marginTop: Platform.OS === "ios" ? Dimensions.get('window').height/25 : Dimensions.get('window').height/15,
         justifyContent: 'center',
         alignItems: 'center',
     },
     logo: {
-        marginTop: 25,
         height: 120,
         width: 120,
         shadowColor: colors.black,
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width / 2,
         marginLeft: Dimensions.get('window').width / 5,
         justifyContent: 'center',
-        borderRadius: 50,
+        borderRadius: 10,
         alignItems: 'center',
         textShadowOffset: { width: 1, height: 10 },
         shadowOpacity: 0.4,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Dimensions } from "react-native";
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Dimensions,ImageBackground } from "react-native";
 import colors from "../config/colors";
 import { getNearestPOI } from "../controller/POIController";
 //barra di ricerca
@@ -52,28 +52,29 @@ const POIviciniScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>POI vicini</Text>
-        <Text style={styles.subtitle}>Cosa c'è intorno a te ?</Text>
-
-        <Searchbar
-          style={styles.searchbar}
-          placeholder="Cerca ..."
-          onChangeText={onChangeText}
-          value={searchQuery}
-        />
-
-      </View>
-
+      <ImageBackground
+                source={require('../../assets/wallpaper1.jpg')}
+                style={{
+                    height: (Dimensions.get('window').height / 12) * 2.5,
+                }}>
+                <SafeAreaView style={styles.header}>
+                  <Text style={styles.title}>POI vicini</Text>
+                  <Searchbar
+                    style={styles.searchbar}
+                    placeholder="Cerca ..."
+                    onChangeText={onChangeText}
+                    value={searchQuery}
+                  />
+                </SafeAreaView>
+            </ImageBackground>
+  
       <View style={styles.body}>
         <FlatList
           data={filteredPOIs}
           renderItem={renderItem}
           keyExtractor={item => item._id}
         />
-      </View>
-
-      
+      </View> 
     </View>
 
   )
@@ -85,15 +86,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dirty_white_palette,
   },
   header: {
-    height: Dimensions.get('window').height / 5,
-    backgroundColor: colors.dark_blue_palette,
+    position:"absolute",
+    top: '25%',
+    alignSelf: 'center'
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
+    marginBottom: 10,
     color: colors.white,
+    textAlign: "center",
     fontWeight: "bold",
-    marginTop: Dimensions.get('window').height / 16,
-    marginLeft: 20
   },
   subtitle: {
     color: colors.grey,
@@ -107,13 +109,9 @@ const styles = StyleSheet.create({
     marginVertical: -15,
   },
   searchbar: {
-    borderRadius: 30,
-    height: 50,
-    marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 10,
-    flexDirection: 'row',
+    borderRadius: 10,
+    alignSelf:"center",
+    width: Dimensions.get('window').width/1.6,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -123,19 +121,9 @@ const styles = StyleSheet.create({
     shadowRadius: 1.00,
     elevation: 1,
   },
-  searchbar_text: {
-    fontSize: 15,
-    color: colors.grey,
-    left: 10,
-  },
   body: {
     flex: 6,
     marginTop: Dimensions.get('window').height /16
-  },
-  searchbar_icon: {
-    position: 'absolute',
-    top: 10,
-    right: 30,
   },
   item: {
     flex: 1,
@@ -147,38 +135,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.dirty_white_palette,
     borderBottomColor: colors.grey,
-    marginLeft: "4%",
-    marginRight: "4%",
-    paddingLeft: "5%",
     flexDirection: "column"
   },
-  image_item: {
-    flex: 1,
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 5,
-  },
   poi_item: {
-    flex: 1,
-    fontSize: 20,
+    flex: 0.8,
+    fontSize: 18,
     color: colors.black,
-    fontWeight: "bold",
     marginVertical: 8,
   },
   distance_item: {
-    fontSize: 18,
-    color: "white",
-    marginRight: "4%",
-    marginBottom: "4%",
+    color: colors.white,
   },
   container_message_item: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    alignSelf: 'stretch',
-    width: 70,
-    borderRadius: 50,
-    marginRight: 20,
+    position:'absolute',
+    marginLeft: Dimensions.get('window').width / 1.2,
+    top: '60%',
     backgroundColor: colors.dark_blue_palette,
+    borderWidth:3,
+    borderColor:colors.dark_blue_palette,
+    borderRadius:10,
   },
 });
 
