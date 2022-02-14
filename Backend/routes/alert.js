@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
         return res.status(400).send(error.createdBy = 'CreatedBy is required');
 
     // Create a new alert
-    const alert = await Alert.create({ title, description, photo, address, approval, createdBy, location});
+    const alert = await Alert.create({ title, description, photo, address, approval, createdBy });
     res.send(alert);
 });
 
@@ -81,7 +81,7 @@ router.put('/:id', async (req, res) => {
     // Retrieve params from the request
     const { id } = req.params;
     // Retrieve values from the request body
-    const { title, description, photo, address, approval, createdBy, location } = req.body;
+    const { title, description, photo, address, approval, createdBy } = req.body;
 
     // Check if the id is valid
     if (!isValidObjectId(id))
@@ -100,7 +100,7 @@ router.put('/:id', async (req, res) => {
 
 
     // Try to update the alert with the given id
-    const alert = await Alert.findByIdAndUpdate(id, { title, description, photo, address, approval, createdBy, location }, { new: true });
+    const alert = await Alert.findByIdAndUpdate(id, { title, description, photo, address, approval, createdBy }, { new: true });
     if (!alert)
         return res.status(404).send('Alert not found');
 

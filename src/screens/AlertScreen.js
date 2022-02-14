@@ -32,7 +32,7 @@ const AlertList = () => {
 
     if (!isFocused)
       return
-  
+
     const loadAlerts = async () => {
       const alerts = await AlertsController.getAllAlertsApproved();
       setAlerts(alerts);
@@ -75,8 +75,8 @@ const AlertList = () => {
 
   const insertAlert = async (image) => {
 
-    
-    const newAlert = await AlertsController.insertAlert(title, description, image, addressObject, location);
+
+    const newAlert = await AlertsController.insertAlert(title, description, image, addressObject);
     setAlerts(alerts => [...alerts, newAlert]);
     dismissModal();
   };
@@ -86,7 +86,7 @@ const AlertList = () => {
       setHasErrors(true);
       return;
     }
-    
+
     setIsLoading(true);
     const photoByCloudinary = await CloudinaryController.sendsPhotoToCloudinary(capturedImage);
     insertAlert(photoByCloudinary.msg);
@@ -100,7 +100,7 @@ const AlertList = () => {
     setPreviewVisible(false);
     setCapturedImage(null);
     setStartCamera(false);
-  } 
+  }
 
   return (
     <View style={styles.container}>
@@ -153,17 +153,17 @@ const AlertList = () => {
 
                 <Text style={styles.titleInsert}>Cosa vuoi segnalare? </Text>
 
-                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setTitle} placeholder="Titolo" placeholderTextColor={colors.grey} />
+                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError] : [])]} onChangeText={setTitle} placeholder="Titolo" placeholderTextColor={colors.grey} />
 
-                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setDescription} placeholder="Descrizione" placeholderTextColor={colors.grey} />
+                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError] : [])]} onChangeText={setDescription} placeholder="Descrizione" placeholderTextColor={colors.grey} />
 
                 <Text style={styles.titleInsert}>Dove avviene ciò? </Text>
 
-                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setStreet} placeholder="Via" placeholderTextColor={colors.grey} />
+                <TextInput style={[styles.input, ...(hasErrors ? [styles.inputError] : [])]} onChangeText={setStreet} placeholder="Via" placeholderTextColor={colors.grey} />
 
                 <View style={styles.twoColumns}>
-                  <TextInput style={[styles.input, styles.halfSizeInput, ...(hasErrors ? [styles.inputError]: [])]} onChangeText={setCity} placeholder="Città" placeholderTextColor={colors.grey} />
-                  <TextInput style={[styles.input, styles.halfSizeInput, ...(hasErrors ? [styles.inputError]: [])]} keyboardType="number-pad" onChangeText={setCap} placeholder="CAP" placeholderTextColor={colors.grey} />
+                  <TextInput style={[styles.input, styles.halfSizeInput, ...(hasErrors ? [styles.inputError] : [])]} onChangeText={setCity} placeholder="Città" placeholderTextColor={colors.grey} />
+                  <TextInput style={[styles.input, styles.halfSizeInput, ...(hasErrors ? [styles.inputError] : [])]} keyboardType="number-pad" onChangeText={setCap} placeholder="CAP" placeholderTextColor={colors.grey} />
                 </View>
 
                 {previewVisible && capturedImage ? (
@@ -186,7 +186,7 @@ const AlertList = () => {
 
                 <View style={styles.containerButtonSendAlert}>
                   <Pressable style={styles.buttonConfirmNewAlert} onPress={insertPhotoOnCloudinary}>
-                    {isLoading && <ActivityIndicator color={colors.white}/>}
+                    {isLoading && <ActivityIndicator color={colors.white} />}
                     {!isLoading && <Text style={styles.buttonConfirmNewAlertText}>Invia segnalazione</Text>}
                   </Pressable>
                   {!isLoading && <Text style={styles.buttonDiscardNewAlert} onPress={dismissModal}>Chiudi</Text>}
