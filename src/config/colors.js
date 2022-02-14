@@ -9,6 +9,7 @@ export default {
     grey_palette: "#D7E5EE",
     dirty_white_palette: "#F8F6F2",
     green_confirm_operation: "#008000",
+    yellow: "#ffdc00",
     red_discard_operation: "#FF0000",
     grey: "#C0C0C0",
 }
