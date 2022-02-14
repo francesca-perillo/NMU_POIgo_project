@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { ActivityIndicator, StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, ScrollViewBase } from "react-native";
+import { ImageBackground, ActivityIndicator, StyleSheet, Text, View, FlatList, Image, Modal, Pressable, TextInput, Dimensions, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, ScrollViewBase } from "react-native";
 import colors from "../config/colors";
 import { useIsFocused } from "@react-navigation/native";
 import * as AlertsController from '../controller/AlertController';
@@ -37,7 +37,6 @@ const AlertList = () => {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
-    console.log(text);
   }
 
     if (!isFocused)
@@ -50,10 +49,6 @@ const AlertList = () => {
 
     loadAlerts();
 }, [isFocused]);
-
-  
-
-
 
   //to set visibility at body
   const [bodyVisible, setBodyVisible] = useState(true);
@@ -148,7 +143,7 @@ const AlertList = () => {
 
       <View style={styles.header}>
         <Text style={styles.title}>Segnalazioni</Text>
-        <Text style={styles.subtitle}>Cosa succede in città ?</Text>
+        <Text style={styles.subtitle}>Cosa succede in città?</Text>
       </View>
 
       {
@@ -383,13 +378,6 @@ const AlertList = () => {
       }
 
       <View style={styles.body}>
-         {buttonVisible ? (
-        <View style={styles.containerSensorsData}>
-          <Pressable style={styles.buttonSensorsData} onPress={() => [setBodyVisibleToShowSensors(!bodyVisibleToShowSensors), setButtonVisibleToShowSensors(!buttonVisibleToShowSensors)]}>
-            <Text style={styles.buttonTextSensorsData}>Visualizza i dati dei sensori</Text>
-          </Pressable>
-        </View>
-      ) : null}
         <FlatList
           data={alerts}
           renderItem={({ item, id }) => {
@@ -476,36 +464,57 @@ const AlertList = () => {
         </Modal>
       }
 
-      {buttonVisible ? (
-        <View style={styles.containerButtonNewAlert}>
-          <Pressable style={styles.buttonNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
-            <Text style={styles.buttonTextNewAlert}>Avvia nuova segnalazione</Text>
-          </Pressable>
-        </View>
-      ) : null}
+
+      <View style={{flexDirection: 'row'}}> 
+        {buttonVisible ? (
+            <View style={styles.containerSensorsData}>
+              <Pressable style={styles.buttonSensorsData} onPress={() => [setBodyVisibleToShowSensors(!bodyVisibleToShowSensors), setButtonVisibleToShowSensors(!buttonVisibleToShowSensors)]}>
+                <Text style={styles.buttonTextSensorsData}>Visualizza i dati dei sensori</Text>
+              </Pressable>
+            </View>
+        ) : null}
+
+        {buttonVisible ? (
+          <View style={styles.containerButtonNewAlert}>
+            <Pressable style={styles.buttonNewAlert} onPress={() => [setBodyVisible(!bodyVisible), setButtonVisible(!buttonVisible)]}>
+              <Text style={styles.buttonTextNewAlert}>Avvia nuova segnalazione</Text>
+            </Pressable>
+          </View>
+        ) : null}
+      </View>
+      
+      
+      
+
+        
+
+
+
+      
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   containerSensorsData: {
-    height: Dimensions.get('window').height / 15,
-    width: "120%",
-    alignSelf: "center",
+    marginLeft: 30,
+    marginRight: Dimensions.get('window').width/10,
   },
   buttonSensorsData: {
-    marginHorizontal: 50,
-    paddingVertical: 10,
+    height: 70,
+    width: Dimensions.get('window').width/2.5,
+    backgroundColor: colors.dark_blue_palette,
+    borderRadius: 10,
+    alignSelf: 'center',
     borderWidth: 1,
     borderColor: colors.dark_blue_palette,
-    backgroundColor: colors.light_blue_palette,
-    borderRadius: 20,
-    alignSelf: 'stretch',
   },
   buttonTextSensorsData: {
     color: colors.white,
-    fontSize: 15,
+    fontSize: 16,
     textAlign: "center",
+    paddingTop: 12,
   },
   areasContainer: {
     flex: 5,
@@ -556,21 +565,24 @@ const styles = StyleSheet.create({
   },
   header: {
     height: Dimensions.get('window').height / 6,
-    backgroundColor: colors.dark_blue_palette,
-    borderBottomRightRadius: 200
+    backgroundColor: colors.beau_blue,
+    borderBottomRightRadius: 25,
+    borderBottomLeftRadius: 25,
   },
   title: {
-    fontSize: 40,
-    color: colors.white,
+    fontSize: 30,
+    color: colors.dark_blue_palette,
     fontWeight: "bold",
     marginTop: Dimensions.get('window').height / 16,
-    marginLeft: 20
+    marginLeft: 20,
+    textAlign: 'center'
   },
   subtitle: {
-    color: colors.grey,
-    fontSize: 30,
+    color: colors.sea_blue,
+    fontSize: 18,
     marginLeft: 20,
     fontStyle: "italic",
+    textAlign: 'center',
   },
   item: {
     width: Dimensions.get('window').width / 1.1,
@@ -616,7 +628,6 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   row_container: {
-
     flexDirection: "row"
   },
   body: {
@@ -625,24 +636,24 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get('window').height / 40
   },
   containerButtonNewAlert: {
-    height: Dimensions.get('window').height / 5,
-    width: "90%",
-    alignSelf: "center",
+    marginBottom: 100,
+    marginRight: 30,
   },
   buttonNewAlert: {
-    marginHorizontal: 50,
-    paddingVertical: 20,
+    height: 70,
+    width: Dimensions.get('window').width/3,
+    backgroundColor: colors.dirty_white_palette,
+    padding: "3%",
+    borderRadius: 10,
+    alignSelf: 'center',
     borderWidth: 1,
     borderColor: colors.dark_blue_palette,
-    backgroundColor: colors.dark_blue_palette,
-    padding: "3%",
-    borderRadius: 50,
-    alignSelf: 'stretch',
   },
   buttonTextNewAlert: {
-    color: colors.white,
-    fontSize: 15,
+    color: colors.dark_blue_palette,
+    fontSize: 16,
     textAlign: "center",
+    paddingTop: 10,
   },
 
   //Stile nuova segnalazione

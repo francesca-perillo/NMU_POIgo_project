@@ -35,14 +35,20 @@ const CityRoaming = () => {
                 <Pressable onPress={() => navigation.navigate('Routes')}>
     
                     <View style={styles.button}>
-                        <Text style={styles.buttonText}>Percorsi tematici</Text>
+                        <View style={{flexDirection: 'column', flex:5}}>
+                            <Text style={styles.buttonText}>Percorsi</Text>
+                            <Text style={styles.buttonText}>tematici</Text>
+                        </View>
                         <Ionicons style={styles.button_icon}  name="chevron-forward-outline"></Ionicons>
                     </View>
                 </Pressable>
     
                 <Pressable onPress={() => navigation.navigate('Category')}>
                     <View style={styles.button}>
-                        <Text style={styles.buttonText}>Aarea di interesse</Text>
+                        <View style={{flexDirection: 'column', flex:5}}>
+                            <Text style={styles.buttonText}>Area di</Text>
+                            <Text style={styles.buttonText}>interesse</Text>
+                        </View>
                         <Ionicons style={styles.button_icon}  name="chevron-forward-outline"></Ionicons>
                     </View>
                 </Pressable>
@@ -83,32 +89,14 @@ const styles = StyleSheet.create({
     title: {
         overflow: 'visible',
         fontSize: 30,
-        color: colors.white,
+        color: colors.dark_blue_palette,
         fontWeight: "bold",
         textAlign: "center",
-        textShadowColor: colors.dark_blue_palette,
-        textShadowOffset: {width: 2, height: 4},
-        textShadowRadius: 1,
-    },
-    subtitle: {
-        position:'absolute',
-        top: '100%',
-        left: '12%',
-        paddingLeft: 5,
-        paddingRight: 5,
-        fontSize: 20,
-        color: colors.dark_blue_palette,
-        fontStyle: "italic",
-        borderBottomLeftRadius:10,
-        borderBottomRightRadius: 10,
-        backgroundColor: colors.white,
-        borderRadius: 10,
-        overflow: 'hidden',
     },
     body: {
         paddingTop: 60,
         alignItems: "center",
-        backgroundColor: colors.sea_blue,
+        backgroundColor: colors.beau_blue,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         marginTop: (Dimensions.get('window').height / 12) * 6.8,
@@ -116,7 +104,7 @@ const styles = StyleSheet.create({
     
     },
     buttonDescription: {
-        color: colors.white,
+        color: colors.black,
         textAlign: "justify",
         fontSize: 18,
         marginTop: 10,
@@ -128,12 +116,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 30,
         width: Dimensions.get('window').width/2,
-        backgroundColor: 'rgba(255,255,255,255)',
+        backgroundColor: colors.dark_blue_palette,
         flexDirection: 'row',
     },
     buttonText: {
-        flex:5,
-        color: colors.dark_blue_palette,
+        color: colors.white,
         marginLeft: 10,
         fontSize:20,
         fontWeight: 'bold',
@@ -142,7 +129,7 @@ const styles = StyleSheet.create({
     button_icon:{
         flex:1,
         fontSize: 40,
-        color: colors.dark_blue_palette,
+        color: colors.white,
         top:'1%'
     }
     });

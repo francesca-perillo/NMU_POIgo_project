@@ -37,14 +37,20 @@ const HomeScreen = () => {
             <Pressable onPress={() => navigation.navigate('ClassicNavigation')}>
 
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>Navigazione classica</Text>
+                <View style={{flexDirection: 'column', flex:5}}>
+                            <Text style={styles.buttonText}>Navigazione</Text>
+                            <Text style={styles.buttonText}>classica</Text>
+                        </View>
                     <Ionicons style={styles.button_icon}  name="chevron-forward-outline"></Ionicons>
                 </View>
             </Pressable>
 
             <Pressable onPress={() => navigation.navigate('CityRoaming')}>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>Navigazione personalizzata</Text>
+                <View style={{flexDirection: 'column', flex:5}}>
+                            <Text style={styles.buttonText}>Navigazione</Text>
+                            <Text style={styles.buttonText}>personalizzata</Text>
+                        </View>
                     <Ionicons style={styles.button_icon}  name="chevron-forward-outline"></Ionicons>
                 </View>
             </Pressable>
@@ -113,7 +119,7 @@ subtitle: {
 body: {
     paddingTop: 60,
     alignItems: "center",
-    backgroundColor: colors.sea_blue,
+    backgroundColor: colors.beau_blue,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: (Dimensions.get('window').height / 12) * 6.8,
@@ -121,10 +127,10 @@ body: {
 
 },
 buttonDescription: {
-    color: colors.white,
+    color: colors.black,
     textAlign: "justify",
     fontSize: 18,
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 30, 
     marginRight: 30,
 },
@@ -133,12 +139,11 @@ button: {
     borderRadius: 10,
     marginTop: 30,
     width: Dimensions.get('window').width/2,
-    backgroundColor: 'rgba(255,255,255,255)',
+    backgroundColor: colors.dark_blue_palette,
     flexDirection: 'row',
 },
 buttonText: {
-    flex:5,
-    color: colors.dark_blue_palette,
+    color: colors.white,
     marginLeft: 10,
     fontSize:20,
     fontWeight: 'bold',
@@ -147,7 +152,7 @@ buttonText: {
 button_icon:{
     flex:1,
     fontSize: 40,
-    color: colors.dark_blue_palette,
+    color: colors.white,
     top:'1%'
 }
 });
