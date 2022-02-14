@@ -75,17 +75,6 @@ function NavigationalBar() {
                     paddingBottom: 20,
                     position: 'absolute',
                     alignContent: "center",
-                    opacity: 0.95,
-                    // borderTopLeftRadius:20,
-                    // borderTopRightRadius:20, 
-                    // shadowColor: "#000",
-                    // shadowOffset: {
-                    //     width: 0,
-                    //     height: 12,
-                    // },
-                    // shadowOpacity: 0.58,
-                    // shadowRadius: 16.00,
-                    // elevation: 24,
                 }
             }}
         >

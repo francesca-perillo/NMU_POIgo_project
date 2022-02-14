@@ -53,20 +53,20 @@ const POIviciniScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-                source={require('../../assets/wallpaper1.jpg')}
-                style={{
-                    height: (Dimensions.get('window').height / 12) * 2.5,
-                }}>
-                <SafeAreaView style={styles.header}>
-                  <Text style={styles.title}>POI vicini</Text>
-                  <Searchbar
-                    style={styles.searchbar}
-                    placeholder="Cerca ..."
-                    onChangeText={onChangeText}
-                    value={searchQuery}
-                  />
-                </SafeAreaView>
-            </ImageBackground>
+        source={require('../../assets/wallpaper1.jpg')}
+        style={{
+            height: (Dimensions.get('window').height / 12) * 2.5,
+        }}>
+        <SafeAreaView style={styles.header}>
+          <Text style={styles.title}>POI vicini</Text>
+          <Searchbar
+            style={styles.searchbar}
+            placeholder="Cerca ..."
+            onChangeText={onChangeText}
+            value={searchQuery}
+          />
+        </SafeAreaView>
+      </ImageBackground>
   
       <View style={styles.body}>
         <FlatList

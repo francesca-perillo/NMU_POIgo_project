@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Pressable, Dimensions} from "react-native";
+import { StyleSheet, Text, View, Pressable, Dimensions, ImageBackground} from "react-native";
 import colors from '../config/colors';
 //per navigare tra le schermate si importa useNavigator e
 //si dichiara const navigation = useNavigation();
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -13,31 +14,38 @@ const HomeScreen = () => {
   return (   
     <View style={styles.container}>
 
-        <View style = {styles.header}>
-            <Text style ={styles.title}>BENVENUTO</Text>
-            <Text style ={styles.subtitle}>in poiGo</Text>
-        </View>
+        <ImageBackground
+            source={require('../../assets/wallpaper2.png')}
+            style={{
+                height: (Dimensions.get('window').height / 12) * 3.5,
+                top: 45,
+                width: '100%',
+                position: "absolute",
+                zIndex:999,
+            }}>
+        </ImageBackground>
     
         <View style={styles.body}>
-            <Text style ={styles.buttonDescription}>Sai già dove andare?</Text>
+
+            <View style={styles.header}>
+                <Text style={styles.title}>Benvenuto</Text>
+                <Text style={styles.subtitle}>in poiGo!</Text>
+            </View>
+
+            <Text style ={styles.buttonDescription}>Se conosci già la tua meta, la navigazione classica è quello che fa per te!
+                Se non sai dove andare, fatti guidare da poiGo! Troveremo noi per te i luoghi migliori grazie alla navigazione personalizzata!</Text>
             <Pressable onPress={() => navigation.navigate('ClassicNavigation')}>
-                <Image style={styles.buttonImage}
-                    source={require("../../assets/ButtonImg/cla_nav.jpg")}>
-                </Image>
+
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>navigazione</Text>
-                    <Text style={styles.buttonText}>classica</Text>
+                    <Text style={styles.buttonText}>Navigazione classica</Text>
+                    <Ionicons style={styles.button_icon}  name="chevron-forward-outline"></Ionicons>
                 </View>
             </Pressable>
 
-            <Text style ={styles.buttonDescription}>Sei alla ricerca di punti di interesse?</Text>
             <Pressable onPress={() => navigation.navigate('CityRoaming')}>
-                <Image style={styles.buttonImage}
-                    source={require("../../assets/ButtonImg/sem_nav.jpg")}>
-                </Image>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>Navigazione</Text>
-                    <Text style={styles.buttonText}>personalizzata</Text>
+                    <Text style={styles.buttonText}>Navigazione personalizzata</Text>
+                    <Ionicons style={styles.button_icon}  name="chevron-forward-outline"></Ionicons>
                 </View>
             </Pressable>
         </View>
@@ -73,103 +81,75 @@ row_container: {
     flex: 1,
     flexDirection: "row",
 },
-header:{
-    height: Dimensions.get('window').height/5,
-    backgroundColor: colors.dark_blue_palette,
-    borderBottomRightRadius:200
-},
-header_title:{
-    flex: 6,
-    flexDirection: "row",
-},
-header_icon: {
-    flex: 1,
-    top:20,
-    justifyContent:"center",
-    alignItems: "center",
-},
-body: {
-    flex: 6,
-    alignItems: "center",
-    marginTop: Dimensions.get('window').height /16
-},
-nav_bar:{
-    flex: 1,
-    justifyContent:"center",
-    alignItems: "center",
+header: {
+    alignSelf: 'center',
+    marginBottom: 30,
 },
 title: {
+    overflow: 'visible',
     fontSize: 40,
     color: colors.white,
     fontWeight: "bold",
-    marginTop: Dimensions.get('window').height/16,
-    marginLeft: 20
+    textAlign: "center",
+    textShadowColor: colors.dark_blue_palette,
+    textShadowOffset: {width: 2, height: 4},
+    textShadowRadius: 1,
 },
-subtitle:{
-    color: colors.grey,
-    fontSize: 40,
-    marginLeft: 20,
-    fontStyle: "italic",
-},
-buttonDescription:{
-    color: colors.dark_blue_palette,
-    textAlign: 'center',
+subtitle: {
+    position:'absolute',
+    top: '100%',
+    left: '15%',
+    paddingLeft: 5,
+    paddingRight: 5,
     fontSize: 20,
-    marginVertical:20,
+    color: colors.dark_blue_palette,
+    fontStyle: "italic",
+    borderBottomLeftRadius:10,
+    borderBottomRightRadius: 10,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    overflow: 'hidden',
+},
+body: {
+    paddingTop: 60,
+    alignItems: "center",
+    backgroundColor: colors.sea_blue,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    marginTop: (Dimensions.get('window').height / 12) * 6.8,
+    height: '100%'
+
+},
+buttonDescription: {
+    color: colors.white,
+    textAlign: "justify",
+    fontSize: 18,
+    marginTop: 20,
     marginLeft: 30, 
     marginRight: 30,
 },
-buttonContainer: {
-    alignItems:"center",
-    backgroundColor: colors.dark_blue_palette,
-    borderRadius: 50,
-    paddingVertical: 30,
-    marginLeft:"5%",
-    marginRight:"5%",
-    shadowColor: "#000",
-    shadowOffset: {
-    width: 0,
-    height: 2
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-},
 button: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 30,
-    justifyContent: 'center',
-    alignItems: 'center'
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 30,
+    width: Dimensions.get('window').width/2,
+    backgroundColor: 'rgba(255,255,255,255)',
+    flexDirection: 'row',
 },
 buttonText: {
-    color: "white",
+    flex:5,
+    color: colors.dark_blue_palette,
+    marginLeft: 10,
     fontSize:20,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    textTransform: "uppercase",
-    textShadowColor: colors.dark_blue_palette,
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 1
 },
-hiddenText:{
-    color: "#fff",
-},
-footer: {
-    height: 80,
-    width: "100%",
-    backgroundColor: colors.green_palette,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingHorizontal: 10
-},
-icon: {
-    width: 40,
-    height: 40,
-    backgroundColor: "gray"
-},
+button_icon:{
+    flex:1,
+    fontSize: 40,
+    color: colors.dark_blue_palette,
+    top:'1%'
+}
 });
 
 export default HomeScreen;
