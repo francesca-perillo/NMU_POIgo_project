@@ -23,6 +23,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import DetailScreen from "./src/screens/DetailScreen";
 import NavigatorScreen from "./src/screens/NavigatorScreen";
+import RouteScreen from './src/screens/RouteScreen';
 //Navbar with style and animation
 import * as Animatable from 'react-native-animatable';
 import colors from './src/config/colors';
@@ -114,6 +115,7 @@ const App = () => {
                 <InitialStack.Screen name='Home' component={NavigationalBar} />
                 <InitialStack.Screen name='Transport' component={TransportScreen} />
                 <HomeStack.Screen name='DetailPOI' component={DetailScreen} />
+                <HomeStack.Screen name='Route' component={RouteScreen} />
             </InitialStack.Navigator>
         </NavigationContainer>
     )
