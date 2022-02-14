@@ -36,6 +36,10 @@ const Alert = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    location:{
+        type: String,
+        required: false,
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

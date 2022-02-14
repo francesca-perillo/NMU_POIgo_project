@@ -32,6 +32,14 @@ const AlertList = () => {
       setLocation(location);
     })();
 
+    let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+    console.log(text);
+  }
+
     if (!isFocused)
       return
 
@@ -43,12 +51,7 @@ const AlertList = () => {
     loadAlerts();
 }, [isFocused]);
 
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
+  
 
   console.log(text);
 
