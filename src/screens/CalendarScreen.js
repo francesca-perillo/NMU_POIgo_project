@@ -21,7 +21,7 @@ function markedDays(events, day, month, year, state) {
   var full_day = year + "/" + month + "/" + day
 
   events.forEach(element => {
-    element.date === full_day ? flag = true : false;
+    element.data.date === full_day ? flag = true : false;
   });
      
   return (
@@ -31,8 +31,8 @@ function markedDays(events, day, month, year, state) {
               <Text style={{
                 textAlign: 'center',
                 fontSize: 15,
-                fontWeight: 'bold',
-                color: flag ? colors.white : colors.dark_blue_palette,
+                fontWeight: (state === 'disabled') ? 'normal' : 'bold',
+                color: (flag) ? colors.white : colors.dark_blue_palette,
                 padding: 5
               }}>{day}</Text>
           </ImageBackground>
@@ -49,18 +49,22 @@ const CalendarScreen = () => {
       const eventsFromApi = await CalendarController.getAllEvents();
       const events = eventsFromApi.map(event => {
         return {
-          id: event._id,
-          title: event.title,
-          description: event.description,
-          date: event.date,
+          month : event.date[0],
+          data : {
+            id: event._id,
+            title: event.title,
+            description: event.description,
+            date: event.date
+            }
         }
       })
-
       setEvents(events);
     };
 
     loadEvents();
   }, [])
+
+  let currentMonth = ""
 
   return (
     <View style={styles.container}>
@@ -84,24 +88,30 @@ const CalendarScreen = () => {
             monthTextColor: colors.dark_blue_palette,
             textMonthFontWeight: 'bold',
             textMonthFontSize: 22,
-          }}>
-        </Calendar>
+          }}
+          
+          onMonthChange={month => {
+            currentMonth = month.month;
+            console.log('month changed', currentMonth);
+          
+          }}/>
+
       </View>
       <View style={styles.footer}>
 
         <View style={styles.item}>
           {
             events.map(event =>
-              <View style={styles.description_item} key={event.id}>
+              <View style={styles.description_item} key={event.data.id}>
 
                 <View style={styles.map_item}>
                   <Image style={{ width: 60, height: 60 }} source={require("../../assets/logo.png")} />
                 </View>
 
                 <View style={styles.wrapper}>
-                  <Text style={styles.title_item}>{event.title}</Text>
-                  <Text style={styles.date_item}>{event.date}</Text>
-                  <Text style={styles.message_item}>{event.description}</Text>
+                  <Text style={styles.title_item}>{event.data.title}</Text>
+                  <Text style={styles.date_item}>{event.data.date}</Text>
+                  <Text style={styles.message_item}>{event.data.description}</Text>
                 </View>
 
               </View>
