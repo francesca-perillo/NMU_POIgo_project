@@ -53,7 +53,7 @@ const AlertList = () => {
 
   
 
-  console.log(text);
+
 
   //to set visibility at body
   const [bodyVisible, setBodyVisible] = useState(true);
