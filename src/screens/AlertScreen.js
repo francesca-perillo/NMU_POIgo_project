@@ -85,7 +85,8 @@ const AlertList = () => {
   }
 
   const insertAlert = async (image) => {
-  const newAlert = await AlertsController.insertAlert(title, description, image, addressObject, location);
+  locazione = JSON.stringify(location);
+  const newAlert = await AlertsController.insertAlert(title, description, image, addressObject, locazione);
   setAlerts(alerts => [...alerts, newAlert]);
     dismissModal();
   };
