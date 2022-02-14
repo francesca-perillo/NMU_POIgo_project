@@ -48,7 +48,7 @@ const CategoryRoutesScreen = ({ navigation }) => {
 
     const Item = ({ id, title, image }) => {
         return (
-            <TouchableOpacity onPress={() => Alert.alert('Vai alla mappa')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Route', { category: id })}>
                 <View style={styles.categoryContainer}>
                     <ImageBackground source={{ uri: image }} style={styles.categoryImage}>
                         <View style={styles.darkOverlay} />
