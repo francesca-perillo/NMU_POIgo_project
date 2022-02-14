@@ -152,115 +152,105 @@ const CategoryScreen = ({ navigation }) => {
     );
 
     return (
-         
-            <View style = {{backgroundColor: colors.dirty_white_palette}}>
-                
-                <AnimatedLinearGradient
-                    colors={[colors.dark_blue_palette,colors.dark_blue_palette]}
-                    style={styles.header}>
-                    <Text style ={styles.title}>Categorie</Text>
-                </AnimatedLinearGradient> 
 
-                <View style={styles.listOfcategory}>
-                    <FlatList
-                        horizontal={true}
-                        data={categories}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id}
-                    />
+        <View style={{ backgroundColor: colors.white }}>
+
+            <AnimatedLinearGradient
+                colors={[colors.beau_blue, colors.beau_blue]}
+                style={styles.header}>
+                <Text style={styles.title}>Categorie</Text>
+                <Text style={styles.subtitle}>Scegli le tue preferenze!</Text>
+            </AnimatedLinearGradient>
+
+            <View style={styles.listOfcategory}>
+                <FlatList
+                    horizontal={true}
+                    data={categories}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                />
+            </View>
+
+            <View style={styles.listOfSubcategory}>
+                <FlatList
+                    numColumns={3}
+                    data={subcategories}
+                    renderItem={renderSubcategory}
+                    keyExtractor={(item) => item.id}
+                />
+            </View>
+
+            {selectedSubcategories.length > 0 ? (
+                <View style={styles.containerButton}>
+                    <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
+                        <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
+                    </Pressable>
+
+                    <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
+                        <Text style={styles.buttonGoListText} >Vai alla lista</Text>
+                    </Pressable>
                 </View>
+            ) : (
+                <View style={styles.containerButton}>
+                    <Pressable style={styles.buttonGoMapDisabled} onPress={() => Alert.alert(
+                        'Per poter proseguire, scegli prima una sottocategotia',
+                        'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
+                        [
+                            { text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked') },
+                        ],
+                        {
+                            cancelable: false
+                        })}>
+                        <Text style={styles.buttonGoMapTextDisabled} >Vai alla mappa</Text>
+                    </Pressable>
 
-                <View style={styles.listOfSubcategory}>
-                    <FlatList
-                        numColumns={3}
-                        data={subcategories}
-                        renderItem={renderSubcategory}
-                        keyExtractor={(item) => item.id}
-                    />
+                    <Pressable style={styles.buttonGoListDisabled} onPress={() => Alert.alert(
+                        'Per poter proseguire, scegli prima una sottocategotia',
+                        'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
+                        [
+                            { text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked') },
+                        ],
+                        {
+                            cancelable: false
+                        })}>
+                        <Text style={styles.buttonGoListTextDisabled} >Vai alla lista</Text>
+                    </Pressable>
                 </View>
+            )
+            }
 
-                {selectedSubcategories.length > 0 ? (
-                    <View style={styles.containerButton}>
-                        <Pressable style={styles.buttonGoMap} onPress={() => navigateToMapWithSection()}>
-                            <Text style={styles.buttonGoMapText} >Vai alla mappa</Text>
-                        </Pressable>
-
-                        <Pressable style={styles.buttonGoList} onPress={() => navigateToListWithSection()}>
-                            <Text style={styles.buttonGoListText} >Vai alla lista</Text>
-                        </Pressable>
-                    </View>
-                ) : (
-                    <View style={styles.containerButton}>
-                        <Pressable style={styles.buttonGoMapDisabled} onPress={() => Alert.alert(
-                                'Per poter proseguire, scegli prima una sottocategotia',
-                                'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
-                                [
-                                    {text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked')},
-                                ],
-                                { 
-                                    cancelable: false 
-                                })}>
-                            <Text style={styles.buttonGoMapTextDisabled} >Vai alla mappa</Text>
-                        </Pressable>
-
-                        <Pressable style={styles.buttonGoListDisabled} onPress={() => Alert.alert(
-                                'Per poter proseguire, scegli prima una sottocategotia',
-                                'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
-                                [
-                                    {text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked')},
-                                ],
-                                { 
-                                    cancelable: false 
-                                })}>
-                            <Text style={styles.buttonGoListTextDisabled} >Vai alla lista</Text>
-                        </Pressable>
-                    </View>
-                )
-                }
-
-        </View>   
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    header:{
-        height: (Dimensions.get('window').height / 12) * 1.5 ,
+    header: {
+        height: (Dimensions.get('window').height / 13) * 2,
+        backgroundColor: colors.beau_blue,
+        alignItems: 'center',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
     },
     title: {
-        fontSize: 30,
-        alignSelf:"center",
-        color: colors.white,
+        fontSize: 40,
+        color: colors.dark_blue_palette,
         fontWeight: "bold",
         marginTop: (Dimensions.get('window').height / 12) * 0.75,
-        //marginLeft: 20
     },
     subtitle: {
-        color: colors.grey,
-        fontSize: 15,
-        marginLeft: 20,
+        color: colors.dark_blue_palette,
+        fontSize: 20,
         fontStyle: "italic",
-    },
-    searchbar: {
-        position: 'absolute',
-        width: Dimensions.get('window').width / 2,
-        alignSelf:"center",
-        borderRadius: 30,
-        borderWidth: 5,
-        borderColor: colors.dirty_white_palette,
-        //shadowColor: 'rgba(252, 252, 252, 0)',
-        backgroundColor: colors.dirty_white_palette,
-        marginTop: (Dimensions.get('window').height / 12) * 1.3 ,
-        height: 50,
-        flexDirection: 'row',
     },
     listOfcategory: {
         width: '100%',
         height: 50,
         paddingLeft: 10,
-        backgroundColor:colors.dark_blue_palette,
-        //marginTop: (Dimensions.get('window').height / 12) * 0.1,
+        paddingTop: 10,
+        marginTop: (Dimensions.get('window').height / 12) * 0.1,
         alignContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: colors.white,
     },
     buttonContainer: {
         padding: 10,
@@ -268,10 +258,14 @@ const styles = StyleSheet.create({
         width: 150,
         height: 40,
         marginRight: 5,
-        backgroundColor: 'white',
+        backgroundColor: colors.white,
+        borderColor: colors.dark_blue_palette,
+        borderWidth: 1,
     },
     buttonContainerPress: {
-        backgroundColor: colors.pale_blue_palette,
+        borderColor: colors.dark_blue_palette,
+        borderWidth: 1,
+        backgroundColor: colors.dark_blue_palette,
     },
     buttonText: {
         fontSize: 15,
@@ -279,11 +273,12 @@ const styles = StyleSheet.create({
         color: colors.dark_blue_palette,
     },
     buttonTextPress: {
-        color: 'white',
+        color: colors.white,
     },
     listOfSubcategory: {
-        marginTop: 10,
         height: Dimensions.get('window').height,
+        backgroundColor: colors.white,
+        marginTop: 10,
     },
     subcategoryContainer: {
         borderRadius: 10,
@@ -329,7 +324,7 @@ const styles = StyleSheet.create({
     containerButton: {
         width: "100%",
         alignSelf: "center",
-        bottom: Platform.OS === "ios" ? Dimensions.get('window').height/2.6 : Dimensions.get('window').height/3.1,
+        bottom: Platform.OS === "ios" ? Dimensions.get('window').height / 2.6 : Dimensions.get('window').height / 2.7,
         position: 'absolute'
     },
     buttonGoMap: {
@@ -338,13 +333,13 @@ const styles = StyleSheet.create({
         position: "absolute",
         width: Dimensions.get('window').width / 2.5,
         marginLeft: Dimensions.get('window').width / 12,
-        borderWidth:1,
-        borderColor:colors.dark_blue_palette,
-        paddingTop:20,
-        paddingBottom:20,
+        borderWidth: 1,
+        borderColor: colors.dark_blue_palette,
+        paddingTop: 20,
+        paddingBottom: 20,
         borderRadius: 10,
     },
-    buttonGoMapDisabled:{
+    buttonGoMapDisabled: {
         alignItems: "center",
         borderColor: colors.grey,
         backgroundColor: colors.grey,
@@ -352,8 +347,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         width: Dimensions.get('window').width / 2.5,
         marginLeft: Dimensions.get('window').width / 12,
-        paddingTop:20,
-        paddingBottom:20,
+        paddingTop: 20,
+        paddingBottom: 20,
         borderRadius: 10,
     },
     buttonGoMapText: {
@@ -370,30 +365,30 @@ const styles = StyleSheet.create({
         alignItems: "center",
         position: "absolute",
         width: Dimensions.get('window').width / 2.5,
-        paddingTop:20,
-        paddingBottom:20,
+        paddingTop: 20,
+        paddingBottom: 20,
         borderRadius: 10,
         borderColor: colors.dark_blue_palette,
         borderWidth: 1,
-        marginLeft: Dimensions.get('window').width/2,
+        marginLeft: Dimensions.get('window').width / 2,
     },
     buttonGoListDisabled: {
         alignItems: "center",
         position: "absolute",
         width: Dimensions.get('window').width / 2.5,
-        paddingTop:20,
-        paddingBottom:20,
+        paddingTop: 20,
+        paddingBottom: 20,
         borderRadius: 10,
-        borderColor: colors.grey,
+        borderColor: colors.white,
         borderWidth: 1,
-        marginLeft: Dimensions.get('window').width/2,
+        marginLeft: Dimensions.get('window').width / 2,
     },
     buttonGoListText: {
         color: colors.dark_blue_palette,
         fontSize: 15,
     },
     buttonGoListTextDisabled: {
-        color: colors.grey,
+        color: colors.white,
         fontSize: 15,
     },
 })

@@ -29,10 +29,10 @@ const NavigatorScreen = ({ route, navigation }) => {
     }, [POICoordinate])
 
     const [mapRegion, setmapRegion] = useState({
-        latitude: 39.55892,
-        longitude: 16.81692955302321,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 39.5617884,
+        longitude: 16.7995341,
+        latitudeDelta: 0.0150,
+        longitudeDelta: 0.0070
     });  //dove proiettare mappa
 
     return (

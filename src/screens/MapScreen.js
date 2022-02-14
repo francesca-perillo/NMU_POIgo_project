@@ -7,10 +7,10 @@ import colors from '../config/colors';
 
 const MapScreen = ({ route, navigation }) => {
     const [mapRegion, setmapRegion] = useState({
-        latitude: 39.4885718926234,
-        longitude: 16.81692955302321,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 39.56052,
+        longitude: 16.80291,
+        latitudeDelta: 0.0050,
+        longitudeDelta: 0.0050,
     });  //dove proiettare mappa
 
     const [selectedSegments, setSelectedSegments] = useState([]);
