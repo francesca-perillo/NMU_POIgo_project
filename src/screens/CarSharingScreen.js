@@ -123,26 +123,25 @@ const styles = StyleSheet.create({
         height: 50,
         flexDirection: 'row',
     },
-    header:{
-        height: (Dimensions.get('window').height / 12) * 2.5 ,
-        backgroundColor: colors.dark_blue_palette,
-    },
     body: {
         flex: 6,
         marginBottom: 80,
     },
+    header: {
+        height: (Dimensions.get('window').height / 13) * 2,
+        backgroundColor: colors.beau_blue,
+        alignItems: 'center',
+        borderBottomLeftRadius: 100,
+    },
     title: {
         fontSize: 30,
-        color: colors.white,
+        color: colors.dark_blue_palette,
         fontWeight: "bold",
-        marginTop: (Dimensions.get('window').height / 12) * 0.7,
-        marginLeft: 20
+        marginTop: (Dimensions.get('window').height / 12) * 0.75,
     },
-    subtitle:{
-        color: colors.grey,
-        fontSize: 20,
-        marginLeft: 20,
-        marginTop:10,
+    subtitle: {
+        color: colors.sea_blue,
+        fontSize: 18,
         fontStyle: "italic",
     },
     information : {

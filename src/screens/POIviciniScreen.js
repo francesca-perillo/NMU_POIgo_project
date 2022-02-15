@@ -52,12 +52,8 @@ const POIviciniScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../../assets/wallpaper1.jpg')}
-        style={{
-            height: (Dimensions.get('window').height / 12) * 2.5,
-        }}>
-        <SafeAreaView style={styles.header}>
+      
+        <View style={styles.header}>
           <Text style={styles.title}>POI vicini</Text>
           <Searchbar
             style={styles.searchbar}
@@ -65,8 +61,8 @@ const POIviciniScreen = () => {
             onChangeText={onChangeText}
             value={searchQuery}
           />
-        </SafeAreaView>
-      </ImageBackground>
+        </View>
+
   
       <View style={styles.body}>
         <FlatList
@@ -86,32 +82,24 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dirty_white_palette,
   },
   header: {
-    position:"absolute",
-    top: '25%',
-    alignSelf: 'center'
+    height: (Dimensions.get('window').height / 13) * 2,
+    backgroundColor: colors.beau_blue,
+    alignItems: 'center',
+    borderBottomLeftRadius: 100,
+    borderBottomRightRadius: 100,
   },
   title: {
-    fontSize: 35,
-    marginBottom: 10,
-    color: colors.white,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  subtitle: {
-    color: colors.grey,
-    fontSize: 30,
-    marginLeft: 20,
-    marginTop:10,
-    fontStyle: "italic",
-  },
-  hidden: {
-    color: colors.dirty_white_palette,
-    marginVertical: -15,
+      fontSize: 30,
+      color: colors.dark_blue_palette,
+      fontWeight: "bold",
+      marginTop: (Dimensions.get('window').height / 12) * 0.75,
   },
   searchbar: {
-    borderRadius: 10,
+    borderRadius: 50,
     alignSelf:"center",
-    width: Dimensions.get('window').width/1.6,
+    width: Dimensions.get('window').width/2,
+    marginTop: Dimensions.get('window').height/50,
+    //per togliere le ombre di default.
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -5,6 +5,7 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 import * as RouteController from '../controller/RouteController';
 
 import colors from '../config/colors';
+import { View } from 'react-native-animatable';
 
 const RouteScreen = ({ route, navigation }) => {
     const { category } = route.params;
@@ -37,7 +38,7 @@ const RouteScreen = ({ route, navigation }) => {
     }, [])
 
     return (
-        <SafeAreaView>
+        <View>
             <TouchableOpacity style={styles.goBack} onPress={() => navigation.goBack()}>
                 <Ionicons style={styles.goBackIcon} name="ios-arrow-back" size={32} color="white" />
             </TouchableOpacity>
@@ -78,7 +79,7 @@ const RouteScreen = ({ route, navigation }) => {
 
 
 
-        </SafeAreaView >
+        </View >
     );
 };
 

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import {Text, StyleSheet, Image, Button, Alert, View, Pressable} from 'react-native';
+import {Text, StyleSheet, Image, View} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import colors from '../config/colors';
 //barra di ricerca
 import { Searchbar } from 'react-native-paper';
 
-const ClassicNavigationScreen = ({navigation}) => {
+const ClassicNavigationScreen = () => {
 
-    // to search bar for departure 
-    const [searchQueryDeparture, setSearchQueryDeparture] = React.useState('');
-    const onChangeDeparture = query => setSearchQueryDeparture(query);
     // to search bar for arrival
     const [searchQueryArrival, setSearchQueryArrival] = React.useState('');
     const onChangeArrival = query => setSearchQueryArrival(query);
@@ -21,19 +18,14 @@ const ClassicNavigationScreen = ({navigation}) => {
         longitudeDelta: 0.0421,
     });  //dove proiettare mappa
 
-
    // const [selectedSegment, setSelectedSegment] = useState('1');
 
 
     return (
         <View >
            <View style={styles.listOfSegments}>
-                <Searchbar
-                    style={styles.searchbar}
-                    placeholder="Da dove parti?"
-                    onChangeText={onChangeDeparture}
-                    value={searchQueryDeparture}
-                />
+                
+                <Text style = {styles.positionText}> Sei in via Cristoforo colombo n. 14</Text>
                     
                 <Searchbar
                     style={styles.searchbar}
@@ -44,8 +36,9 @@ const ClassicNavigationScreen = ({navigation}) => {
                 </View>
 
                 <MapView
-                    style={{ alignSelf: 'stretch', height: '100%' }}
-                    region={mapRegion}>
+                    style={{height: '100%'}}
+                    region={mapRegion}
+                    mapType={'standard'}>
                 
                     <Marker coordinate={{
                         latitude: 39.510824955677506,
@@ -63,17 +56,6 @@ const ClassicNavigationScreen = ({navigation}) => {
 
                 </MapView>
 
-            <Button
-                title="Press me"
-                onPress={() => Alert.alert('Simple Button pressed')}
-            />
-        
-            <Pressable
-                style={styles.button}
-                onPress={() => navigation.navigate('Tab')}>
-                <Text style={styles.buttonText}>Registrati</Text>
-            </Pressable>
-
         </View>
     );
 };
@@ -82,37 +64,48 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    positionText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: colors.dark_blue_palette,
+        textAlign: 'center'
+    },
     searchbar: {
         backgroundColor: 'white',
         borderRadius: 10,
         height: 50,
-        marginLeft: 15,
-        marginRight: 15,
+        marginLeft: 50,
+        marginRight: 50,
         padding: 15,
         marginTop:10,
         flexDirection: 'row',
-      },
-      row_container: {
-          marginBottom:5,
+    },
+    row_container: {
+        marginBottom:5,
         flexDirection: "row"
-      },
-      searchbar_text: {
-          fontSize: 15,
-          color: colors.grey,
-          left: 10,
-      },
-      searchbar_icon: {
-          position: 'absolute',
-          top: 10,
-          right: 30,
-      },
+    },
+    searchbar_text: {
+        fontSize: 15,
+        color: colors.grey,
+        left: 10,
+    },
+    searchbar_icon: {
+        position: 'absolute',
+        top: 10,
+        right: 30,
+    },
     listOfSegments: {
         paddingHorizontal: 10,
         paddingTop: 50,
-        backgroundColor: colors.dark_blue_palette,
-        paddingBottom:20,
-        borderBottomLeftRadius:30,
-        borderBottomRightRadius:30,
+        backgroundColor: colors.beau_blue,
+        position: 'absolute',
+        top:0,
+        right:0,
+        left:0,
+        zIndex:999,
+        height: 160,
+        marginBottom: 20,
+        borderBottomLeftRadius:100,
     },
     buttonContainer: {
         padding: 10,

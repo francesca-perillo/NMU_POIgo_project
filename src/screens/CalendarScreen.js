@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
-import { View, Text, Image, ImageBackground, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, ImageBackground, StyleSheet, TouchableOpacity, Dimensions, useColorScheme } from 'react-native';
 import colors from '../config/colors';
 import * as CalendarController from '../controller/CalendarController';
 
@@ -76,14 +76,16 @@ const CalendarScreen = () => {
 
       <View style={styles.body}>
         <Calendar
+          style={{backgroundColor: colors.beau_blue}}
           markingType={'custom'}
           dayComponent={({ date, state }) => {
             return (markedDays(events, date.day, date.month, date.year, state))
           }}
           theme={{
-            backgroundColor: colors.dirty_white_palette,
-            calendarBackground: colors.dirty_white_palette,
-            todayTextColor: colors.light_blue_palette,
+            backgroundColor: colors.beau_blue,
+            calendarBackground: colors.beau_blue,
+            dayTextColor: colors.dark_blue_palette,
+            todayTextColor: colors.black,
             arrowColor: colors.dark_blue_palette,
             monthTextColor: colors.dark_blue_palette,
             textMonthFontWeight: 'bold',
@@ -157,30 +159,34 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   title: {
-    fontSize: 40,
-    color: colors.white,
+    fontSize: 30,
+    color: colors.dark_blue_palette,
     fontWeight: "bold",
     marginTop: Dimensions.get('window').height / 16,
-    marginLeft: 20
+    marginLeft: 20,
+    textAlign: 'center'
   },
   subtitle: {
-    color: colors.grey,
-    fontSize: 30,
+    color: colors.sea_blue,
+    fontSize: 18,
     marginLeft: 20,
     fontStyle: "italic",
+    textAlign: 'center',
   },
   row_container: {
     padding: 20,
     flexDirection: "row"
   },
   header: {
-    height: Dimensions.get('window').height / 6,
-    backgroundColor: colors.dark_blue_palette,
-    borderBottomRightRadius: 200,
-    alignContent: 'center',
+    height: (Dimensions.get('window').height / 13) * 2,
+    backgroundColor: colors.beau_blue,
+    //borderBottomLeftRadius: 100,
   },
   body: {
     flex: 3,
+    backgroundColor: colors.beau_blue,
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
   },
   map_item: {
     justifyContent: 'center',
@@ -198,13 +204,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 3.5,
-    borderWidth: 1,
     marginRight: 10,
     marginLeft: 10,
-    borderRightColor: colors.dirty_white_palette,
-    borderLeftColor: colors.dirty_white_palette,
-    borderBottomColor: colors.dirty_white_palette,
-    borderTopColor: colors.grey,
   },
   logo: {
     width: 30,

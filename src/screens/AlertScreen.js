@@ -564,10 +564,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    height: Dimensions.get('window').height / 6,
+    height: (Dimensions.get('window').height / 13) * 2,
     backgroundColor: colors.beau_blue,
-    borderBottomRightRadius: 25,
-    borderBottomLeftRadius: 25,
+    borderBottomLeftRadius: 100,
   },
   title: {
     fontSize: 30,

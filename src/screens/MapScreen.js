@@ -86,7 +86,7 @@ const MapScreen = ({ route, navigation }) => {
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
             <SafeAreaView style={styles.listOfSegments}>
-                <View>
+                <View style={{borderBottomLeftRadius: 50, overflow: 'hidden', backgroundColor: colors.beau_blue}}>
                     <Text style={styles.listOfSegmentsTitle}>Seleziona una sezione per visualizzare i POI:</Text>
                     <FlatList
                         horizontal={true}
@@ -129,20 +129,19 @@ const MapScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     AndroidSafeArea: {
         flex: 1,
-        backgroundColor: colors.dark_blue_palette,
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
     },
     listOfSegments: {
         width: '100%',
         height: '100%',
-        marginTop: 10,
-        backgroundColor: colors.dark_blue_palette,
     },
     listOfSegmentsTitle: {
         fontSize: 20,
-        color: colors.grey_palette,
+        color: colors.dark_blue_palette,
         fontWeight: 'bold',
-        marginLeft: 10,
+        marginLeft: 40,
+        marginRight: 40,
+        textAlign: 'center',
     },
     buttonContainer: {
         padding: 10,

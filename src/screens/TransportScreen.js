@@ -21,11 +21,9 @@ const TransportScreen = () => {
 
         <View style = {styles.header}>
             <Text style ={styles.title}>Offerta di trasporto</Text>
-            <Text style ={styles.subtitle}>Arriva dove vuoi in modo sicuro</Text>
-
             <Searchbar
                 style={styles.searchbar}
-                placeholder="Dove vuoi andare?"
+                placeholder="Cerca..."
                 onChangeText={onChangeText}
                 value={searchQuery}
             />
@@ -193,6 +191,34 @@ const styles = StyleSheet.create({
         backgroundColor: colors.dirty_white_palette,
         justifyContent: 'center',
     },
+    header: {
+        height: (Dimensions.get('window').height / 13) * 2,
+        backgroundColor: colors.beau_blue,
+        alignItems: 'center',
+        borderBottomLeftRadius: 100,
+        borderBottomRightRadius: 100,
+      },
+      title: {
+          fontSize: 30,
+          color: colors.dark_blue_palette,
+          fontWeight: "bold",
+          marginTop: (Dimensions.get('window').height / 12) * 0.75,
+      },
+      searchbar: {
+        borderRadius: 50,
+        alignSelf:"center",
+        width: Dimensions.get('window').width/2,
+        marginTop: Dimensions.get('window').height/50,
+        //per togliere le ombre di default.
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.00,
+        elevation: 1,
+      },
     buttonImage: {
         width: windowWidth-60,
         height: 120,
@@ -214,7 +240,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 30,
         marginRight: 30,
-        marginTop: 30,  
+        marginTop: 30, 
     },
     infoText : {
         fontSize: 16,
@@ -229,36 +255,9 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         alignItems:"center",
     },
-    searchbar: {
-        position: 'absolute',
-        width: Dimensions.get('window').width / 1.1,
-        alignSelf:"center",
-        borderRadius: 30,
-        marginTop: (Dimensions.get('window').height / 12) * 2.1 ,
-        height: 50,
-        flexDirection: 'row',
-    },
-    header:{
-        height: (Dimensions.get('window').height / 12) * 2.5 ,
-        backgroundColor: colors.dark_blue_palette,
-    },
     body: {
         flex: 6,
         marginBottom: 80,
-    },
-    title: {
-        fontSize: 30,
-        color: colors.white,
-        fontWeight: "bold",
-        marginTop: (Dimensions.get('window').height / 12) * 0.7,
-        marginLeft: 20
-    },
-    subtitle:{
-        color: colors.grey,
-        fontSize: 20,
-        marginLeft: 20,
-        marginTop:10,
-        fontStyle: "italic",
     },
     card: {
         borderColor: colors.grey,

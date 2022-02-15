@@ -155,13 +155,14 @@ const CategoryScreen = ({ navigation }) => {
 
         <View style={{ backgroundColor: colors.white }}>
 
-            <AnimatedLinearGradient
-                colors={[colors.beau_blue, colors.beau_blue]}
+            {/**header: parte superiore dello schermo! */}
+            <View
                 style={styles.header}>
                 <Text style={styles.title}>Categorie</Text>
                 <Text style={styles.subtitle}>Scegli le tue preferenze!</Text>
-            </AnimatedLinearGradient>
+            </View>
 
+            {/**categorie: dati della lista delle categorie scorrevoli orizzontalmente */}
             <View style={styles.listOfcategory}>
                 <FlatList
                     horizontal={true}
@@ -171,6 +172,7 @@ const CategoryScreen = ({ navigation }) => {
                 />
             </View>
 
+            {/**sottocategorie: dati della lista delle sottocategorie scorrevoli verticalmente */}
             <View style={styles.listOfSubcategory}>
                 <FlatList
                     numColumns={3}
@@ -196,7 +198,7 @@ const CategoryScreen = ({ navigation }) => {
                         'Per poter proseguire, scegli prima una sottocategotia',
                         'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
                         [
-                            { text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked') },
+                            { text: 'Grazie, ho capito!'},
                         ],
                         {
                             cancelable: false
@@ -208,7 +210,7 @@ const CategoryScreen = ({ navigation }) => {
                         'Per poter proseguire, scegli prima una sottocategotia',
                         'Puoi scegliere quello che più fa per te! Affrettati... hai tanti posti ancora da scopire!',
                         [
-                            { text: 'Grazie, ho capito!', onPress: () => console.log('Yes button is clicked') },
+                            { text: 'Grazie, ho capito!'},
                         ],
                         {
                             cancelable: false
@@ -228,18 +230,17 @@ const styles = StyleSheet.create({
         height: (Dimensions.get('window').height / 13) * 2,
         backgroundColor: colors.beau_blue,
         alignItems: 'center',
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 100,
     },
     title: {
-        fontSize: 40,
+        fontSize: 30,
         color: colors.dark_blue_palette,
         fontWeight: "bold",
         marginTop: (Dimensions.get('window').height / 12) * 0.75,
     },
     subtitle: {
-        color: colors.dark_blue_palette,
-        fontSize: 20,
+        color: colors.sea_blue,
+        fontSize: 18,
         fontStyle: "italic",
     },
     listOfcategory: {
@@ -324,7 +325,7 @@ const styles = StyleSheet.create({
     containerButton: {
         width: "100%",
         alignSelf: "center",
-        bottom: Platform.OS === "ios" ? Dimensions.get('window').height / 2.6 : Dimensions.get('window').height / 2.7,
+        bottom: Platform.OS === "ios" ? Dimensions.get('window').height / 2.5 : Dimensions.get('window').height / 2.7,
         position: 'absolute'
     },
     buttonGoMap: {
@@ -379,7 +380,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 20,
         borderRadius: 10,
-        borderColor: colors.white,
+        borderColor: colors.grey,
         borderWidth: 1,
         marginLeft: Dimensions.get('window').width / 2,
     },
@@ -388,7 +389,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     buttonGoListTextDisabled: {
-        color: colors.white,
+        color: colors.grey,
         fontSize: 15,
     },
 })

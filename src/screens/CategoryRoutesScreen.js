@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, ImageBackground, Alert, Dimensions } from "react-native";
 import colors from '../config/colors';
-import { Ionicons, Entypo } from '@expo/vector-icons';
 import * as CategoriesRoutesController from '../controller/CategoriesRoutesController';
 
 // const category = [
@@ -85,21 +84,20 @@ const CategoryRoutesScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     header: {
-        height: Dimensions.get('window').height / 6,
-        backgroundColor: colors.dark_blue_palette,
-        borderBottomRightRadius: 200,
+        height: (Dimensions.get('window').height / 13) * 2,
+        backgroundColor: colors.beau_blue,
+        alignItems: 'center',
+        borderBottomLeftRadius: 100,
     },
     title: {
-        fontSize: 40,
-        color: colors.white,
+        fontSize: 30,
+        color: colors.dark_blue_palette,
         fontWeight: "bold",
-        marginTop: Dimensions.get('window').height / 16,
-        marginLeft: 20
+        marginTop: (Dimensions.get('window').height / 12) * 0.75,
     },
     subtitle: {
-        color: colors.grey,
-        fontSize: 25,
-        marginLeft: 20,
+        color: colors.sea_blue,
+        fontSize: 18,
         fontStyle: "italic",
     },
     notification: {
