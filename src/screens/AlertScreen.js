@@ -120,24 +120,6 @@ const AlertList = () => {
     {"id": "Zona industriale", "air_quality": "Discreta", "co_2": "0,15%", "temperature": "25° C", "humidity": "25%", "noise": "Rumori da traffico"}
   ]
 
-  const showSensors = (key) => {
-    if(key==="Zona collinare")
-    {
-      setShow0(!show0)
-    }
-    if(key==="Zona portuale")
-    {
-      setShow1(!show1)
-    }
-    if(key==="Zona Parco Europa")
-    {
-      setShow2(!show2)
-    }
-    if(key==="Zona industriale")
-    {
-      setShow3(!show3)
-    }
-  }
   
   return (
     <View style={styles.container}>
@@ -166,13 +148,19 @@ const AlertList = () => {
                 </View>
                       <View style={styles.expandable}>
                         <View style={styles.dataRow}>
-                          <Text style={styles.measure}><Ionicons style={styles.iconSensors} name="leaf-outline"/>Qualità dell'aria:</Text>
-                          <Text style = {{
-                            fontWeight: "bold",
-                            color:(area.air_quality==="Buona" || area.air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{area.air_quality}</Text>
+                          <Text style={styles.measure}>
+                          <Ionicons name="leaf-outline" />
+                          Qualità dell'aria: 
+                          </Text>
+                        <Text style = {{
+                          fontWeight: "bold",
+                          color:(area.air_quality==="Buona" || area.air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{area.air_quality}</Text>
                         </View>
                         <View style={styles.dataRow}>
-                          <Text style={styles.measure}><Ionicons style={styles.iconSensors} name="radio-outline"/>Percentuale di CO2: </Text>
+                          <Text style={styles.measure}>
+                          <Ionicons name="radio-outline"/>
+                          <Text>Percentuale di CO2: </Text>
+                          </Text>
                           <Text style = {{
                             fontWeight: "bold",
                             color:colors.black}}>{area.co_2}</Text>
@@ -193,7 +181,7 @@ const AlertList = () => {
                           <Text style={styles.measure}><Ionicons name="flash-outline"/>Rumore:</Text>
                           <Text style = {{
                             fontWeight: "bold",
-                            color:colors.black}}>{area.noise}</Text>
+                            color:(area.noise==="Nessun fastidio")?colors.green_confirm_operation: colors.yellow}}>{area.noise}</Text>
                         </View>
                       </View>
               </View>
@@ -201,14 +189,8 @@ const AlertList = () => {
               </View>
                         
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.containerInsert}>
-                <View style={styles.containerButtonSendAlert}>
-                  {/* <Pressable style={styles.buttonConfirmNewAlert} onPress={insertPhotoOnCloudinary}>
-                    {isLoading && <ActivityIndicator color={colors.white}/>}
-                    {!isLoading && <Text style={styles.buttonConfirmNewAlertText}>Invia seffffgnalazione</Text>}
-                  </Pressable> */}
-                  {!isLoading && <Text style={styles.buttonDiscardNewAlert} onPress={dismissSensorsModal}>Chiudi</Text>}
-                </View>
+                <View style={styles.containerButtonCloseSensor}>
+                  <Text style={styles.textCloseSensor} onPress={dismissSensorsModal}>Chiudi</Text>
               </View>
             </TouchableWithoutFeedback>
             </ScrollView>
@@ -305,7 +287,7 @@ const AlertList = () => {
       }
 
 
-      <View style={{flexDirection: 'row'}}> 
+      <View style={{flexDirection: 'column'}}> 
         {buttonVisible ? (
             <View style={styles.containerSensorsData}>
               <Pressable style={styles.buttonSensorsData} onPress={() => [setBodyVisibleToShowSensors(!bodyVisibleToShowSensors), setButtonVisibleToShowSensors(!buttonVisibleToShowSensors)]}>
@@ -339,22 +321,24 @@ const AlertList = () => {
 const styles = StyleSheet.create({
   containerSensorsData: {
     marginLeft: 30,
+    marginBottom: 10,
     marginRight: Dimensions.get('window').width/10,
   },
   buttonSensorsData: {
-    height: 70,
-    width: Dimensions.get('window').width/2.5,
+    height: 60,
+    width: Dimensions.get('window').width/1.75,
     backgroundColor: colors.dark_blue_palette,
     borderRadius: 10,
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: colors.dark_blue_palette,
+    alignItems: "center",
   },
   buttonTextSensorsData: {
     color: colors.white,
     fontSize: 16,
     textAlign: "center",
-    paddingTop: 12,
+    paddingTop: "7%"
   },
   areasContainer: {
     flex: 5,
@@ -398,10 +382,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   iconSensors: {
-    paddingRight: 5
+    marginRight: 2,
   },
-  measure: {
-    justifyContent: "center",
+  measureIcon: {
+    alignItems: "stretch"
+  },
+  containerButtonCloseSensor: {
+  },
+  textCloseSensor: {
+    color: colors.dark_blue_palette,
+    fontSize: 20,
+    textDecorationLine: "underline",
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 10,
+    padding: 5,
   },
   container: {
     flex: 1,
@@ -480,12 +475,13 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get('window').height / 40
   },
   containerButtonNewAlert: {
+    marginLeft: 30,
     marginBottom: 100,
-    marginRight: 30,
+    marginRight: Dimensions.get('window').width/10,
   },
   buttonNewAlert: {
-    height: 70,
-    width: Dimensions.get('window').width/3,
+    height: 60,
+    width: Dimensions.get('window').width/1.75,
     backgroundColor: colors.dirty_white_palette,
     padding: "3%",
     borderRadius: 10,

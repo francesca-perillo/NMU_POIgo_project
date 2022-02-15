@@ -9,7 +9,7 @@ export default {
     grey_palette: "#D7E5EE",
     dirty_white_palette: "#F8F6F2",
     green_confirm_operation: "#008000",
-    yellow: "#ffdc00",
+    yellow: "#ffb900",
     red_discard_operation: "#FF0000",
     grey: "#C0C0C0",
     //pastel color: Pastel Blues & Yellows Color Scheme - https://www.schemecolor.com/pastel-blues-yellows.php
@@ -23,7 +23,4 @@ export default {
     air_superiority_blue: '#6AA2BB',
     //pastell color: pastel blue sea color scheme 
     sea_blue:'#046494',
-    //transparent
-    transparent: 'rgba(255,255,255,0)',
-    white_transparent: 'rgba(255,255,255,0.8)',
 }
