@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from 'react-native';
+import colors from "../config/colors";
 
 const ContactInfo = ({ contactInfo }) => {
     return (
@@ -15,11 +16,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     infoName: {
-        fontSize: 20,
-        color: '#0A3556',
+        fontSize: 18,
+        color: colors.dark_blue_palette,
     },
     infoDetail: {
-        fontSize: 20,
+        fontSize: 18,
+        marginRight: 60,
     },
 });
 

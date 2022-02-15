@@ -23,4 +23,7 @@ export default {
     air_superiority_blue: '#6AA2BB',
     //pastell color: pastel blue sea color scheme 
     sea_blue:'#046494',
+    //transparent
+    transparent: 'rgba(255,255,255,0)',
+    white_transparent: 'rgba(255,255,255,0.8)',
 }

@@ -69,7 +69,7 @@ const DetailScreen = ({ route, navigation }) => {
                     <Text style={styles.title}>{poiDetail.name}</Text>
 
                     {poiDetail.contactInfo.map(info => (
-                        <ContactInfo key={info.id} contactInfo={info} />
+                        <ContactInfo key={info.id} contactInfo={info}/>
                     ))}
 
                     <ScrollView style={styles.description}>
@@ -116,14 +116,13 @@ const styles = StyleSheet.create({
     info: {
         marginTop: Dimensions.get('window').width / 1.5,
         maxHeight: 500,
-        backgroundColor: colors.grey_palette,
+        backgroundColor: colors.white_transparent,
         margin: 20,
         borderRadius: 15,
         padding: 15,
-        opacity: 0.9,
     },
     title: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: "bold",
         color: colors.dark_blue_palette,
         borderBottomColor: colors.dark_blue_palette,

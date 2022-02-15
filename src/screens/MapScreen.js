@@ -84,56 +84,54 @@ const MapScreen = ({ route, navigation }) => {
     );
 
     return (
-        <SafeAreaView style={styles.AndroidSafeArea}>
-            <SafeAreaView style={styles.listOfSegments}>
-                <View style={{borderBottomLeftRadius: 50, overflow: 'hidden', backgroundColor: colors.beau_blue}}>
-                    <Text style={styles.listOfSegmentsTitle}>Seleziona una sezione per visualizzare i POI:</Text>
-                    <FlatList
-                        horizontal={true}
-                        data={sections}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id}
-                    />
-                </View>
-                <MapView
-                    style={{ alignSelf: 'stretch', height: '100%' }}
-                    region={mapRegion}
-                >
-                    {
-                        POIsToShow.map(({ _id, location, name }) => {
-                            const [latitude, longitude] = location.coordinates;
-                            const coordinates = { latitude, longitude };
+        <SafeAreaView style={styles.listOfSegments}>
+            <View>
+                <Text style={styles.listOfSegmentsTitle}>Seleziona una sezione per visualizzare i POI:</Text>
+                <FlatList
+                    horizontal={true}
+                    data={sections}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                />
+            </View>
+            <MapView
+                style={{ alignSelf: 'stretch', height: '100%' }}
+                region={mapRegion}
+            >
+                {
+                    POIsToShow.map(({ _id, location, name }) => {
+                        const [latitude, longitude] = location.coordinates;
+                        const coordinates = { latitude, longitude };
 
-                            return <Marker key={_id} coordinate={coordinates} title={name} onPress={() => navigation.navigate('DetailPOI', { params: _id })}>
-                                <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
-                            </Marker>
-                        })
-                    }
+                        return <Marker key={_id} coordinate={coordinates} title={name} onPress={() => navigation.navigate('DetailPOI', { params: _id })}>
+                            <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/marker.png')} style={{ width: 20, height: 30 }} />
+                        </Marker>
+                    })
+                }
 
-                    {
-                        alertsCoordinates && alertsCoordinates.map(({ id, coordinate }) => {
-                            const lat = coordinate.lat;
-                            const lng = coordinate.lng;
+                {
+                    alertsCoordinates && alertsCoordinates.map(({ id, coordinate }) => {
+                        const lat = coordinate.lat;
+                        const lng = coordinate.lng;
 
-                            return <Marker key={id} coordinate={{ latitude: lat, longitude: lng }} title={"Alert"} onPress={() => navigation.navigate('Segnalazioni')}>
-                                <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/alert_marker.png')} />
-                            </Marker>
-                        })
-                    }
-                </MapView>
-            </SafeAreaView>
+                        return <Marker key={id} coordinate={{ latitude: lat, longitude: lng }} title={"Alert"} onPress={() => navigation.navigate('Segnalazioni')}>
+                            <Image onPress={() => Alert.alert('Marker 1 pressed!')} source={require('../../assets/alert_marker.png')} />
+                        </Marker>
+                    })
+                }
+            </MapView>
         </SafeAreaView>
+    
     );
 };
 
 const styles = StyleSheet.create({
-    AndroidSafeArea: {
-        flex: 1,
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-    },
     listOfSegments: {
         width: '100%',
         height: '100%',
+        backgroundColor: colors.beau_blue,
+        borderBottomLeftRadius: 50,
+        overflow: 'hidden',
     },
     listOfSegmentsTitle: {
         fontSize: 20,
@@ -150,10 +148,10 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 5,
         marginBottom: 10,
-        backgroundColor: 'white',
+        backgroundColor: colors.dirty_white_palette,
     },
     buttonContainerPress: {
-        backgroundColor: colors.pale_blue_palette,
+        backgroundColor: colors.dark_blue_palette,
     },
     buttonText: {
         fontSize: 15,
