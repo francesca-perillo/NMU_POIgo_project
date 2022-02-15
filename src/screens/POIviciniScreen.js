@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Dimensions,ImageBackground } from "react-native";
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Dimensions, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 import { getNearestPOI } from "../controller/POIController";
 //barra di ricerca
@@ -24,7 +24,7 @@ const USER_LOCATION = {
   lng: 39.5593769
 }
 
-const POIviciniScreen = () => {
+const POIviciniScreen = ({ navigation }) => {
 
   // to search bar 
   const [searchQuery, setSearchQuery] = useState('');
@@ -45,32 +45,34 @@ const POIviciniScreen = () => {
   }, [nearPOIs, searchQuery])
 
   const renderItem = ({ item }) => (
-    <Item
-      poiName={item.name}
-      distance={item.distance} />
+    <TouchableOpacity onPress={() => navigation.navigate('DetailPOI', { params: item._id })}>
+      <Item
+        poiName={item.name}
+        distance={item.distance} />
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      
-        <View style={styles.header}>
-          <Text style={styles.title}>POI vicini</Text>
-          <Searchbar
-            style={styles.searchbar}
-            placeholder="Cerca ..."
-            onChangeText={onChangeText}
-            value={searchQuery}
-          />
-        </View>
 
-  
+      <View style={styles.header}>
+        <Text style={styles.title}>POI vicini</Text>
+        <Searchbar
+          style={styles.searchbar}
+          placeholder="Cerca ..."
+          onChangeText={onChangeText}
+          value={searchQuery}
+        />
+      </View>
+
+
       <View style={styles.body}>
         <FlatList
           data={filteredPOIs}
           renderItem={renderItem}
           keyExtractor={item => item._id}
         />
-      </View> 
+      </View>
     </View>
 
   )
@@ -89,16 +91,16 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 100,
   },
   title: {
-      fontSize: 30,
-      color: colors.dark_blue_palette,
-      fontWeight: "bold",
-      marginTop: (Dimensions.get('window').height / 12) * 0.75,
+    fontSize: 30,
+    color: colors.dark_blue_palette,
+    fontWeight: "bold",
+    marginTop: (Dimensions.get('window').height / 12) * 0.75,
   },
   searchbar: {
     borderRadius: 50,
-    alignSelf:"center",
-    width: Dimensions.get('window').width/2,
-    marginTop: Dimensions.get('window').height/50,
+    alignSelf: "center",
+    width: Dimensions.get('window').width / 2,
+    marginTop: Dimensions.get('window').height / 50,
     //per togliere le ombre di default.
     shadowColor: "#000",
     shadowOffset: {
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 6,
-    marginTop: Dimensions.get('window').height /16
+    marginTop: Dimensions.get('window').height / 16
   },
   item: {
     flex: 1,
@@ -123,7 +125,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.dirty_white_palette,
     borderBottomColor: colors.grey,
-    flexDirection: "column"
+    flexDirection: "column",
+    marginLeft: 10,
+    marginRight: 10,
   },
   poi_item: {
     flex: 0.8,
@@ -133,15 +137,15 @@ const styles = StyleSheet.create({
   },
   distance_item: {
     color: colors.white,
+    padding: 5,
   },
   container_message_item: {
-    position:'absolute',
-    marginLeft: Dimensions.get('window').width / 1.2,
+    position: 'absolute',
+    marginLeft: Dimensions.get('window').width / 1.3,
     top: '60%',
     backgroundColor: colors.dark_blue_palette,
-    borderWidth:3,
-    borderColor:colors.dark_blue_palette,
-    borderRadius:10,
+    borderColor: colors.dark_blue_palette,
+    borderRadius: 10,
   },
 });
 

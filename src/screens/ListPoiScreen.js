@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, Dimensions, TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, Dimensions, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 import * as POIController from '../controller/POIController';
 
@@ -58,11 +58,12 @@ const ListPoiScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
 
-      <View style={styles.header}>
+      <View
+        style={styles.header}>
         <Text style={styles.title}>Lista POI</Text>
-        <Text style={styles.subtitle}>Ecco cosa ho trovato!</Text>
+        <Text style={styles.subtitle}>Seleziona una sezione per procedere!</Text>
       </View>
-   
+
       <View style={styles.containerSection}>
         <FlatList
           horizontal={true}
@@ -73,42 +74,42 @@ const ListPoiScreen = ({ route, navigation }) => {
       </View>
 
       <View style={styles.body}>
-      {
-        POIsToShow.length > 0 ? (
-        <FlatList
-          data={POIsToShow}
-          renderItem={({ item }) => {
+        {
+          POIsToShow.length > 0 ? (
+            <FlatList
+              data={POIsToShow}
+              renderItem={({ item }) => {
 
-            return <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('DetailPOI', { params: item._id })}>
-              <Image
-                style={styles.image_item}
-                source={{
-                  uri: item.photo,
-                }}
-              />
-              <View style={styles.description_item}>
-                <Text style={styles.title_item} numberOfLines={1}>{item.name}</Text>
-                <Text style={styles.message_item} numberOfLines={3}>{item.description}</Text>
-              
+                return <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('DetailPOI', { params: item._id })}>
+                  <Image
+                    style={styles.image_item}
+                    source={{
+                      uri: item.photo,
+                    }}
+                  />
+                  <View style={styles.description_item}>
+                    <Text style={styles.title_item} numberOfLines={1}>{item.name}</Text>
+                    <Text style={styles.message_item} numberOfLines={3}>{item.description}</Text>
+
+                  </View>
+                </TouchableOpacity>
+              }}
+              keyExtractor={item => `${item._id}`}
+            />
+          ) : (
+            selectedSegments.length > 0 ? (
+              <View style={styles.error}>
+                <Image style={styles.imageError} source={require('../../assets/no_data.png')} />
+                <Text style={styles.textError}>Non ci sono POI da mostrare!</Text>
               </View>
-            </TouchableOpacity>
-          }}
-          keyExtractor={item => `${item._id}`}
-        />
-        ) : (
-          selectedSegments.length > 0 ? (
-          <View style={styles.error}> 
-            <Image style={styles.imageError} source={require('../../assets/no_data.png')} />
-            <Text style={styles.textError}>Non ci sono POI da mostrare!</Text>
-          </View>
-        ) : (
-          <View style={styles.error}> 
-            <Image style={styles.imageError} source={require('../../assets/no_sections.png')} />
-            <Text style={styles.textError}>Seleziona una sezione per vedere i POI disponibili!</Text>
-          </View>
-        )
-      )
-      }
+            ) : (
+              <View style={styles.error}>
+                <Image style={styles.imageError} source={require('../../assets/no_sections.png')} />
+                <Text style={styles.textError}>Seleziona una sezione per vedere i POI disponibili!</Text>
+              </View>
+            )
+          )
+        }
       </View>
     </View>
   );
@@ -120,24 +121,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dirty_white_palette,
   },
   header: {
-    height: Dimensions.get('window').height / 6,
-    backgroundColor: colors.dark_blue_palette,
-    borderBottomRightRadius: 200,
+    height: (Dimensions.get('window').height / 13) * 2,
+    backgroundColor: colors.beau_blue,
+    alignItems: 'center',
+    borderBottomLeftRadius: 100,
   },
   title: {
-    fontSize: 40,
-    color: colors.white,
+    fontSize: 30,
+    color: colors.dark_blue_palette,
     fontWeight: "bold",
-    marginTop: Dimensions.get('window').height / 16,
-    marginLeft: 20
+    marginTop: (Dimensions.get('window').height / 12) * 0.75,
   },
   subtitle: {
-    color: colors.grey,
-    fontSize: 30,
-    marginLeft: 20,
+    color: colors.sea_blue,
+    fontSize: 18,
     fontStyle: "italic",
   },
-  containerSection:{
+  containerSection: {
     marginTop: Dimensions.get('window').height / 50,
   },
   buttonContainer: {
@@ -147,9 +147,11 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 5,
     backgroundColor: 'white',
+    borderColor: colors.dark_blue_palette,
+    borderWidth: 1,
   },
   buttonContainerPress: {
-    backgroundColor: colors.pale_blue_palette,
+    backgroundColor: colors.dark_blue_palette,
   },
   buttonText: {
     fontSize: 15,
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width / 1.5,
     height: Dimensions.get('window').height / 5,
   },
-  textError:{
+  textError: {
     fontSize: 20,
     color: colors.dark_blue_palette,
     fontWeight: "bold",

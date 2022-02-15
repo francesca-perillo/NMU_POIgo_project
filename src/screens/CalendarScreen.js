@@ -23,21 +23,21 @@ function markedDays(events, day, month, year, state) {
   events.forEach(element => {
     element.data.date === full_day ? flag = true : false;
   });
-     
+
   return (
     <View>
       <TouchableOpacity styles>
         <ImageBackground source={(flag ? require("../../assets/calendar/marker-calendar-blue.png") : "")} style={styles.logo}>
-              <Text style={{
-                textAlign: 'center',
-                fontSize: 15,
-                fontWeight: (state === 'disabled') ? 'normal' : 'bold',
-                color: (flag) ? colors.white : colors.dark_blue_palette,
-                padding: 5
-              }}>{day}</Text>
-          </ImageBackground>
-        </TouchableOpacity>
-      </View>
+          <Text style={{
+            textAlign: 'center',
+            fontSize: 15,
+            fontWeight: (state === 'disabled') ? 'normal' : 'bold',
+            color: (flag) ? colors.white : colors.dark_blue_palette,
+            padding: 5
+          }}>{day}</Text>
+        </ImageBackground>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -49,13 +49,13 @@ const CalendarScreen = () => {
       const eventsFromApi = await CalendarController.getAllEvents();
       const events = eventsFromApi.map(event => {
         return {
-          month : event.date[0],
-          data : {
+          month: event.date[0],
+          data: {
             id: event._id,
             title: event.title,
             description: event.description,
             date: event.date
-            }
+          }
         }
       })
       setEvents(events);
@@ -76,7 +76,7 @@ const CalendarScreen = () => {
 
       <View style={styles.body}>
         <Calendar
-          style={{backgroundColor: colors.beau_blue}}
+          style={{ backgroundColor: colors.beau_blue }}
           markingType={'custom'}
           dayComponent={({ date, state }) => {
             return (markedDays(events, date.day, date.month, date.year, state))
@@ -84,19 +84,16 @@ const CalendarScreen = () => {
           theme={{
             backgroundColor: colors.beau_blue,
             calendarBackground: colors.beau_blue,
-            dayTextColor: colors.dark_blue_palette,
-            todayTextColor: colors.black,
+            textSectionTitleColor: colors.dark_blue_palette,
             arrowColor: colors.dark_blue_palette,
             monthTextColor: colors.dark_blue_palette,
             textMonthFontWeight: 'bold',
             textMonthFontSize: 22,
           }}
-          
+
           onMonthChange={month => {
             currentMonth = month.month;
-            console.log('month changed', currentMonth);
-          
-          }}/>
+          }} />
 
       </View>
       <View style={styles.footer}>
@@ -183,7 +180,7 @@ const styles = StyleSheet.create({
     //borderBottomLeftRadius: 100,
   },
   body: {
-    flex: 3,
+    flex: 3.5,
     backgroundColor: colors.beau_blue,
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,

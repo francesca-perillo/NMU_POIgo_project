@@ -3,25 +3,34 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, ImageBackground, Al
 import colors from '../config/colors';
 import * as CategoriesRoutesController from '../controller/CategoriesRoutesController';
 
-// const category = [
-//     {
-//         id: "1",
-//         title: "Vie dello shopping",
-//         image: require("../../assets/img/categoryRoutes/shopping.jpg"),
-//     },
-//     {
-//         id: "2",
-//         title: "Percorsi enogastronomici",
-//         image: require("../../assets/img/categoryRoutes/gastronomy.jpg"),
-//     },
-//     {
-//         id: "4",
-//         title: "Vie dell'artigianato",
-//         image: require("../../assets/img/categoryRoutes/craftsmanship.jpg"),
-//     },
-// ];
+const category = [
+    {
+        id: '6201441a99be0e7cfe49a2d2',
+        title: 'Colline storiche',
+        image: 'https://res.cloudinary.com/silviodima/image/upload/v1644249585/POIGO/path_colline_storiche_jkgiu9.jpg',
+    },
+    {
+        id: "2",
+        title: "Vie dello shopping",
+        image: "https://res.cloudinary.com/silviodima/image/upload/v1644924237/POIGO/shopping_iutvtq.jpg",
+    },
+    {
+        id: "3",
+        title: "Percorso enogastronomico",
+        image: "https://res.cloudinary.com/silviodima/image/upload/v1644924236/POIGO/gastronomy_rxbts7.jpg",
+    },
+    {
+        id: "4",
+        title: "Percorso storico-artistico",
+        image: "https://res.cloudinary.com/silviodima/image/upload/v1644924235/POIGO/museum_iivnzr.jpg",
+    },
+];
 
 const CategoryRoutesScreen = ({ navigation }) => {
+    //Qui le categorie vengono prese dal db, ma dal momento che non sono presenti tutte, sono state 
+    //importate manualmente sia quelle veritiere che quelle fittizie.
+    //Quando si avranno le categorie basterà togliere questo commento, le categorie fittizie e sarà funzionante.
+    /*
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -40,6 +49,7 @@ const CategoryRoutesScreen = ({ navigation }) => {
 
         loadCategories();
     }, [])
+    */
 
     const renderItem = ({ item }) => (
         <Item id={item.id} title={item.title} image={item.image} />
@@ -73,7 +83,7 @@ const CategoryRoutesScreen = ({ navigation }) => {
             <View style={styles.listOfcategory}>
                 <FlatList
                     vertical={true}
-                    data={categories}
+                    data={category}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
                 />
