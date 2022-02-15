@@ -9,6 +9,7 @@ import * as CloudinaryController from '../controller/CloudinaryController';
 import * as Location from "expo-location"
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from "react-native-gesture-handler";
+import { color } from "react-native-reanimated";
 
 const INPUT_BORDER_WIDTH = 1;
 
@@ -158,207 +159,46 @@ const AlertList = () => {
           >
             <ScrollView>
             <View style = {styles.areasContainer}>
-                  <View style={styles.itemArea} key={areas[0].id} >
-                  <View style={styles.notExpanded}>
-                      <Text style={styles.nameArea}>{areas[0].id}</Text>
-                      {show0 &&
-                      <Pressable style={styles.buttonViewData} key={areas[0].id} onPress={() => showSensors(areas[0].id)}>
-                        <Ionicons name="chevron-up" size={24} color="black" />
-                      </Pressable>
-                      }
-                      {!show0 &&
-                      <Pressable style={styles.buttonViewData} key={areas[0].id} onPress={() => showSensors(areas[0].id)}>
-                        <Ionicons name="chevron-down" size={24} color="black" />
-                      </Pressable>
-                      }
-                  </View>
-                      {show0 &&
-                        <View style={styles.expandable}>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Qualità dell'aria:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:(areas[0].air_quality==="Buona" || areas[0].air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{areas[0].air_quality}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Percentuale di CO2: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[0].co_2}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Temperatura: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[0].temperature}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Umidità:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[0].humidity}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Rumore:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[0].noise}</Text>
-                          </View>
-                        </View>
-                            }
+              {areas.map(area=>
+                <View style={styles.itemArea} key={area.id} >
+                <View style={styles.notExpanded}>
+                    <Text style={styles.nameArea}>{area.id}</Text>
                 </View>
-
-                <View style={styles.itemArea} key={areas[1].id} >
-                  <View style={styles.notExpanded}>
-                      <Text style={styles.nameArea}>{areas[1].id}</Text>
-                      {show1 &&
-                      <Pressable style={styles.buttonViewData} key={areas[1].id} onPress={() => showSensors(areas[1].id)}>
-                        <Ionicons name="chevron-up" size={24} color="black" />
-                      </Pressable>
-                      }
-                      {!show1 &&
-                      <Pressable style={styles.buttonViewData} key={areas[1].id} onPress={() => showSensors(areas[1].id)}>
-                        <Ionicons name="chevron-down" size={24} color="black" />
-                      </Pressable>
-                      }
-                  </View>
-                      {show1 &&
-                        <View style={styles.expandable}>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Qualità dell'aria:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:(areas[1].air_quality==="Buona" || areas[1].air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{areas[1].air_quality}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Percentuale di CO2: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[1].co_2}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Temperatura: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[1].temperature}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Umidità:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[1].humidity}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Rumore:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[1].noise}</Text>
-                          </View>
+                      <View style={styles.expandable}>
+                        <View style={styles.dataRow}>
+                          <Text style={styles.measure}><Ionicons style={styles.iconSensors} name="leaf-outline"/>Qualità dell'aria:</Text>
+                          <Text style = {{
+                            fontWeight: "bold",
+                            color:(area.air_quality==="Buona" || area.air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{area.air_quality}</Text>
                         </View>
-                            }
-                </View>
-
-                <View style={styles.itemArea} key={areas[2].id} >
-                  <View style={styles.notExpanded}>
-                      <Text style={styles.nameArea}>{areas[2].id}</Text>
-                      {show2 &&
-                      <Pressable style={styles.buttonViewData} key={areas[2].id} onPress={() => showSensors(areas[2].id)}>
-                        <Ionicons name="chevron-up" size={24} color="black" />
-                      </Pressable>
-                      }
-                      {!show2 &&
-                      <Pressable style={styles.buttonViewData} key={areas[2].id} onPress={() => showSensors(areas[2].id)}>
-                        <Ionicons name="chevron-down" size={24} color="black" />
-                      </Pressable>
-                      }
-                  </View>
-                      {show2 &&
-                        <View style={styles.expandable}>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Qualità dell'aria:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:(areas[2].air_quality==="Buona" || areas[2].air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{areas[2].air_quality}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Percentuale di CO2: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[2].co_2}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Temperatura: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[2].temperature}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Umidità:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[2].humidity}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Rumore:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[2].noise}</Text>
-                          </View>
+                        <View style={styles.dataRow}>
+                          <Text style={styles.measure}><Ionicons style={styles.iconSensors} name="radio-outline"/>Percentuale di CO2: </Text>
+                          <Text style = {{
+                            fontWeight: "bold",
+                            color:colors.black}}>{area.co_2}</Text>
                         </View>
-                            }
-                </View>
-
-                <View style={styles.itemArea} key={areas[3].id} >
-                  <View style={styles.notExpanded}>
-                      <Text style={styles.nameArea}>{areas[3].id}</Text>
-                      {show3 &&
-                      <Pressable style={styles.buttonViewData} key={areas[3].id} onPress={() => showSensors(areas[3].id)}>
-                        <Ionicons name="chevron-up" size={24} color="black" />
-                      </Pressable>
-                      }
-                      {!show3 &&
-                      <Pressable style={styles.buttonViewData} key={areas[3].id} onPress={() => showSensors(areas[3].id)}>
-                        <Ionicons name="chevron-down" size={24} color="black" />
-                      </Pressable>
-                      }
-                  </View>
-                      {show3 &&
-                        <View style={styles.expandable}>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Qualità dell'aria:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:(areas[3].air_quality==="Buona" || areas[3].air_quality==="Molto buona")?colors.green_confirm_operation: colors.yellow}}>{areas[3].air_quality}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Percentuale di CO2: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[3].co_2}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Temperatura: </Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[3].temperature}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Umidità:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[3].humidity}</Text>
-                          </View>
-                          <View style={styles.dataRow}>
-                            <Text style={styles.measure}>Rumore:</Text>
-                            <Text style = {{
-                              fontWeight: "bold",
-                              color:colors.black}}>{areas[3].noise}</Text>
-                          </View>
+                        <View style={styles.dataRow}>
+                          <Text style={styles.measure}><Ionicons style={styles.iconSensors} name="thermometer-outline"/>Temperatura: </Text>
+                          <Text style = {{
+                            fontWeight: "bold",
+                            color:colors.black}}>{area.temperature}</Text>
                         </View>
-                            }
-                </View>
-            </View>
-
+                        <View style={styles.dataRow}>
+                          <Text style={styles.measure}><Ionicons style={styles.iconSensors} name="water-outline"/>Umidità:</Text>
+                          <Text style = {{
+                            fontWeight: "bold",
+                            color:colors.black}}>{area.humidity}</Text>
+                        </View>
+                        <View style={styles.dataRow}>
+                          <Text style={styles.measure}><Ionicons name="flash-outline"/>Rumore:</Text>
+                          <Text style = {{
+                            fontWeight: "bold",
+                            color:colors.black}}>{area.noise}</Text>
+                        </View>
+                      </View>
+              </View>
+              )}
+              </View>
                         
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.containerInsert}>
@@ -540,6 +380,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     paddingRight: 10,
     paddingLeft: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.black
   },
   nameArea: {
     flex: 1,
@@ -555,8 +397,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
+  iconSensors: {
+    paddingRight: 5
+  },
   measure: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   container: {
     flex: 1,
