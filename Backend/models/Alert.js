@@ -40,6 +40,10 @@ const Alert = new mongoose.Schema({
         type: String,
         required: false,
     },
+    GPSstreet:{
+        type: String,
+        required: false,
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

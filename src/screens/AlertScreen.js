@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "react-native-reanimated";
 
+
 const INPUT_BORDER_WIDTH = 1;
 
 const AlertList = () => {
@@ -18,8 +19,10 @@ const AlertList = () => {
   const isFocused = useIsFocused();
 
   const [location, setLocation] = useState(null);
+  //const [streetname, setStreetName] = useState(null);
+  const [road, setRoad] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-
+ 
   useEffect(() => {
 
     (async () => {
@@ -31,14 +34,34 @@ const AlertList = () => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-    })();
+      console.log(location);
 
+      let road = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      });
+      setRoad(road);
+      console.log(road);
+
+    
+    let isRoad=road.length;  
+  if(isRoad<1){
+    console.log("Cannot transform coordinates in a street");}
+  else if (isRoad>0){
+  const strada=road[0].street;
+  console.log(strada);
+}
+
+  })();
+
+ 
     let text = 'Waiting..';
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
   }
+
 
     if (!isFocused)
       return
@@ -73,6 +96,9 @@ const AlertList = () => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
 
+
+
+
   const onCapturePhoto = async (photo) => {
     if (!photo)
       return;
@@ -80,13 +106,15 @@ const AlertList = () => {
     setCapturedImage(photo);
   }
 
+ 
   const insertAlert = async (image) => {
-  locazione = JSON.stringify(location);
-  const newAlert = await AlertsController.insertAlert(title, description, image, addressObject, locazione);
+  let locazione = JSON.stringify(location);
+  GPSstreet = road[0].street; 
+  const newAlert = await AlertsController.insertAlert(title, description, image, addressObject, locazione, GPSstreet);
   setAlerts(alerts => [...alerts, newAlert]);
     dismissModal();
-  };
-
+ };
+ 
   const insertPhotoOnCloudinary = async () => {
     if (title === "" || description === "" || capturedImage === "" || city === "" || street === "" || cap === "") {
       setHasErrors(true);

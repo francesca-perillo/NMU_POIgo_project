@@ -21,6 +21,7 @@ export const getAllAlertsApproved = async () => {
             img: alert.photo,
             address: alert.address,
             location: alert.location,
+            GPSstreet: alert.GPSstreet,
             createBy: alert.createdBy,
         }
     });
@@ -42,7 +43,7 @@ export const getCoordinatesByAddress = async (address) => {
     return await response.json();
 }
 
-export const insertAlert = async (title, description, photo, address, location) => {
+export const insertAlert = async (title, description, photo, address, location, GPSstreet) => {
     let response = await fetch(
         `${BASE_URL}/alerts`,
         {
@@ -58,6 +59,7 @@ export const insertAlert = async (title, description, photo, address, location) 
                     photo,
                     address,
                     location,
+                    GPSstreet,
                     //Non essendoci la funzione di approvazione per gli Alert lato web per il momento 'approval' viene impostato 
                     //a true in modo tale da far visualizzare l'alert inserito.
                     approval: true,
@@ -77,6 +79,7 @@ export const insertAlert = async (title, description, photo, address, location) 
         img: json.photo,
         address: json.address,
         location: json.location,
+        GPSstreet: json.GPSstreet,
         createdBy: json.createdBy,
     }
 
