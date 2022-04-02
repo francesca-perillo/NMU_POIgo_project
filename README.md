@@ -44,14 +44,14 @@ terms of catering, shopping, tourism, art and culture, etc.)
 the following application for a fast and targeted identification of POI,
 through two main types of navigation: </p>
 
-- NS:specialized navigation on a semantic basis, which provides for the choice between
+- **NS**:specialized navigation on a semantic basis, which provides for the choice between
 Thematic Routes (PT) and Areas of Interest (AOI) (shopping, food and wine,
 art and history, etc.): this choice is specialized in both cases,
 bringing the Consumer User to choose between
 theme in the first case, and between several then in the second case, filtered based
 previous preferences;
 
-- NC: classic navigation by address, which offers the possibility of having the usual
+- **NC**: classic navigation by address, which offers the possibility of having the usual
 aerial view of the path to follow to arrive from a point of
 departure to a predetermined point of arrival.
 <p align="justify"> There will be a calendar with the most relevant cultural events of the
@@ -62,7 +62,7 @@ in Italian and English.
 A web panel will be developed to support this
 user, POI, reporting and event management capabilities. Each POI will be accompanied by a series of characterizing information
 and from a connection to the satellite navigator, in order to reach
-easily the destination. The POI can be generic or certified: </p>
+easily the destination. The POI can be _generic_ or _certified_: </p>
 
 - information on generic POI is acquired from available data sources
 discreetly. Such POIs will be marked on the map with icons
@@ -77,21 +77,21 @@ half-yearly-yearly) so the POI will remain visible.
 Users using NMU city roaming can be divided into
 four categories:
 
-1. Administrator: Acts only via web panel. Registers the
+1. _Administrator_: Acts only via web panel. Registers the
 POI Manager and enable the POI User who requested registration.
 Has the ability to view and edit information
 of all users, in addition to being able to delete, disable or reactivate the
 profiles. In addition, valid the reports sent by Consumer Users, i
 inserted by POI User and insert the events in the calendar;
 
-2. POI Manager: acts only via web panel. Enable POI
+2. _POI Manager_: acts only via web panel. Enable POI
 Users who have requested registration and have the possibility of
 view and modify the information of the POI User, in addition to being able to
 delete, deactivate or reactivate profiles. In addition, valid alerts
 sent by the Consumer User, the POI entered by the POI User and inserts the
 calendar events;
 
-3. POI User: business user acting solely via web panel.
+3. _POI User_: business user acting solely via web panel.
 You can register but you need to enable the profile in order to enter
 the information of its POI, subject to the subscription of a
 subscription. After validation, the POI User can edit the information
@@ -99,5 +99,5 @@ the POI entered and the payment data (e.g. the related data
 to your credit/debit card, the type of subscription you use
 ...);
 
-4. Consumer User: End user who downloads the mobile application and
+4. _Consumer User_: End user who downloads the mobile application and
 use the available features.
